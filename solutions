@@ -1,0 +1,661 @@
+import email
+from random import randint, choice, choices
+from string import ascii_letters, digits
+
+
+class EmailValidator:
+    __symbols = ascii_letters + digits + '.' + '_'
+    __min_email_name_len = 1
+    __max_email_name_len = 100
+    __max_domain_name_len = 50
+
+    def __new__(cls, *args, **kwargs):
+        return None
+
+    @classmethod
+    def get_random_email(cls):
+        domain_name = "@gmail.com"
+        email_name = "".join(choices(cls.__symbols, k=randint(
+            cls.__min_email_name_len, cls.__max_email_name_len)))
+        return email_name + domain_name
+
+    @classmethod
+    def check_email(cls, email):
+        if cls.__is_email_str(email):
+            pass
+        return False
+
+    @staticmethod
+    def __is_email_str(email):
+        return isinstance(email, str)
+
+
+print(ascii_letters, digits)
+res = EmailValidator.get_random_email()
+print(type(res))
+print(res)
+print(len(res))
+
+# --------------------------------------------------------------------------------------------------------
+
+# class ObjList:
+#     def __init__(self, data) -> None:
+#         self.__next = None
+#         self.__prev = None
+#         self.__data = data
+
+#     def set_next(self, obj):
+#         self.__next = obj
+
+#     def set_prev(self, obj):
+#         self.__prev = obj
+
+#     def get_next(self):
+#         return self.__next
+
+#     def get_prev(self):
+#         return self.__prev
+
+#     def set_data(self, data):
+#         self.__data = data
+
+#     def get_data(self):
+#         return self.__data
+
+
+# class LinkedList:
+#     def __init__(self) -> None:
+#         self.head: ObjList = None
+#         self.tail: ObjList = None
+
+#     def add_obj(self, obj: ObjList):
+#         if self.head is None:
+#             self.tail = self.head = obj
+#         else:
+#             self.tail.set_next(obj)
+#             obj.set_prev(self.tail)
+#             self.tail = obj
+
+#     def remove_obj(self):
+#         if self.tail is None:
+#             return
+#         if self.tail.get_prev() is None:
+#             self.tail = self.head = None
+#             return
+#         self.tail = self.tail.get_prev()
+#         self.tail.set_next(None)
+
+#     def get_data(self):
+#         result = []
+#         obj = self.head
+#         while obj:
+#             result.append(obj.get_data())
+#             obj = obj.get_next()
+#         return result
+
+
+# lst = LinkedList()
+# lst.add_obj(ObjList("данные 1"))
+# lst.add_obj(ObjList("данные 2"))
+# lst.add_obj(ObjList("данные 3"))
+# res = lst.get_data()    # ['данные 1', 'данные 2', 'данные 3']
+# print(res)
+# lst.remove_obj()
+# res = lst.get_data()
+# print(res)
+# lst.remove_obj()
+# res = lst.get_data()
+# print(res)
+# lst.remove_obj()
+# res = lst.get_data()
+# print(res)
+# lst.remove_obj()
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Point:
+#     def __init__(self, x, y) -> None:
+#         self.__x = x
+#         self.__y = y
+
+#     def get_coords(self):
+#         return self.__x, self.__y
+
+# class Rectangle:
+#     def __init__(self, *args) -> None:
+#         if len(args) == 4:
+#             self.__x1, self.__y1, self.__x2, self.__y2 = args
+#             self.__sp = Point(self.__x1, self.__y1)
+#             self.__ep = Point(self.__x2, self.__y2)
+#         elif len(args) == 2:
+#             self.__sp, self.__ep = args
+#         else:
+#             raise TypeError(
+#                 "Передано неверное количество параметров при создании объекта Rectangle. Требуется 2 или 4")
+
+#     def get_coords(self):
+#         return self.__sp, self.__ep
+
+#     def set_coords(self, sp, ep):
+#         self.__sp = sp
+#         self.__ep = ep
+
+#     def draw(self):
+#         return f"Прямоугольник с координатами: {self.__sp.get_coords()} {self.__ep.get_coords()}"
+
+# rect = Rectangle(0, 0, 20, 34)
+# r1 = Rectangle(1, 1, 4, 4)
+# p1 = Point(10, 10)
+# p2 = Point(55, 55)
+# r2 = Rectangle(p1, p2)
+# print(r1.draw())
+# print(r2.draw())
+# --------------------------------------------------------------------------------------------------------
+# class Line:
+#     def __init__(self, *args):
+#         self.__x1, self.__y1, self.__x2, self.__y2 = args
+
+#     def set_coords(self, x1, y1, x2, y2):
+#         self.__x1 = x1
+#         self.__y1 = y1
+#         self.__x2 = x2
+#         self.__y2 = y2
+
+#     def get_coords(self):
+#         return self.__x1, self.__y1, self.__x2, self.__y2
+
+#     def draw(self):
+#         print(*self.get_coords())
+
+# l = Line(1, 2, 3, 4)
+# l.draw()
+# --------------------------------------------------------------------------------------------------------
+# class Book:
+#     def __init__(self, author, title, price) -> None:
+#         self.__author = author
+#         self.__title = title
+#         self.__price = price
+
+#     def set_title(self, title):
+#         self.__title = title
+
+#     def set_author(self, author):
+#         self.__author = author
+
+#     def set_price(self, price):
+#         self.__price = price
+
+#     def get_title(self):
+#         return self.__title
+
+#     def get_author(self):
+#         return self.__author
+
+#     def get_price(self):
+#         return self.__price
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Money:
+#     def __init__(self, money) -> None:
+#         self.__money = money
+
+#     @classmethod
+#     def __check_money(cls, money) -> bool:
+#         return type(money) == int and money >= 0
+
+#     def set_money(self, money):
+#         if self.__check_money(money):
+#             self.__money = money
+
+#     def get_money(self):
+#         return self.__money
+
+#     def add_money(self, money):
+#         self.__money += money.get_money()
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Clock:
+#     def __init__(self, time=0) -> None:
+#         self.__time = time
+
+#     @classmethod
+#     def __check_time(cls, tm):
+#         return 0 <= tm <= 100000
+
+#     def set_time(self, tm):
+#         if self.__check_time(tm):
+#             self.__time = tm
+
+#     def get_time(self):
+#         return self.__time
+
+# clock = Clock(4530)
+# print(clock.get_time())
+# --------------------------------------------------------------------------------------------------------
+
+# from random import randrange
+
+# class Data:
+#     def __init__(self, data, ip) -> None:
+#         self.data = data
+#         self.ip = ip
+
+# class Server:
+#     __MAX_NUMBER_OF_SERVERS = 10
+#     __ip_adresses = list(range(1, __MAX_NUMBER_OF_SERVERS))
+
+#     def __init__(self) -> None:
+#         self.buffer = []
+#         self.ip = Server.__ip_adresses.pop(
+#             randrange(len(Server.__ip_adresses)))
+#         self.router: Router = None
+
+#     def __del__(self):
+#         Server.__ip_adresses.append(self.ip)
+
+#     def send_data(self, data: Data):
+#         if self.router:
+#             self.router.get_from_server(data)
+
+#     def get_data(self):
+#         return [self.buffer.pop() for _ in range(len(self.buffer))]
+
+#     def get_ip(self):
+#         return self.ip
+
+#     def link_to_router(self, router):
+#         self.router = router
+
+#     def unlink_router(self):
+#         self.router = None
+
+#     def get_data_from_router(self, data):
+#         self.buffer.append(data)
+
+# class Router:
+#     __instance = None
+
+#     def __new__(cls, *args, **kwargs):
+#         if cls.__instance is None:
+#             cls.__instance = super().__new__(cls)
+#         return cls.__instance
+
+#     def __del__(self):
+#         Router.__instance = None
+
+#     def __init__(self) -> None:
+#         self.buffer = []
+#         self.servers = {}
+
+#     def link(self, server: Server):
+#         self.servers.setdefault(server.get_ip(), server)
+#         server.link_to_router(self)
+
+#     def unlink(self, server: Server):
+#         s_ip = server.get_ip()
+#         if s_ip in self.servers:
+#             del self.servers[s_ip]
+#             server.unlink_router()
+
+#     def send_data(self):
+#         while len(self.buffer):
+#             data = self.buffer.pop()
+#             if data.ip in self.servers:
+#                 server = self.servers[data.ip]
+#                 server.get_data_from_router(data)
+
+#     def get_from_server(self, data):
+#         self.buffer.append(data)
+
+# router = Router()
+# sv_from = Server()
+# sv_from2 = Server()
+# router.link(sv_from)
+# router.link(sv_from2)
+# router.link(Server())
+# router.link(Server())
+# sv_to = Server()
+# router.link(sv_to)
+# sv_from.send_data(Data("Hello", sv_to.get_ip()))
+# sv_from2.send_data(Data("Hello", sv_to.get_ip()))
+# sv_to.send_data(Data("Hi", sv_from.get_ip()))
+# router.send_data()
+# msg_lst_from = sv_from.get_data()
+# msg_lst_to = sv_to.get_data()
+# print(msg_lst_from)
+# print(msg_lst_to)
+# --------------------------------------------------------------------------------------------------------
+
+# class Message:
+#     __n = 0
+
+#     def __init__(self, text) -> None:
+#         self.text = text
+#         self.fl_like = False
+#         self.msg_number = Message.__n
+#         Message.__n += 1
+
+#     def get_msg_number(self):
+#         return self.msg_number
+
+#     def set_like(self):
+#         self.fl_like = not self.fl_like
+
+# class Viber:
+#     messages = {}
+
+#     @classmethod
+#     def add_message(cls, msg: Message):
+#         cls.messages.setdefault(msg.get_msg_number(), msg)
+
+#     @classmethod
+#     def remove_message(cls, msg: Message):
+#         msg_num = msg.get_msg_number()
+#         if msg_num in cls.messages:
+#             del cls.messages[msg_num]
+
+#     @staticmethod
+#     def set_like(msg: Message):
+#         msg.set_like()
+
+#     @classmethod
+#     def show_last_message(cls, n=10):
+#         amount_of_messages = len(cls.messages)
+#         messages = list(cls.messages.values())
+#         if n <= 0:
+#             return
+#         if n >= amount_of_messages:
+#             return [(f"Message text: {msg.text}", f"Liked: {msg.fl_like}") for msg in messages]
+#         return [(f"Message text: {msg.text}", f"Liked: {msg.fl_like}") for msg in messages[amount_of_messages-n:]]
+
+#     @classmethod
+#     def total_messages(cls):
+#         return len(cls.messages)
+
+# msg = Message("Всем привет!")
+# Viber.add_message(msg)
+# print(Viber.show_last_message())
+# Viber.add_message(Message("Это курс по Python ООП."))
+# print(Viber.show_last_message(1))
+# Viber.add_message(Message("Что вы о нем думаете?"))
+# print(Viber.show_last_message())
+# Viber.set_like(msg)
+# print(Viber.show_last_message())
+# Viber.remove_message(msg)
+# print(Viber.show_last_message())
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Application:
+#     def __init__(self, name) -> None:
+#         self.name = name
+#         self.blocked = False
+
+# class AppStore:
+#     def __init__(self) -> None:
+#         self.apps = {}
+
+#     def add_application(self, app: Application):
+#         self.apps[app.name] = app
+
+#     def remove_application(self, app: Application):
+#         if app.name in self.apps:
+#             del self.apps[app.name]
+
+#     def block_application(self, app: Application):
+#         if app.name in self.apps:
+#             self.apps[app.name].blocked = True
+
+#     def total_apps(self):
+#         return len(self.apps)
+
+# store = AppStore()
+# app_youtube = Application("Youtube")
+# print(store.apps)
+# store.add_application(app_youtube)
+# print(store.apps)
+# store.remove_application(app_youtube)
+# print(store.apps)
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Video:
+#     def create(self, name):
+#         self.name = name
+
+#     def play(self):
+#         print(f"воспроизведение видео {self.name}")
+
+# class YouTube:
+#     videos = []
+
+#     @classmethod
+#     def add_video(cls, video):
+#         cls.videos.append(video)
+
+#     @classmethod
+#     def play(cls, video_indx):
+#         cls.videos[video_indx].play()
+
+# v1 = Video()
+# v1.create('Python')
+# v2 = Video()
+# v2.create('Python ООП')
+# YouTube.add_video(v1)
+# YouTube.add_video(v2)
+# YouTube.play(0)
+# YouTube.play(1)
+# --------------------------------------------------------------------------------------------------------
+
+# from string import ascii_lowercase, digits
+# import re
+
+# class CardCheck:
+#     CHARS_FOR_NAME = ascii_lowercase.upper() + digits
+#     number_pattern = r"\d{4}-\d{4}-\d{4}-\d{4}"
+#     name_pattern = r"[A-Z]+\s?[A-Z]+$"
+
+#     def __init__(self) -> None:
+#         pass
+
+#     @classmethod
+#     def check_card_number(cls, number):
+#         if re.fullmatch(cls.number_pattern, number):
+#             return True
+#         return False
+
+#     @classmethod
+#     def check_name(cls, name):
+#         if re.fullmatch(cls.name_pattern, name):
+#             return True
+#         return False
+
+# is_number = CardCheck.check_card_number("1234-5678-9012-0000")
+# is_name = CardCheck.check_name("SERGEI BALAKIREV")
+# print(is_number, is_name)
+
+# --------------------------------------------------------------------------------------------------------
+
+# from string import ascii_lowercase, digits
+
+# # здесь объявляйте классы TextInput и PasswordInput
+
+# import re
+
+# class TextInput:
+#     CHARS = "абвгдеёжзийклмнопрстуфхцчшщьыъэюя " + ascii_lowercase
+#     CHARS_CORRECT = CHARS + CHARS.upper() + digits
+
+#     @staticmethod
+#     def check_valid(text):
+#         return bool(re.search('[а-яА-Яa-zA-Z\s\d]', text))
+
+#     @classmethod
+#     def check_name(cls, name):
+#         is_valid = (3 <= len(name) <= 50) and all(
+#             [cls.check_valid(el) for el in name])
+#         if is_valid:
+#             return True
+#         else:
+#             raise ValueError("некорректное поле name")
+
+#     def __init__(self, name, size=10) -> None:
+#         if self.check_name(name):
+#             self.name = name
+#             self.size = size
+
+#     def get_html(self):
+#         return f"<p class='login'>{self.name}: <input type='text' size={self.size} />"
+
+# class PasswordInput:
+#     CHARS = "абвгдеёжзийклмнопрстуфхцчшщьыъэюя " + ascii_lowercase
+#     CHARS_CORRECT = CHARS + CHARS.upper() + digits
+
+#     @staticmethod
+#     def check_valid(text):
+#         return bool(re.search('[а-яА-Яa-zA-Z\s\d]', text))
+
+#     @classmethod
+#     def check_name(cls, name):
+#         is_valid = (3 <= len(name) <= 50) and all(
+#             [cls.check_valid(el) for el in name])
+#         if is_valid:
+#             return True
+#         else:
+#             raise ValueError("некорректное поле name")
+
+#     def __init__(self, name, size=10) -> None:
+#         if self.check_name(name):
+#             self.name = name
+#             self.size = size
+
+#     def get_html(self):
+#         return f"<p class='password'>{self.name}: <input type='text' size={self.size} />"
+
+# class FormLogin:
+#     def __init__(self, lgn, psw):
+#         self.login = lgn
+#         self.password = psw
+
+#     def render_template(self):
+#         return "\n".join(['<form action="#">', self.login.get_html(), self.password.get_html(), '</form>'])
+
+# # эти строчки не менять
+# login = FormLogin(TextInput("Login123"), PasswordInput("Пароль"))
+# html = login.render_template()
+# print(html)
+
+# --------------------------------------------------------------------------------------------------------
+# import sys
+
+# class ListObject():
+#     def __init__(self, data: str) -> None:
+#         self.next_obj = None
+#         self.data = data
+
+#     def link(self, obj):
+#         self.next_obj = obj
+
+# def get_next_elements(lst_obj: ListObject, index: int):
+#     if index >= len(lst_in) - 1:
+#         return lst_obj
+#     else:
+#         lst_obj.next_obj = ListObject(lst_in[index+1])
+#         get_next_elements(lst_obj.next_obj, index + 1)
+
+# lst_in = list(map(str.strip, sys.stdin.readlines()))
+
+# head_obj = ListObject(lst_in[0])
+# get_next_elements(head_obj, 0)
+# cur_obj = head_obj
+# print("--------------------------output--------------------------")
+
+# while True:
+#     if cur_obj.next_obj is not None:
+#         print(cur_obj.data)
+#         cur_obj = cur_obj.next_obj
+#     else:
+#         print(cur_obj.data)
+#         break
+
+# --------------------------------------------------------------------------------------------------------
+# class Cart:
+#     def __init__(self) -> None:
+#         self.goods = []
+
+#     def add(self, gd):
+#         self.goods.append(gd)
+
+#     def remove(self, indx):
+#         self.goods.pop(indx)
+
+#     def get_list(self):
+#         return [
+#             f"{gd.name}: {gd.price}" for gd in self.goods
+#         ]
+
+# class Table:
+#     def __init__(self, name, price) -> None:
+#         self.name = name
+#         self.price = price
+
+# class TV:
+#     def __init__(self, name, price) -> None:
+#         self.name = name
+#         self.price = price
+
+# class Notebook:
+#     def __init__(self, name, price) -> None:
+#         self.name = name
+#         self.price = price
+
+# class Cup:
+#     def __init__(self, name, price) -> None:
+#         self.name = name
+#         self.price = price
+
+# tv1 = TV("samsung", 1111)
+# tv2 = TV("LG", 1234)
+# table = Table("ikea", 2345)
+# n1 = Notebook("msi", 5433)
+# n2 = Notebook("apple", 542)
+# c = Cup("keepcup", 43)
+
+# cart = Cart()
+# cart.add(tv1)
+# cart.add(tv2)
+# cart.add(n1)
+# cart.add(n2)
+# cart.add(table)
+# cart.add(c)
+
+# print(cart.get_list())
+
+# --------------------------------------------------------------------------------------------------------
+# import sys
+
+# # программу не менять, только добавить два метода
+# # считывание списка строк из входного потока
+# lst_in = list(map(str.strip, sys.stdin.readlines()))
+
+# class DataBase:
+#     lst_data = []
+#     FIELDS = ('id', 'name', 'old', 'salary')
+
+#     # здесь добавлять методы\
+#     def select(self, a, b):
+#         if b < len(DataBase.lst_data):
+#             return DataBase.lst_data[a:b+1]
+#         else:
+#             return DataBase.lst_data[a:]
+
+#     def insert(self, data):
+#         for record in data:
+#             DataBase.lst_data.append(
+#                 dict(zip(DataBase.FIELDS, record.split())))
+
+# db = DataBase()
+# db.insert(lst_in)
+# # print(db.select(2, 4))
