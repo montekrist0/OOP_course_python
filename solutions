@@ -1,6 +1,6 @@
-import email
 from random import randint, choice, choices
 from string import ascii_letters, digits
+from itertools import groupby
 
 
 class EmailValidator:
@@ -15,8 +15,10 @@ class EmailValidator:
     @classmethod
     def get_random_email(cls):
         domain_name = "@gmail.com"
-        email_name = "".join(choices(cls.__symbols, k=randint(
-            cls.__min_email_name_len, cls.__max_email_name_len)))
+        raw_list = choices(cls.__symbols, k=randint(
+            cls.__min_email_name_len, cls.__max_email_name_len))
+        email_name = ''.join(el for el, group in groupby(
+            raw_list) if len(tuple(group)) != 2 and el != '.')
         return email_name + domain_name
 
     @classmethod
@@ -30,12 +32,18 @@ class EmailValidator:
         return isinstance(email, str)
 
 
-print(ascii_letters, digits)
-res = EmailValidator.get_random_email()
-print(type(res))
-print(res)
-print(len(res))
+# print(ascii_letters, digits)
+# res = EmailValidator.get_random_email()
+# print(type(res))
+# print(res)
+# print(len(res))
 
+word = "helllll.l..o"
+res = ''.join(letter for letter, group in groupby(
+    word) if len(tuple(group)) != 2)
+for letter, group in groupby(word):
+    print(tuple(group))
+# print(res)
 # --------------------------------------------------------------------------------------------------------
 
 # class ObjList:
