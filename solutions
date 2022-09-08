@@ -1,49 +1,639 @@
-from random import randint, choice, choices
-from string import ascii_letters, digits
-from itertools import groupby
+# --------------------------------------------------------------------------------------------------------
+
+# class Telecast:
+#     def __init__(self, id, name, duration) -> None:
+#         self.__id = id
+#         self.__name = name
+#         self.__duration = duration
+
+#     @property
+#     def uid(self):
+#         return self.__id
+
+#     @uid.setter
+#     def uid(self, id):
+#         self.__id = id
+
+#     @property
+#     def name(self):
+#         return self.__name
+
+#     @name.setter
+#     def name(self, name):
+#         self.__name = name
+
+#     @property
+#     def duration(self):
+#         return self.__duration
+
+#     @duration.setter
+#     def duration(self, duration):
+#         self.__duration = duration
 
 
-class EmailValidator:
-    __symbols = ascii_letters + digits + '.' + '_'
-    __min_email_name_len = 1
-    __max_email_name_len = 100
-    __max_domain_name_len = 50
+# class TVProgram:
+#     def __init__(self, name) -> None:
+#         self.name = name
+#         self.items = []
+#         self.telecast_indexes = {}
 
-    def __new__(cls, *args, **kwargs):
-        return None
+#     def add_telecast(self, tl: Telecast):
+#         if self.telecast_indexes.get(tl.uid):
+#             return
+#         self.items.append(tl)
+#         self.telecast_indexes.setdefault(tl.uid, self.items[-1])
 
-    @classmethod
-    def get_random_email(cls):
-        domain_name = "@gmail.com"
-        raw_list = choices(cls.__symbols, k=randint(
-            cls.__min_email_name_len, cls.__max_email_name_len))
-        email_name = ''.join(el for el, group in groupby(
-            raw_list) if len(tuple(group)) != 2 and el != '.')
-        return email_name + domain_name
-
-    @classmethod
-    def check_email(cls, email):
-        if cls.__is_email_str(email):
-            pass
-        return False
-
-    @staticmethod
-    def __is_email_str(email):
-        return isinstance(email, str)
+#     def remove_telecast(self, indx: int):
+#         tl = self.telecast_indexes.get(indx)
+#         if tl:
+#             self.items.remove(tl)
+#             del self.telecast_indexes[indx]
 
 
-# print(ascii_letters, digits)
-# res = EmailValidator.get_random_email()
-# print(type(res))
+# pr = TVProgram("Первый канал")
+# pr.add_telecast(Telecast(1, "Доброе утро", 10000))
+# pr.add_telecast(Telecast(2, "Новости", 2000))
+# pr.add_telecast(Telecast(3, "Интервью с Балакиревым", 20))
+# for t in pr.items:
+#     print(f"{t.name}: {t.duration}")
+# print('------------------------------------')
+# pr.remove_telecast(2)
+# pr.remove_telecast(2)
+# pr.add_telecast(Telecast(4, "4 телеканал", 2000))
+# pr.add_telecast(Telecast(5, "5 телеканал", 20))
+# for t in pr.items:
+#     print(f"{t.name}: {t.duration}")
+# --------------------------------------------------------------------------------------------------------
+
+# class Thing:
+#     def __init__(self, name, weight) -> None:
+#         self.name = name
+#         self.weight = weight
+
+
+# class Bag:
+#     def __init__(self, max_weight) -> None:
+#         self.max_weight = max_weight
+#         self.__things = []
+#         self.total_weight = 0
+
+#     @property
+#     def things(self):
+#         return self.__things
+
+#     def add_thing(self, thing: Thing):
+#         if self.total_weight + thing.weight <= 1000:
+#             self.things.append(thing)
+#             self.total_weight += thing.weight
+
+#     def remove_thing(self, indx):
+#         thing = self.things.pop(indx)
+#         if thing:
+#             self.total_weight -= thing.weight
+
+#     def get_total_weight(self):
+#         return self.total_weight
+
+
+# bag = Bag(1000)
+# bag.add_thing(Thing("Книга по Python", 100))
+# bag.add_thing(Thing("Котелок", 500))
+# bag.add_thing(Thing("Спички", 20))
+# bag.add_thing(Thing("Бумага", 100))
+# w = bag.get_total_weight()
+# print(w)
+# for t in bag.things:
+#     print(f"{t.name}: {t.weight}")
+
+# --------------------------------------------------------------------------------------------------------
+
+# class ProductValue:
+#     def __init__(self, max_value) -> None:
+#         self.max_value = max_value
+
+#     def __set_name__(self, owner, name):
+#         self.name = '_' + name
+
+#     def __get__(self, instance, owner):
+#         return getattr(instance, self.name)
+
+#     def __set__(self, instance, value):
+#         if type(value) == int:
+#             if 0 <= value <= self.max_value:
+#                 setattr(instance, self.name, value)
+
+
+# class StringValue:
+#     def __init__(self, min_length, max_length) -> None:
+#         self.min_length = min_length
+#         self.max_length = max_length
+
+#     def __set_name__(self, owner, name):
+#         self.name = '_' + name
+
+#     def __get__(self, instance, owner):
+#         return getattr(instance, self.name)
+
+#     def __set__(self, instance, value):
+#         if type(value) == str:
+#             if self.min_length <= len(value) <= self.max_length:
+#                 setattr(instance, self.name, value)
+
+
+# class Product:
+#     name = StringValue(2, 50)
+#     price = ProductValue(10000)
+
+#     def __init__(self, name, price) -> None:
+#         self.name = name
+#         self.price = price
+
+
+# class SuperShop:
+#     def __init__(self, name) -> None:
+#         self.name = name
+#         self.goods = []
+
+#     def add_product(self, product: Product):
+#         self.goods.append(product)
+
+#     def remove_product(self, product: Product):
+#         self.goods.remove(product)
+
+
+# shop = SuperShop("У Балакирева")
+# shop.add_product(Product("Курс по Python", 0))
+# shop.add_product(Product("Курс по Python ООП", 2000))
+# for p in shop.goods:
+#     print(f"{p.name}: {p.price}")
+
+# --------------------------------------------------------------------------------------------------------
+
+# class ValidateString:
+#     def __init__(self, min_length, max_length) -> None:
+#         self.min_length = min_length
+#         self.max_length = max_length
+
+#     def validate(self, string):
+#         if type(string) == str:
+#             if self.min_length <= len(string) <= self.max_length:
+#                 return True
+#         return False
+
+
+# class StringValue:
+#     def __init__(self, validator: ValidateString) -> None:
+#         self.validator = validator
+
+#     def __set_name__(self, owner, name):
+#         self.name = '_' + name
+
+#     def __get__(self, instance, owner):
+#         res = getattr(instance, self.name)
+#         return getattr(instance, self.name)
+
+#     def __set__(self, instance, value):
+#         if self.validator.validate(value):
+#             setattr(instance, self.name, value)
+
+
+# class RegisterForm:
+#     login = StringValue(validator=ValidateString(3, 100))
+#     password = StringValue(validator=ValidateString(3, 100))
+#     email = StringValue(validator=ValidateString(3, 100))
+
+#     def __init__(self, login, password, email) -> None:
+#         self.login = login
+#         self.password = password
+#         self.email = email
+
+#     def get_fields(self):
+#         return [self.login, self.password, self.email]
+
+#     def show(self):
+#         print(
+#             f"<form>\nЛогин: {self.login}\nПароль: {self.password}\nEmail: {self.email}\n</form>")
+
+
+# form = RegisterForm("bog", "qwerty123", "kuku@mail.ru")
+# form.show()
+# form.pr()
+# --------------------------------------------------------------------------------------------------------
+
+# class FloatValue:
+#     def __set_name__(self, owner, name):
+#         self.name = "_" + name
+
+#     def __get__(self, instance, owner):
+#         return getattr(instance, self.name)
+
+#     def __set__(self, instance, value):
+#         self.check_float(value)
+#         setattr(instance, self.name, value)
+#         instance.__dict__[self.name] = value
+
+#     @staticmethod
+#     def check_float(value):
+#         if type(value) != float:
+#             raise TypeError(
+#                 "Присваивать можно только вещественный тип данных.")
+
+# class Cell:
+#     value = FloatValue()
+
+#     def __init__(self, value=0.0) -> None:
+#         self.value = value
+
+# class TableSheet:
+#     def __init__(self, N, M) -> None:
+#         self.cells = [[Cell() for _ in range(M)] for _ in range(N)]
+
+# table = TableSheet(5, 3)
+# init_value = 1.0
+# for row in table.cells:
+#     for cell in row:
+#         cell.value = init_value
+#         init_value += 1
+
+# result = [[cell.value for cell in row] for row in table.cells]
+# print(*result, sep='\n')
+
+# --------------------------------------------------------------------------------------------------------
+
+# from re import match
+
+# class PhoneNumber:
+#     def __init__(self, number, fio) -> None:
+#         if self.check_number(number) and isinstance(fio, str):
+#             self.number = number
+#             self.fio = fio
+#         else:
+#             raise Exception(
+#                 f"некорректные входные данные для создания объекта: {number}\t, {fio}")
+
+#     @staticmethod
+#     def check_number(number):
+#         return match(r"^\d{11}$", str(number))
+
+# class PhoneBook:
+#     def __init__(self) -> None:
+#         self.__phones = []
+
+#     @property
+#     def phones(self):
+#         return self.__phones
+
+#     def add_phone(self, phone):
+#         self.phones.append(phone)
+
+#     def remove_phone(self, indx):
+#         phones_number = len(self.phones)
+#         if -phones_number <= indx <= phones_number-1:
+#             self.phones.pop(indx)
+#         else:
+#             raise Exception(f"You can't get phone number by index={indx}")
+
+#     def get_phone_list(self):
+#         return self.phones
+
+# p = PhoneBook()
+# p.add_phone(PhoneNumber(12345678901, "Сергей Балакирев"))
+# p.add_phone(PhoneNumber(21345678901, "Панда"))
+# phones = p.get_phone_list()
+# p.remove_phone(0)
+# print(phones)
+# --------------------------------------------------------------------------------------------------------
+
+# from math import sqrt
+
+# class LineTo:
+#     def __init__(self, x=0, y=0) -> None:
+#         self.x = x
+#         self.y = y
+
+# class PathLines:
+#     def __init__(self, *args: LineTo) -> None:
+#         self.start_point = LineTo()
+#         self.last_point = self.start_point
+#         self.lines = []
+#         self.length = 0
+#         for point in args:
+#             self.length += self.calc_length(self.last_point, point)
+#             self.last_point = point
+#             self.lines.append(point)
+
+#     def get_path(self) -> list:
+#         return self.lines
+
+#     def get_length(self) -> int:
+#         return self.length
+
+#     def add_line(self, line: LineTo) -> None:
+#         self.length += self.calc_length(self.last_point, line)
+#         self.last_point = line
+#         self.lines.append(line)
+
+#     @staticmethod
+#     def calc_length(p0: LineTo, p1: LineTo) -> int:
+#         return sqrt((p1.x-p0.x)**2 + (p1.y-p0.y)**2)
+
+# p = PathLines(LineTo(1, 2))
+# print(p.get_length())  # 2.23606797749979
+# p.add_line(LineTo(10, 20))
+# p.add_line(LineTo(5, 17))
+# print(p.get_length())  # 28.191631669843197
+# m = p.get_path()
+# print(all(isinstance(i, LineTo) for i in m) and len(m) == 3)  # True
+
+# h = PathLines(LineTo(4, 8), LineTo(-10, 30), LineTo(14, 2))
+# print(h.get_length())  # 71.8992593599813
+
+# k = PathLines()
+# print(k.get_length())  # 0
+# print(k.get_path())  # []
+# p = PathLines(LineTo(10, 20), LineTo(10, 30))
+# p.add_line(LineTo(20, -10))
+# dist = p.get_length()
+# print(dist)
+
+# --------------------------------------------------------------------------------------------------------
+
+# class TreeObj:
+#     def __init__(self, indx, value=None) -> None:
+#         self.indx = indx
+#         self.value = value
+#         self.__left = None
+#         self.__right = None
+
+#     @property
+#     def left(self):
+#         return self.__left
+
+#     @left.setter
+#     def left(self, left):
+#         self.__left = left
+
+#     @property
+#     def right(self):
+#         return self.__right
+
+#     @right.setter
+#     def right(self, right):
+#         self.__right = right
+
+# class DecisionTree:
+#     __root = None
+
+#     @classmethod
+#     def predict(cls, root: TreeObj, x: list):
+#         next_node = root
+#         while next_node.left or next_node.right:
+#             if x[next_node.indx]:
+#                 next_node = next_node.left
+#             else:
+#                 next_node = next_node.right
+#         return next_node.value
+
+#     @classmethod
+#     def add_obj(cls, obj: TreeObj, node: TreeObj = None, left=True):
+#         if cls.__root == None and node == None and isinstance(obj, TreeObj):
+#             cls.__root = obj
+#             return obj
+#         elif node != None:
+#             if left:
+#                 node.left = obj
+#             else:
+#                 node.right = obj
+#             return obj
+
+# root = DecisionTree.add_obj(TreeObj(0))
+# v_11 = DecisionTree.add_obj(TreeObj(1), root)
+# v_12 = DecisionTree.add_obj(TreeObj(2), root, False)
+# DecisionTree.add_obj(TreeObj(-1, "будет программистом"), v_11)
+# DecisionTree.add_obj(TreeObj(-1, "будет кодером"), v_11, False)
+# DecisionTree.add_obj(TreeObj(-1, "не все потеряно"), v_12)
+# DecisionTree.add_obj(TreeObj(-1, "безнадежен"), v_12, False)
+
+# x = [1, 1, 0]
+# res = DecisionTree.predict(root, x)  # будет программистом
+# --------------------------------------------------------------------------------------------------------
+
+# class RadiusVector2D:
+#     MIN_COORD = -100
+#     MAX_COORD = 1024
+
+#     def __init__(self, x=0, y=0) -> None:
+#         if self.check_coord(x) and self.check_coord(y):
+#             self.__x = x
+#             self.__y = y
+#         else:
+#             self.__x = 0
+#             self.__y = 0
+
+#     @classmethod
+#     def check_coord(cls, c):
+#         if type(c) in (int, float):
+#             if cls.MIN_COORD <= c <= cls.MAX_COORD:
+#                 return True
+#         return False
+
+#     @property
+#     def x(self):
+#         return self.__x
+
+#     @x.setter
+#     def x(self, x):
+#         if self.check_coord(x):
+#             self.__x = x
+
+#     @property
+#     def y(self):
+#         return self.__y
+
+#     @y.setter
+#     def y(self, y):
+#         if self.check_coord(y):
+#             self.__y = y
+
+#     @staticmethod
+#     def norm2(vector):
+#         return vector.x**2 + vector.y**2
+
+# --------------------------------------------------------------------------------------------------------
+
+# def isPalindrome(x):
+#     """
+#     :type x: int
+#     :rtype: bool
+#     """
+#     if x < 0:
+#         return False
+#     elif 0 <= x <= 9:
+#         return True
+#     else:
+#         s = str(x)
+#         mid = int(len(s)/2)
+#         return s[:mid] == s[-1:-mid-1:-1]
+
+# print(isPalindrome(121))  # true
+# print(isPalindrome(1221))  # true
+# print(isPalindrome(12321))  # true
+# print(isPalindrome(2121))  # false
+# print(isPalindrome(1))  # true
+# print(isPalindrome(-2))  # false
+
+# --------------------------------------------------------------------------------------------------------
+
+# class StackObj:
+#     def __init__(self, data) -> None:
+#         self.__next = None
+#         self.__data = data
+
+#     @property
+#     def next(self):
+#         return self.__next
+
+#     @next.setter
+#     def next(self, next):
+#         if type(next) == StackObj or next == None:
+#             self.__next = next
+
+#     @property
+#     def data(self):
+#         return self.__data
+
+#     @data.setter
+#     def data(self, data):
+#         self.__data = data
+
+# class Stack:
+#     def __init__(self) -> None:
+#         self.top: StackObj = None
+
+#     def push(self, obj: StackObj):
+#         if self.top == None:
+#             self.top = obj
+#             return
+#         last = self.top
+#         while last.next != None:
+#             last = last.next
+#         last.next = obj
+
+#     def pop(self):
+#         if self.top == None:
+#             return
+#         elif self.top.next == None:
+#             copy = self.top
+#             self.top = None
+#             return copy
+#         else:
+#             last = self.top
+#             while last.next.next != None:
+#                 last = last.next
+#             copy = last.next
+#             last.next = None
+#             return copy
+
+#     def get_data(self):
+#         result = []
+#         last = self.top
+#         while last:
+#             result.append(last.data)
+#             last = last.next
+#         return result
+
+# st = Stack()
+# st.push(StackObj("obj1"))
+# st.push(StackObj("obj2"))
+# st.push(StackObj("obj3"))
+# removed_obj = st.pop()
+# removed_obj = st.pop()
+# removed_obj = st.pop()
+# removed_obj = st.pop()
+# res = st.get_data()    # ['obj1', 'obj2']
 # print(res)
-# print(len(res))
+# --------------------------------------------------------------------------------------------------------
 
-word = "helllll.l..o"
-res = ''.join(letter for letter, group in groupby(
-    word) if len(tuple(group)) != 2)
-for letter, group in groupby(word):
-    print(tuple(group))
-# print(res)
+# class WindowDlg:
+#     def __init__(self, title, width, height) -> None:
+#         self.__title = title
+#         self.__width = width
+#         self.__height = height
+
+#     def show(self):
+#         print(f"{self.__title}: {self.__width}, {self.__height}")
+
+#     @property
+#     def width(self):
+#         return self.__width
+
+#     @width.setter
+#     def width(self, width):
+#         if type(width) == int and 0 <= width <= 10000:
+#             self.__width = width
+#             self.show()
+
+#     @property
+#     def height(self):
+#         return self.__height
+
+#     @height.setter
+#     def height(self, height):
+#         if type(height) == int and 0 <= height <= 10000:
+#             self.__height = height
+#             self.show()
+
+# w = WindowDlg("Окно", 100, 50)
+# w.height = 200
+# w.width = 300
+# console.log('');
+
+# --------------------------------------------------------------------------------------------------------
+
+# from random import randint, choice, choices
+# from string import ascii_letters, digits
+# from itertools import groupby
+
+# class EmailValidator:
+#     __symbols = ascii_letters + digits + '.' + '_'
+#     __min_email_name_len = 1
+#     __max_email_name_len = 100
+#     __max_domain_name_len = 50
+
+#     def __new__(cls, *args, **kwargs):
+#         return None
+
+#     @classmethod
+#     def get_random_email(cls):
+#         domain_name = "@gmail.com"
+#         raw_list = choices(cls.__symbols, k=randint(
+#             cls.__min_email_name_len, cls.__max_email_name_len))
+#         email_name = ''.join(el for el, group in groupby(
+#             raw_list) if len(tuple(group)) != 2 and el != '.')
+#         return email_name + domain_name
+
+#     @classmethod
+#     def check_email(cls, email):
+#         if cls.__is_email_str(email):
+#             pass
+#         return False
+
+#     @staticmethod
+#     def __is_email_str(email):
+#         return isinstance(email, str)
+
+# # print(ascii_letters, digits)
+# # res = EmailValidator.get_random_email()
+# # print(type(res))
+# # print(res)
+# # print(len(res))
+
+# word = "helllll.l..o"
+# res = ''.join(letter for letter, group in groupby(
+#     word) if len(tuple(group)) != 2)
+# for letter, group in groupby(word):
+#     print(tuple(group))
+# # print(res)
 # --------------------------------------------------------------------------------------------------------
 
 # class ObjList:
@@ -69,7 +659,6 @@ for letter, group in groupby(word):
 
 #     def get_data(self):
 #         return self.__data
-
 
 # class LinkedList:
 #     def __init__(self) -> None:
@@ -100,7 +689,6 @@ for letter, group in groupby(word):
 #             result.append(obj.get_data())
 #             obj = obj.get_next()
 #         return result
-
 
 # lst = LinkedList()
 # lst.add_obj(ObjList("данные 1"))
