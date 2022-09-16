@@ -1,3 +1,202 @@
+class Handler:
+    def __init__(self, func, methods = ('GET',)):
+        self.methods = methods
+        self.func = func
+
+    def __call__(self, func):
+        def wrapper(request: dict, *args, **kwargs):
+            # здесь нужные строчки
+            method :str = request.get("method", None)
+            if method in self.methods:
+                
+            return wrapper
+
+    def get(self, func, request, *args, **kwargs):
+        return f"{}: {func(request)}"
+
+    def post(self, func, request, *args, **kwargs):
+        return f"{}: {func(request)}"
+
+
+@Handler(methods=('GET', 'POST'))  # по умолчанию methods = ('GET',)
+def contact(request):
+    return "Сергей Балакирев"
+
+res = contact({"method": "POST", "url": "contact.html"})
+print(res)
+# --------------------------------------------------------------------------------------------------------
+
+# class HandlerGET:
+#     def __init__(self, func) -> None:
+#         self.func = func
+
+#     def get(self, func, request: dict, *args, **kwargs):
+#         if request.get("method", None) in (None, "GET"):
+#             return f"GET: {func(request)}"
+#         return None
+
+#     def __call__(self, request, *args, **kwds):
+#         return self.get(self.func, request)
+
+
+# @HandlerGET
+# def contact(request):
+#     return "Сергей Балакирев"
+
+
+# # "GET: Сергей Балакирев"
+# res = contact({"method": "GET", "url": "contact.html"})
+# print(res)
+# --------------------------------------------------------------------------------------------------------
+
+# class RenderList:
+#     def __init__(self, type_list="ol") -> None:
+#         if type_list not in ("ol", "ul"):
+#             type_list = "ul"
+#         self.type_list = type_list
+
+#     def __call__(self, *args, **kwds):
+#         list_items = [f"<li>{arg}</li>" for arg in args[0]]
+#         result = f"<{self.type_list}>\n" + \
+#             '\n'.join(list_items) + f"\n</{self.type_list}>\n"
+#         return result
+
+
+# lst = ["Пункт меню 1", "Пункт меню 2", "Пункт меню 3"]
+# render = RenderList("ul")
+# html = render(lst)
+# print(html)
+
+# --------------------------------------------------------------------------------------------------------
+
+# import re
+
+# class DigitRetrieve:
+#     def __call__(self, *args, **kwds):
+#         return int(args[0]) if re.fullmatch(r"-{,1}\d+", args[0]) else None
+
+# dg = DigitRetrieve()
+# d1 = dg("123")   # 123 (целое число)
+# d2 = dg("45.54")   # None (не целое число)
+# d3 = dg("-56")   # -56 (целое число)
+# d4 = dg("12fg")  # None (не целое число)
+# d5 = dg("abc")   # None (не целое число)
+
+
+# st = ["123", "abc", "-56.4", "0", "--5", "123-", "-5"]
+# digits = list(map(dg, st))  # [123, None, None, 0, None, None, -5]
+# print(digits)
+# --------------------------------------------------------------------------------------------------------
+
+# from string import ascii_lowercase, digits
+
+
+# class LoginForm:
+#     def __init__(self, name, validators=None):
+#         self.name = name
+#         self.validators = validators
+#         self.login = ""
+#         self.password = ""
+
+#     def post(self, request: dict):
+#         self.login = request.get('login', "")
+#         self.password = request.get('password', "")
+
+#     def is_validate(self):
+#         if not self.validators:
+#             return True
+
+#         for v in self.validators:
+#             if not v(self.login) or not v(self.password):
+#                 return False
+
+#         return True
+
+
+# # здесь прописывайте классы валидаторов: LengthValidator и CharsValidator
+# class CharsValidator:
+#     def __init__(self, chars) -> None:
+#         self.chars = chars
+
+#     def __call__(self, *args, **kwds):
+#         return all([c in self.chars for c in args[0]])
+
+
+# class LengthValidator:
+#     def __init__(self, min_length, max_length) -> None:
+#         self.min_length = min_length
+#         self.max_length = max_length
+
+#     def __call__(self, *args, **kwds):
+#         return self.min_length <= len(args[0]) <= self.max_length
+
+
+# lg = LoginForm("Вход на сайт", validators=[LengthValidator(
+#     3, 50), CharsValidator(ascii_lowercase + digits)])
+# lg.post({"login": "root", "password": "panda"})
+# if lg.is_validate():
+#     print("Дальнейшая обработка данных формы")
+
+
+# --------------------------------------------------------------------------------------------------------
+
+# import os
+
+# class ImageFileAcceptor:
+#     def __init__(self, extensions) -> None:
+#         self.extensions = extensions
+
+#     def __call__(self, *args, **kwds):
+#         return self.get_extension(args[0]) in self.extensions
+
+#     @staticmethod
+#     def get_extension(file: str):
+#         _, extension = os.path.splitext(file)
+#         return extension.strip('.')
+
+# filenames = ["boat.jpg", "web.png", "text.txt", "python.doc",
+#              "ava.jpg", "forest.jpeg", "eq_1.png", "eq_2.png"]
+# acceptor = ImageFileAcceptor(('jpg', 'bmp', 'jpeg'))
+# image_filenames = filter(acceptor, filenames)
+# print(list(image_filenames))  # ["boat.jpg", "ava.jpg", "forest.jpeg"]
+
+# --------------------------------------------------------------------------------------------------------
+
+# from random import randint
+
+
+# # class RandomPassword:
+# #     def __init__(self, psw_chars, min_length, max_length) -> None:
+# #         self.psw_chars = psw_chars
+# #         self.min_length = min_length
+# #         self.max_length = max_length
+
+# #     def __call__(self, *args, **kwargs):
+# #         psw_length = randint(self.min_length, self.max_length)
+# #         psw = ''
+# #         for _ in range(psw_length):
+# #             psw += self.psw_chars[randint(0, len(self.psw_chars) - 1)]
+# #         return psw
+
+# def RandomPassword(psw_chars, min_length, max_length):
+#     def make_password():
+#         psw_length = randint(min_length, max_length)
+#         psw = ''
+#         for _ in range(psw_length):
+#             psw += psw_chars[randint(0, len(psw_chars) - 1)]
+#         return psw
+#     return make_password
+
+
+# min_length = 5
+# max_length = 20
+# psw_chars = "qwertyuiopasdfghjklzxcvbnm0123456789!@#$%&*"
+# rnd = RandomPassword(psw_chars, min_length, max_length)
+
+# lst_pass = [rnd() for _ in range(3)]
+# print(lst_pass)
+# --------------------------------------------------------------------------------------------------------
+
 # import time
 
 
