@@ -1,29 +1,558 @@
-class Handler:
-    def __init__(self, func, methods = ('GET',)):
-        self.methods = methods
-        self.func = func
+# --------------------------------------------------------------------------------------------------------
 
-    def __call__(self, func):
-        def wrapper(request: dict, *args, **kwargs):
-            # здесь нужные строчки
-            method :str = request.get("method", None)
-            if method in self.methods:
-                
-            return wrapper
+# class StackObj:
+#     def __init__(self, data) -> None:
+#         self.__next = None
+#         self.__data = data
 
-    def get(self, func, request, *args, **kwargs):
-        return f"{}: {func(request)}"
+#     @property
+#     def next(self):
+#         return self.__next
 
-    def post(self, func, request, *args, **kwargs):
-        return f"{}: {func(request)}"
+#     @next.setter
+#     def next(self, next):
+#         if type(next) == StackObj or next == None:
+#             self.__next = next
+
+#     @property
+#     def data(self):
+#         return self.__data
+
+#     @data.setter
+#     def data(self, data):
+#         self.__data = data
 
 
-@Handler(methods=('GET', 'POST'))  # по умолчанию methods = ('GET',)
-def contact(request):
-    return "Сергей Балакирев"
+# class Stack:
+#     def __init__(self) -> None:
+#         self.top: StackObj = None
 
-res = contact({"method": "POST", "url": "contact.html"})
-print(res)
+#     def push_back(self, obj: StackObj):
+#         if self.top == None:
+#             self.top = obj
+#             return
+#         last = self.top
+#         while last.next != None:
+#             last = last.next
+#         last.next = obj
+
+#     def pop_back(self):
+#         if self.top == None:
+#             return
+#         elif self.top.next == None:
+#             copy = self.top
+#             self.top = None
+#             return copy
+#         else:
+#             last = self.top
+#             while last.next.next != None:
+#                 last = last.next
+#             copy = last.next
+#             last.next = None
+#             return copy
+
+#     def get_data(self):
+#         result = []
+#         last = self.top
+#         while last:
+#             result.append(last.data)
+#             last = last.next
+#         return result
+
+#     def __add__(self, other: StackObj):
+#         self.push_back(other)
+#         return self
+
+#     def __mul__(self, other: list):
+#         for obj in other:
+#             self.push_back(StackObj(obj))
+#         return self
+
+#     def __imul__(self, other: list):
+#         for obj in other:
+#             self.push_back(StackObj(obj))
+#         return self
+
+
+# assert hasattr(Stack, 'pop_back'), "класс Stack должен иметь метод pop_back"
+
+# st = Stack()
+# top = StackObj("1")
+# st.push_back(top)
+# assert st.top == top, "неверное значение атрибута top"
+
+# st = st + StackObj("2")
+# st = st + StackObj("3")
+# obj = StackObj("4")
+# st += obj
+
+# st = st * ['data_1', 'data_2']
+# st *= ['data_3', 'data_4']
+
+# d = ["1", "2", "3", "4", 'data_1', 'data_2', 'data_3', 'data_4']
+# h = top
+# i = 0
+# while h:
+#     assert h._StackObj__data == d[i], "неверное значение атрибута __data, возможно, некорректно работают операторы + и *"
+#     h = h._StackObj__next
+#     i += 1
+
+# assert i == len(d), "неверное число объектов в стеке"
+
+# s1 = StackObj("1")
+# s2 = StackObj("2")
+# s3 = StackObj("3")
+# stack_ = Stack()
+# stack_ = stack_ * [s1, s2, s3]
+# print(stack_.get_data())
+# stack_ += StackObj("4")
+# print(stack_.get_data())
+# --------------------------------------------------------------------------------------------------------
+
+# import operator
+# from itertools import accumulate
+
+
+# class ListMath:
+#     def __init__(self, lst_math: list = []) -> None:
+#         self.lst_math = [el for el in lst_math if type(el) in (int, float)]
+
+#     def __add__(self, rhs):
+#         return ListMath([el+rhs for el in self.lst_math])
+
+#     def __iadd__(self, rhs):
+#         self.lst_math = [el+rhs for el in self.lst_math]
+#         return self
+
+#     def __radd__(self, lhs):
+#         return self + lhs
+
+#     def __sub__(self, rhs):
+#         return ListMath([el-rhs for el in self.lst_math])
+
+#     def __isub__(self, rhs):
+#         self.lst_math = [el-rhs for el in self.lst_math]
+#         return self
+
+#     def __rsub__(self, lhs):
+#         return ListMath([lhs - el for el in self.lst_math])
+
+#     def __mul__(self, rhs):
+#         return ListMath([el*rhs for el in self.lst_math])
+
+#     def __imul__(self, rhs):
+#         self.lst_math = [el*rhs for el in self.lst_math]
+#         return self
+
+#     def __rmul__(self, lhs):
+#         return self * lhs
+
+#     def __truediv__(self, rhs):
+#         return ListMath([float(el)/rhs for el in self.lst_math])
+
+#     def __itruediv__(self, rhs):
+#         self.lst_math = [float(el)/rhs for el in self.lst_math]
+#         return self
+
+#     def __rtruediv__(self, rhs):
+#         return ListMath([float(rhs)/el for el in self.lst_math])
+
+
+# # При использовании бинарных операторов +, -, *, /
+# # должны формироваться новые объекты класса ListMath с новыми списками, прежние списки не меняются.
+# # При использовании операторов +=, -=, *=, /= значения должны меняться внутри списка текущего объекта
+# #  (новый объект не создается).
+# lst1 = ListMath()
+# lp = [1, False, 2, -5, "abc", 7]
+# lst2 = ListMath(lp)
+# lst3 = ListMath(lp)
+
+# assert id(lst2.lst_math) != id(
+#     lst3.lst_math), "внутри объектов класса ListMath должна создаваться копия списка"
+
+# assert lst1.lst_math == [] and lst2.lst_math == [
+#     1, 2, -5, 7], "неверные значения в списке объекта класса ListMath"
+
+# res1 = lst2 + 76
+# lst = ListMath([1, 2, 3])
+# lst += 5
+# assert lst.lst_math == [6, 7, 8] and res1.lst_math == [
+#     77, 78, 71, 83], "неверные значения, полученные при операциях сложения"
+
+# lst = ListMath([0, 1, 2])
+# res3 = lst - 76
+# res4 = 7 - lst
+# assert res3.lst_math == [-76, -75, -74] and res4.lst_math == [7,
+#                                                               6, 5], "неверные значения, полученные при операциях вычитания"
+
+# lst -= 3
+# assert lst.lst_math == [-3, -2, -
+#                         1], "неверные значения, полученные при операции вычитания -="
+
+# lst = ListMath([1, 2, 3])
+# res5 = lst * 5
+# res6 = 3 * lst
+# lst *= 4
+# assert res5.lst_math == [5, 10, 15] and res6.lst_math == [
+#     3, 6, 9], "неверные значения, полученные при операциях умножения"
+# assert lst.lst_math == [
+#     4, 8, 12], "неверные значения, полученные при операциях умножения"
+
+# lst = lst / 2
+# lst /= 13.0
+# --------------------------------------------------------------------------------------------------------
+
+# class NewList:
+#     def __init__(self, lst: list = []) -> None:
+#         self.lst = lst
+
+#     def __sub__(self, rhs):
+#         if not isinstance(rhs, list):
+#             rhs = rhs.get_list()
+#         remove_indices = []
+#         for el in rhs:
+#             for indx, self_el in enumerate(self.lst):
+#                 if el == self_el and type(el) == type(self_el):
+#                     if indx not in remove_indices:
+#                         remove_indices.append(indx)
+#                         break
+
+#         result_list = [el for indx, el in enumerate(
+#             self.lst) if indx not in remove_indices]
+#         return NewList(result_list)
+
+#     def __rsub__(self, lhs):
+#         if isinstance(lhs, list):
+#             lhs = NewList(lhs)
+#         return lhs - self
+
+#     def get_list(self):
+#         return self.lst
+
+
+# lst1 = NewList([1, 2, -4, 6, 10, 11, 15, False, True])
+# lst2 = NewList([0, 1, 2, 3, True])
+# # 1
+# res_1 = lst1 - lst2  # NewList: [-4, 6, 10, 11, 15, False]
+# print("\t\t#1", res_1.get_list(), sep="\n\n")
+# # 2
+# lst1 -= lst2  # NewList: [-4, 6, 10, 11, 15, False]
+# print("\t\t#2", lst1.get_list(), sep="\n\n")
+# # 3
+# res_2 = lst2 - [0, True]  # NewList: [1, 2, 3]
+# print("\t\t#3", res_2.get_list(), sep="\n\n")
+# # 4
+# res_3 = [1, 2, 3, 4.5] - res_2  # NewList: [4.5]
+# print("\t\t#4", res_3.get_list(), sep="\n\n")
+# # 5
+# a = NewList([2, 2, 3])
+# res_4 = [1, 2, 2, 3] - a  # NewList: [1, 2]
+# print("\t\t#5", res_4.get_list(), sep="\n\n")
+
+
+# --------------------------------------------------------------------------------------------------------
+
+# class PolyLine:
+#     def __init__(self, *args) -> None:
+#         self.coords = list(args)
+
+#     def add_coord(self, x, y):
+#         self.coords.append((x, y))
+
+#     def remove_coord(self, indx):
+#         self.coords.pop(indx)
+
+#     def get_coords(self):
+#         return self.coords
+
+
+# poly = PolyLine((1, 2), (3, 5), (0, 10), (-1, 8))
+# poly.add_coord(50, 50)
+# poly.remove_coord(2)
+# print(poly.get_coords())
+
+# --------------------------------------------------------------------------------------------------------
+
+
+# class Ingredient:
+#     def __init__(self, name, volume, measure) -> None:
+#         self.name = name
+#         self.volume = volume
+#         self.measure = measure
+
+#     def __str__(self) -> str:
+#         return f"{self.name}: {self.volume}, {self.measure}"
+
+
+# class Recipe:
+#     def __init__(self, *args) -> None:
+#         self.ingredients = list(args)
+
+#     def add_ingredient(self, ing: Ingredient):
+#         self.ingredients.append(ing)
+
+#     def remove_ingredient(self, ing: Ingredient):
+#         self.ingredients.remove(ing)
+
+#     def get_ingredients(self):
+#         return tuple(self.ingredients)
+
+#     def __len__(self):
+#         return len(self.ingredients)
+
+
+# recipe = Recipe()
+# recipe.add_ingredient(Ingredient("Соль", 1, "столовая ложка"))
+# recipe.add_ingredient(Ingredient("Мука", 1, "кг"))
+# recipe.add_ingredient(Ingredient("Мясо баранины", 10, "кг"))
+# ings = recipe.get_ingredients()
+# print(ings)
+# n = len(recipe)  # n = 3
+# print(n)
+
+# --------------------------------------------------------------------------------------------------------
+
+# from datetime import timedelta
+
+
+# class Clock:
+#     def __init__(self, hours, minutes, seconds) -> None:
+#         self.hours, self.minutes, self.seconds = hours, minutes, seconds
+
+#     def get_time(self):
+#         return self.hours * 3600 + self.minutes * 60 + self.seconds
+
+
+# class DeltaClock:
+#     def __init__(self, clock1: Clock, clock2: Clock) -> None:
+#         self.clock1 = clock1
+#         self.clock2 = clock2
+#         delta = clock1.get_time() - clock2.get_time()
+#         self.seconds_delta = delta if delta > 0 else 0
+
+#     def __str__(self) -> str:
+#         a = "{:0>8}".format(str(timedelta(seconds=self.seconds_delta)))
+#         return a[:3] + ' ' + a[3:6] + ' ' + a[6:]
+
+#     def __len__(self):
+#         return self.seconds_delta
+
+
+# dt = DeltaClock(Clock(2, 45, 0), Clock(1, 15, 0))
+# print(dt)  # 01: 30: 00
+# len_dt = len(dt)  # 5400
+# print(len_dt)
+# --------------------------------------------------------------------------------------------------------
+# from math import sqrt
+
+
+# class RadiusVector:
+#     def __init__(self, *args) -> None:
+#         len_ = len(args)
+#         self.size = args[0] if len_ == 1 else len_
+#         self.coords = list(args) if len_ > 1 else [0]*args[0]
+
+#     def set_coords(self, *args):
+#         len_ = len(args)
+#         if not all([isinstance(obj, (int, float)) for obj in args]):
+#             raise AttributeError(
+#                 "В качестве координат были переданы не вещественные числа")
+
+#         for i in range(min(len_, self.size)):
+#             self.coords[i] = args[i]
+
+#     def get_coords(self):
+#         return tuple(self.coords)
+
+#     def __len__(self):
+#         return self.size
+
+#     def __abs__(self):
+#         return sqrt(sum([coord**2 for coord in self.coords]))
+
+
+# vector3D = RadiusVector(3)
+# vector3D.set_coords(3, -5.6, 8)
+# a, b, c = vector3D.get_coords()
+# # ошибки быть не должно, последние две координаты игнорируются
+# vector3D.set_coords(3, -5.6, 8, 10, 11)
+# # ошибки быть не должно, меняются только первые две координаты
+# vector3D.set_coords(1, 2)
+# res_len = len(vector3D)  # res_len = 3
+# res_abs = abs(vector3D)
+# print(a, b, c, sep=' *** ')
+# print(res_len)
+# print(res_abs)
+# --------------------------------------------------------------------------------------------------------
+
+# from math import sqrt
+
+
+# class Complex:
+#     def __init__(self, real, img) -> None:
+#         self.real = real
+#         self.img = img
+
+#     @property
+#     def real(self):
+#         return self.__real
+
+#     @real.setter
+#     def real(self, real):
+#         if isinstance(real, (int, float)):
+#             self.__real = real
+#         else:
+#             raise ValueError("Неверный тип данных.")
+
+#     @property
+#     def img(self):
+#         return self.__img
+
+#     @img.setter
+#     def img(self, img):
+#         if isinstance(img, (int, float)):
+#             self.__img = img
+#         else:
+#             raise ValueError("Неверный тип данных.")
+
+#     def __abs__(self):
+#         return sqrt(self.real**2 + self.img**2)
+
+
+# cmp = Complex(7, 8)
+# cmp.img = 4
+# cmp.real = 3
+# c_abs = abs(cmp)
+# print(c_abs)
+
+# Error:
+# Traceback (most recent call last):
+#   File "jailed_code", line 40, in <module>
+#     assert type(Complex.real) == property and type(Complex.img) == property, "в классе Complex должны быть объявлены объекты-свойства real и img"
+#   File "jailed_code", line 9, in __get__
+#     return getattr(instance, self.name)
+# AttributeError: 'NoneType' object has no attribute '_real'
+
+# --------------------------------------------------------------------------------------------------------
+
+# class ObjList:
+#     def __init__(self, data) -> None:
+#         self.__next = None
+#         self.__prev = None
+#         self.__data = data
+
+#     @property
+#     def next(self):
+#         return self.__next
+
+#     @next.setter
+#     def next(self, obj):
+#         self.__next = obj
+
+#     @property
+#     def prev(self):
+#         return self.__prev
+
+#     @prev.setter
+#     def prev(self, obj):
+#         self.__prev = obj
+
+#     @property
+#     def data(self):
+#         return self.__data
+
+#     @data.setter
+#     def data(self, data):
+#         self.__data = data
+
+
+# class LinkedList:
+#     def __init__(self) -> None:
+#         self.head: ObjList = None
+#         self.tail: ObjList = None
+#         self.len = 0
+
+#     def add_obj(self, obj: ObjList):
+#         if self.head is None:
+#             self.tail = self.head = obj
+#         else:
+#             self.tail.next = obj
+#             obj.prev = self.tail
+#             self.tail = obj
+#         self.len += 1
+
+#     def remove_obj(self):
+#         if self.tail is None:
+#             return
+#         if self.tail.prev is None:
+#             self.tail = self.head = None
+#             self.len -= 1
+#             return
+#         self.len -= 1
+#         self.tail = self.tail.prev
+#         self.tail.next = None
+
+#     def remove_obj(self, indx):
+#         if indx < 0 or indx >= self.len or self.len == 0:
+#             raise IndexError(
+#                 f"Невозможно удалить объект по заданному индексу: {indx}")
+
+#         i = 0
+#         removed_obj: ObjList = self.head
+#         while i < indx:
+#             i += 1
+#             removed_obj = removed_obj.next
+
+#         prev_obj = removed_obj.prev
+#         next_obj = removed_obj.next
+#         if prev_obj and next_obj:
+#             prev_obj.next = next_obj
+#         elif prev_obj:  # нет следующего, т.е. удаляем последний
+#             self.tail = prev_obj
+#             self.tail.next = None
+#         elif next_obj:  # нет предыдущего, т.е. удаляем первый
+#             self.head = next_obj
+#             self.head.prev = None
+#         else: # единственный элемент
+#             self.tail = self.head = None
+
+#         self.len -= 1
+
+#     def get_data(self):
+#         result = []
+#         obj = self.head
+#         while obj:
+#             result.append(obj.data)
+#             obj = obj.next
+#         return result
+
+#     def __len__(self):
+#         return self.len
+
+#     def __call__(self, *args, **kwds):
+#         i = 0
+#         obj: ObjList = self.head
+#         while i < args[0]:
+#             i += 1
+#             obj = obj.next
+#         return obj.data
+
+
+# linked_lst = LinkedList()
+# linked_lst.add_obj(ObjList("Sergey"))
+# linked_lst.remove_obj(0)
+# linked_lst.add_obj(ObjList("Balakirev"))
+# linked_lst.add_obj(ObjList("Python"))
+# linked_lst.remove_obj(2)
+# s = linked_lst(1)  # s = Balakirev
+# print(s)
+# linked_lst.add_obj(ObjList("Python ООП"))
+# linked_lst.remove_obj(0)
+# linked_lst.add_obj(ObjList("Last element"))
+# n = len(linked_lst)  # n = 3
+# print(n)
+# s = linked_lst(0)  # s = Balakirev
+# print(s)
 # --------------------------------------------------------------------------------------------------------
 
 # class HandlerGET:
