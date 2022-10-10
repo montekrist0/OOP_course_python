@@ -1,5 +1,245 @@
+# class Validator:
+#     def _is_valid(self, data):
+#         return True
+
+#     def __call__(self, *args, **kwds):
+#         if self._is_valid(args[0]):
+#             return True
+#         else:
+#             raise ValueError('данные не прошли валидацию')
+
+
+# class IntegerValidator(Validator):
+#     def __init__(self, min_value, max_value) -> None:
+#         self.min_value = min_value
+#         self.max_value = max_value
+
+#     def _is_valid(self, data):
+#         if isinstance(data, int):
+#             if self.min_value <= data <= self.max_value:
+#                 return True
+#         return False
+
+
+# class FloatValidator (Validator):
+#     def __init__(self, min_value, max_value) -> None:
+#         self.min_value = min_value
+#         self.max_value = max_value
+
+#     def _is_valid(self, data):
+#         if isinstance(data, float):
+#             if self.min_value <= data <= self.max_value:
+#                 return True
+#         return False
+
+
+# integer_validator = IntegerValidator(-10, 10)
+# float_validator = FloatValidator(-1, 1)
+# res1 = integer_validator(10)  # исключение не генерируется (проверка проходит)
+# res2 = float_validator(10)    # исключение ValueError
 # --------------------------------------------------------------------------------------------------------
 
+# class Singleton:
+#     __instance = None
+
+#     def __new__(cls, *args, **kwargs):
+#         if cls.__instance is None:
+#             cls.__instance = super().__new__(cls)
+#         return cls.__instance
+
+# class Game(Singleton):
+#     def __init__(self, name) -> None:
+#         if not hasattr(self, 'name'):
+#             self.name = name
+
+# g1 = Game("game1")
+# g2 = Game("game2")
+# a = 1
+# print(g2.name)
+# --------------------------------------------------------------------------------------------------------
+
+# class GenericView:
+#     def __init__(self, methods=('GET',)):
+#         self.methods = methods
+
+#     def get(self, request):
+#         return ""
+
+#     def post(self, request):
+#         return f"url: {request['url']}"
+
+#     def put(self, request):
+#         return f"url: {request['url']}"
+
+#     def delete(self, request):
+#         return f"url: {request['url']}"
+
+# class DetailView(GenericView):
+#     def __init__(self, methods=('GET', )):
+#         super().__init__(methods)
+
+#     def render_request(self, request, method):
+#         if not method in self.methods:
+#             raise TypeError('данный запрос не может быть выполнен')
+#         return getattr(self, method.lower())(request)
+
+#     def get(self, request):
+#         if not isinstance(request, dict):
+#             raise TypeError('request не является словарем')
+#         if not 'url' in request:
+#             raise TypeError('request не содержит обязательного ключа url')
+#         return f"url: {request['url']}"
+
+# # dv = DetailView()  # по умолчанию methods=('GET',)
+# dv = DetailView(methods=('PUT', 'POST'))
+# html = dv.render_request({'url': 'https://site.ru/home'}, 'POST')
+# print(html)
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Thing:
+#     ID = 1
+
+#     def __init__(self, name, price) -> None:
+#         self.id = getattr(Thing, "ID")
+#         setattr(Thing, "ID", self.id + 1)
+#         self.name = name
+#         self.price = price
+#         self.weight = None
+#         self.dims = None
+#         self.memory = None
+#         self.frm = None
+
+#     def get_data(self):
+#         data = tuple(self.__dict__.values())
+#         return data
+
+# class Table(Thing):
+#     def __init__(self, name, price, weight, dims) -> None:
+#         super().__init__(name, price)
+#         self.weight = weight
+#         self.dims = dims
+
+# class ElBook(Thing):
+#     def __init__(self, name, price, memory, frm) -> None:
+#         super().__init__(name, price)
+#         self.memory = memory
+#         self.frm = frm
+
+# table = Table("Круглый", 1024, 812.55, (700, 750, 700))
+# book = ElBook("Python ООП", 2000, 2048, 'pdf')
+# print(*table.get_data())
+# print(*book.get_data())
+#
+# class StackObj:
+#     def __init__(self, data) -> None:
+#         self.__next = None
+#         self.__data = data
+
+#     @property
+#     def next(self):
+#         return self.__next
+
+#     @next.setter
+#     def next(self, next):
+#         if type(next) == StackObj or next == None:
+#             self.__next = next
+
+#     @property
+#     def data(self):
+#         return self.__data
+
+#     @data.setter
+#     def data(self, data):
+#         self.__data = data
+
+# class Stack:
+#     def __init__(self) -> None:
+#         self.top: StackObj = None
+#         self.len = 0
+
+#     def push_back(self, obj: StackObj):
+#         self.len += 1
+#         if self.top == None:
+#             self.top = obj
+#             return
+#         last = self.top
+#         while last.next != None:
+#             last = last.next
+#         last.next = obj
+
+#     def push_front(self, obj: StackObj):
+#         self.len += 1
+#         if self.top == None:
+#             self.top = obj
+#             return
+#         obj.next = self.top
+#         self.top = obj
+
+#     def pop_back(self):
+#         if self.top == None:
+#             return
+#         elif self.top.next == None:
+#             copy = self.top
+#             self.top = None
+#             self.len -= 1
+#             return copy
+#         else:
+#             last = self.top
+#             while last.next.next != None:
+#                 last = last.next
+#             copy = last.next
+#             last.next = None
+#             self.len -= 1
+#             return copy
+
+#     def __iter__(self):
+#         self.obj = self.top
+#         return self
+
+#     def __next__(self):
+#         old_obj = self.obj
+#         if old_obj:
+#             self.obj = old_obj.next
+#             return old_obj
+#         else:
+#             raise StopIteration
+
+#     def __getitem__(self, item):
+#         if not (0 <= item < self.len):
+#             raise IndexError('неверный индекс')
+#         i = 0
+#         obj = self.top
+#         while i < item:
+#             obj = obj.next
+#             i += 1
+#         return obj.data
+
+#     def __setitem__(self, key, value):
+#         if not (0 <= key < self.len):
+#             raise IndexError('неверный индекс')
+#         i = 0
+#         obj = self.top
+#         while i < key:
+#             obj = obj.next
+#             i += 1
+#         obj.data = value
+
+#     def __len__(self):
+#         return self.len
+
+# stack_ = Stack()
+# for i in range(10):
+#     stack_.push_back(StackObj(f"{i}"))
+
+# for i in stack_:
+#     print(i.data)
+
+# stack_[2] = "100"
+
+# for i in stack_:
+#     print(i.data)
+# --------------------------------------------------------------------------------------------------------
 
 # class IterColumn:
 #     def __init__(self, lst, column) -> None:
@@ -16,7 +256,6 @@
 #             return self.lst[self.i][self.column]
 #         else:
 #             raise StopIteration
-
 
 # lst = [[1, 2, 3, 4, 5],
 #        [6, 7, 8, 9, 10],
@@ -47,7 +286,6 @@
 #         else:
 #             raise StopIteration
 
-
 # lst = [[1],
 #        [2, 3],
 #        [4, 5, 6],
@@ -65,11 +303,9 @@
 #         return func(name)
 #     return wrapper
 
-
 # @hello_function
 # def print_name(name):
 #     print(name)
-
 
 # # print_name = hello_function(print_name)("Igor")
 
@@ -84,7 +320,6 @@
 #             raise IndexError('неверный индекс')
 
 #     return wrapper
-
 
 # class Person:
 #     def __init__(self, fio, job, old, salary, year_job):
@@ -108,7 +343,6 @@
 
 #     def __iter__(self):
 #         return iter(self.__dict__.values())
-
 
 # pers = Person('Гейтс Б.', 'бизнесмен', 61, 1000000, 46)
 # pers[0] = 'Балакирев С.М.'
@@ -158,13 +392,11 @@
 #         else:
 #             raise StopIteration
 
-
 # pers[5] = 123  # IndexError
 
 # --------------------------------------------------------------------------------------------------------
 
 # from random import choice
-
 
 # class Cell:
 #     def __init__(self) -> None:
@@ -172,7 +404,6 @@
 
 #     def __bool__(self):
 #         return self.value == 0
-
 
 # class TicTacToe:
 #     FREE_CELL = 0      # свободная клетка
@@ -283,7 +514,6 @@
 #             self.end_game = True
 #         return not self.end_game
 
-
 # cell = Cell()
 # assert cell.value == 0, "начальное значение атрибута value объекта класса Cell должно быть равно 0"
 # assert bool(
@@ -335,7 +565,6 @@
 
 # import sys
 
-
 # class BookStudy:
 #     def __init__(self, name, author, year) -> None:
 #         self.name = name
@@ -347,7 +576,6 @@
 
 #     def __eq__(self, other) -> bool:
 #         return self.name.lower() == other.name.lower() and self.author.lower() == other.author.lower()
-
 
 # lst_bs = []
 # lst_in = list(map(str.strip, sys.stdin.readlines()))
