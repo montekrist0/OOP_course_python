@@ -1,44 +1,523 @@
-# class Item:
-#     def __init__(self, name, money) -> None:
-#         self.name = name
-#         self.money = money
-
-#     def __add__(self, other):
-#         if isinstance(other, (int, float)):
-#             return self.money + other
-#         return self.money + other.money
-
-#     def __radd__(self, other):
-#         return self + other
+# --------------------------------------------------------------------------------------------------------
 
 
-# class Budget:
+# class IterColumn:
+#     def __init__(self, lst, column) -> None:
+#         self.lst = lst
+#         self.column = column
+
+#     def __iter__(self):
+#         self.i = -1
+#         return self
+
+#     def __next__(self):
+#         self.i += 1
+#         if self.i < len(self.lst):
+#             return self.lst[self.i][self.column]
+#         else:
+#             raise StopIteration
+
+
+# lst = [[1, 2, 3, 4, 5],
+#        [6, 7, 8, 9, 10],
+#        [11, 12, 13, 14, 15],
+#        [16, 17, 18, 19, 20]
+#        ]
+# for i in IterColumn(lst, 1):
+#     print(i)
+# --------------------------------------------------------------------------------------------------------
+
+# class TriangleListIterator:
+#     def __init__(self, lst) -> None:
+#         self.lst = lst
+
+#     def __iter__(self):
+#         self.i = 0
+#         self.j = -1
+#         return self
+
+#     def __next__(self):
+#         if self.j < self.i:
+#             self.j += 1
+#         else:
+#             self.i += 1
+#             self.j = 0
+#         if self.i < len(self.lst):
+#             return self.lst[self.i][self.j]
+#         else:
+#             raise StopIteration
+
+
+# lst = [[1],
+#        [2, 3],
+#        [4, 5, 6],
+#        [7, 8, 9, 10]
+#        ]
+# for i in TriangleListIterator(lst):
+#     print(i)
+
+# lst = [1, 2, 3]
+# print(next(iter(lst)))
+
+# def hello_function(func):
+#     def wrapper(name):
+#         print(f"Hello, ")
+#         return func(name)
+#     return wrapper
+
+
+# @hello_function
+# def print_name(name):
+#     print(name)
+
+
+# # print_name = hello_function(print_name)("Igor")
+
+# print_name("Igor")
+
+# def error(func):
+#     def wrapper(*args):
+#         try:
+#             assert args[1] in range(0, 5)
+#             return func(*args)
+#         except:
+#             raise IndexError('неверный индекс')
+
+#     return wrapper
+
+
+# class Person:
+#     def __init__(self, fio, job, old, salary, year_job):
+#         self.fio = fio
+#         self.job = job
+#         self.old = old
+#         self.salary = salary
+#         self.year_job = year_job
+
+#     @error
+#     def __getitem__(self, item):
+#         dic = self.__dict__
+#         keys = list(self.__dict__.keys())
+#         name = keys[item]
+#         result = self.__dict__[list(self.__dict__.keys())[item]]
+#         return result
+
+#     @error
+#     def __setitem__(self, item, value):
+#         self.__dict__[list(self.__dict__.keys())[item]] = value
+
+#     def __iter__(self):
+#         return iter(self.__dict__.values())
+
+
+# pers = Person('Гейтс Б.', 'бизнесмен', 61, 1000000, 46)
+# pers[0] = 'Балакирев С.М.'
+# print(pers[2])
+# for v in pers:
+#     print(v)
+
+# --------------------------------------------------------------------------------------------------------
+# class Person:
+#     def __init__(self, fio, job, old, salary, year_job) -> None:
+#         self.fio = self.fio2 = [fio]
+#         self.job = self.job2 = [job]
+#         self.old = self.old2 = [old]
+#         self.salary = self.salary2 = [salary]
+#         self.year_job = self.year_job2 = [year_job]
+#         self.data = [self.fio2, self.job2,
+#                      self.old2, self.salary2, self.year_job2]
+
+#     def __getattribute__(self, name: str):
+#         if name in ('fio', 'job', 'old', 'salary', 'year_job'):
+#             return object.__getattribute__(self, name)[0]
+#         else:
+#             return object.__getattribute__(self, name)
+
+#     @classmethod
+#     def check_index(cls, index):
+#         if 0 <= index <= 4:
+#             return True
+#         raise IndexError('неверный индекс')
+
+#     def __getitem__(self, key):
+#         self.check_index(key)
+#         return self.data[key][0]
+
+#     def __setitem__(self, key, value):
+#         self.check_index(key)
+#         self.data[key][0] = value
+
+#     def __iter__(self):
+#         self.i = -1
+#         return self
+
+#     def __next__(self):
+#         if self.i < 4:
+#             self.i += 1
+#             return self.data[self.i][0]
+#         else:
+#             raise StopIteration
+
+
+# pers[5] = 123  # IndexError
+
+# --------------------------------------------------------------------------------------------------------
+
+# from random import choice
+
+
+# class Cell:
 #     def __init__(self) -> None:
-#         self.items = []
+#         self.value = 0
 
-#     def add_item(self, it: Item):
-#         if isinstance(it, Item):
-#             self.items.append(it)
-
-#     def remove_item(self, indx):
-#         if -abs(len(self.items)) <= indx < len(self.items):
-#             self.items.pop(indx)
-
-#     def get_items(self):
-#         return self.items
+#     def __bool__(self):
+#         return self.value == 0
 
 
-# my_budget = Budget()
-# my_budget.add_item(Item("Курс по Python ООП", 2000))
-# my_budget.add_item(Item("Курс по Django", 5000.01))
-# my_budget.add_item(Item("Курс по NumPy", 0))
-# my_budget.add_item(Item("Курс по C++", 1500.10))
+# class TicTacToe:
+#     FREE_CELL = 0      # свободная клетка
+#     HUMAN_X = 1        # крестик (игрок - человек)
+#     COMPUTER_O = 2     # нолик (игрок - компьютер)
 
-# # вычисление общих расходов
-# s = 0
-# for x in my_budget.get_items():
-#     s = s + x
+#     def __init__(self) -> None:
+#         self.init()
 
+#     def __getitem__(self, key):
+#         i, j = key
+#         self.check_indeces(i, j)
+#         return self.pole[i][j].value
+
+#     def __setitem__(self, key, value):
+#         i, j = key
+#         self.check_indeces(i, j)
+#         if self.pole[i][j]:
+#             self.pole[i][j].value = value
+#             self.empty_cells.remove((i, j))
+#         bool(self)
+
+#     @staticmethod
+#     def check_indeces(i, j):
+#         if isinstance(i, int) and isinstance(j, int):
+#             if 0 <= i <= 2 and 0 <= j <= 2:
+#                 return True
+#         raise IndexError('некорректно указанные индексы')
+
+#     def init(self):
+#         self.human_win = False
+#         self.pc_win = False
+#         self.draw = False
+#         self.end_game = False
+#         self.pole = tuple([[Cell() for _ in range(3)] for _ in range(3)])
+#         self.empty_cells = [(i, j) for i in range(3) for j in range(3)]
+
+#     def show(self):
+#         print("**********************************************")
+#         for row in self.pole:
+#             for cell in row:
+#                 if cell.value == self.FREE_CELL:
+#                     print("-", end=" ")
+#                 elif cell.value == self.COMPUTER_O:
+#                     print("o", end=" ")
+#                 else:
+#                     print("x", end=" ")
+#             print("")
+
+#     def human_go(self):
+#         input_ = input(
+#             "Введите свой ход: i (номер строки) j (номер столбца): ")
+#         try:
+#             coords = tuple(map(int, input_.split()))
+#         except:
+#             raise IndexError('некорректно указанные индексы')
+
+#         self.check_indeces(*coords)
+#         self.__setitem__(coords, self.HUMAN_X)
+
+#     def computer_go(self):
+#         self.__setitem__(choice(self.empty_cells), self.COMPUTER_O)
+
+#     def check_rows(self, WINNER):
+#         for row in self.pole:
+#             if all(map(lambda cell: cell.value == WINNER, row)):
+#                 return True
+#         return False
+
+#     def check_columns(self, WINNER):
+#         columns = [[self.pole[j][i] for j in range(3)] for i in range(3)]
+#         for column in columns:
+#             if all(map(lambda cell: cell.value == WINNER, column)):
+#                 return True
+#         return False
+
+#     def check_diagonals(self, WINNER):
+#         diagonal1 = [self.pole[i][i] for i in range(3)]
+#         diagonal2 = [self.pole[i][-i-1] for i in range(3)]
+#         if all(map(lambda cell: cell.value == WINNER, diagonal1)) or all(map(lambda cell: cell.value == WINNER, diagonal2)):
+#             return True
+#         return False
+
+#     def check_win(self, WINNER):
+#         return self.check_rows(WINNER) or self.check_columns(WINNER) or self.check_diagonals(WINNER)
+
+#     @property
+#     def is_human_win(self):
+#         return self.human_win
+
+#     @property
+#     def is_computer_win(self):
+#         return self.pc_win
+
+#     @property
+#     def is_draw(self):
+#         return self.draw
+
+#     def __bool__(self):  # return True - если игра не окончена. False если окончена
+#         if self.check_win(self.HUMAN_X):
+#             self.human_win = True
+#             self.end_game = True
+#         elif self.check_win(self.COMPUTER_O):
+#             self.pc_win = True
+#             self.end_game = True
+#         elif len(self.empty_cells) == 0:
+#             self.draw = True
+#             self.end_game = True
+#         return not self.end_game
+
+
+# cell = Cell()
+# assert cell.value == 0, "начальное значение атрибута value объекта класса Cell должно быть равно 0"
+# assert bool(
+#     cell), "функция bool для объекта класса Cell вернула неверное значение"
+# cell.value = 1
+# assert bool(
+#     cell) == False, "функция bool для объекта класса Cell вернула неверное значение"
+
+# assert hasattr(TicTacToe, 'show') and hasattr(TicTacToe, 'human_go') and hasattr(
+#     TicTacToe, 'computer_go'), "класс TicTacToe должен иметь методы show, human_go, computer_go"
+
+# game = TicTacToe()
+# assert bool(
+#     game), "функция bool вернула неверное значения для объекта класса TicTacToe"
+# assert game[0, 0] == 0 and game[2,
+#                                 2] == 0, "неверные значения ячеек, взятые по индексам"
+# game[1, 1] = TicTacToe.HUMAN_X
+# assert game[1, 1] == TicTacToe.HUMAN_X, "неверно работает оператор присваивания нового значения в ячейку игрового поля"
+
+# game[0, 0] = TicTacToe.COMPUTER_O
+# assert game[0, 0] == TicTacToe.COMPUTER_O, "неверно работает оператор присваивания нового значения в ячейку игрового поля"
+
+# game.init()
+# assert game[0, 0] == TicTacToe.FREE_CELL and game[1,
+#                                                   1] == TicTacToe.FREE_CELL, "при инициализации игрового поля все клетки должны принимать значение из атрибута FREE_CELL"
+
+# try:
+#     game[3, 0] = 4
+# except IndexError:
+#     assert True
+# else:
+#     assert False, "не сгенерировалось исключение IndexError"
+
+# game.init()
+# assert game.is_human_win == False and game.is_computer_win == False and game.is_draw == False, "при инициализации игры атрибуты is_human_win, is_computer_win, is_draw должны быть равны False, возможно не пересчитывается статус игры при вызове метода init()"
+
+# game[0, 0] = TicTacToe.HUMAN_X
+# game[1, 1] = TicTacToe.HUMAN_X
+# game[2, 2] = TicTacToe.HUMAN_X
+# assert game.is_human_win and game.is_computer_win == False and game.is_draw == False, "некорректно пересчитываются атрибуты is_human_win, is_computer_win, is_draw. Возможно не пересчитывается статус игры в момент присвоения новых значения по индексам: game[i, j] = value"
+
+# game.init()
+# game[0, 0] = TicTacToe.COMPUTER_O
+# game[1, 0] = TicTacToe.COMPUTER_O
+# game[2, 0] = TicTacToe.COMPUTER_O
+# assert game.is_human_win == False and game.is_computer_win and game.is_draw == False, "некорректно пересчитываются атрибуты is_human_win, is_computer_win, is_draw. Возможно не пересчитывается статус игры в момент присвоения новых значения по индексам: game[i, j] = value"
+
+# --------------------------------------------------------------------------------------------------------
+
+# import sys
+
+
+# class BookStudy:
+#     def __init__(self, name, author, year) -> None:
+#         self.name = name
+#         self.author = author
+#         self.year = year
+
+#     def __hash__(self) -> int:
+#         return hash((self.name.lower(), self.author.lower()))
+
+#     def __eq__(self, other) -> bool:
+#         return self.name.lower() == other.name.lower() and self.author.lower() == other.author.lower()
+
+
+# lst_bs = []
+# lst_in = list(map(str.strip, sys.stdin.readlines()))
+# for row in lst_in:
+#     lst_bs.append(BookStudy(*row.split("; ")))
+
+# unique_books = len(set(lst_bs))
+
+# --------------------------------------------------------------------------------------------------------
+
+# import sys
+
+# class Record:
+#     ID = 1
+
+#     def __init__(self, fio, descr, old) -> None:
+#         self.fio: str = fio
+#         self.descr: str = descr
+#         self.old = int(old)
+#         self.pk = getattr(Record, "ID")
+#         setattr(Record, "ID", Record.ID + 1)
+
+#     def __hash__(self) -> int:
+#         return hash((self.fio.lower(), self.old))
+
+#     def __eq__(self, other) -> bool:
+#         return self.fio.lower() == other.fio.lower() and self.old == other.old
+
+# class DataBase:
+#     def __init__(self, path: str) -> None:
+#         self.dict_db = {}
+#         self.keys = {}
+
+#     def write(self, record: Record):
+#         if record in self.dict_db:
+#             self.dict_db[record].append(record)
+#         else:
+#             self.dict_db[record] = [record]
+
+#         self.keys[record.pk] = record
+
+#     def read(self, pk):
+#         if pk in self.keys:
+#             for item in self.dict_db[self.keys[pk]]:
+#                 if item.pk == pk:
+#                     return item
+
+# db = DataBase("path")
+
+# lst_in = list(map(str.strip, sys.stdin.readlines()))
+# for row in lst_in:
+#     db.write(Record(*row.split("; ")))
+# a = 1
+
+# --------------------------------------------------------------------------------------------------------
+
+# import sys
+
+# class ShopItem:
+#     def __init__(self, name, weight, price) -> None:
+#         self.name = name.lower()
+#         self.weight = weight
+#         self.price = price
+
+#     def __eq__(self, other) -> bool:
+#         return hash(self) == hash(other)
+
+#     def __hash__(self) -> int:
+#         return hash((self.name, self.weight, self.price))
+
+#     # def __repr__(self) -> str:
+#     #     return self.name
+
+# lst_in = list(map(str.strip, sys.stdin.readlines()))
+# shop_items = {}
+# for row in lst_in:
+#     params = row.split(':')
+#     item = ShopItem(params[0], *params[1].split())
+#     if item in shop_items:
+#         shop_items[item][1] += 1
+#     else:
+#         shop_items[item] = [item, 1]
+
+# print(shop_items)
+
+# h1 = hash(ShopItem("Монитор Samsung", 2000, 34000))
+# h2 = hash(ShopItem("Монитор Samsung", 2000, 34000))
+# print(h1)
+# print(h2)
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Rect:
+#     def __init__(self, x, y, width, height) -> None:
+#         self.x = x
+#         self.y = y
+#         self.width = width
+#         self.height = height
+
+#     def __eq__(self, other) -> bool:
+#         return self.width == other.width and self.height == other.height
+
+#     def __hash__(self) -> int:
+#         return hash((self.width, self.height))
+
+# r1 = Rect(10, 5, 100, 50)
+# r2 = Rect(-10, 4, 100, 50)
+
+# h1, h2 = hash(r1), hash(r2)   # h1 == h2
+# print(h1, h2)
+
+# --------------------------------------------------------------------------------------------------------
+
+# # здесь объявляйте класс
+# class Morph:
+#     def __init__(self, *args) -> None:
+#         self.words = list(args)
+
+#     def add_word(self, word):
+#         self.words.append(word)
+
+#     def get_words(self):
+#         return tuple(self.words)
+
+#     def __eq__(self, other: str) -> bool:
+#         return other.lower() in self.words
+
+# text = input()   # эту строчку не менять
+
+# # здесь создавайте объекты класса и обрабатывайте строку text
+# dict_words = [Morph('связь', 'связи', 'связью', 'связи', 'связей', 'связям', 'связями', 'связях'),
+#               Morph('формула', 'формулы', 'формуле', 'формулу', 'формулой', 'формул', 'формулам', 'формулами',
+#                     'формулах'),
+#               Morph('вектор', 'вектора', 'вектору', 'вектором', 'векторе', 'векторы', 'векторов', 'векторам',
+#                     'векторами', 'векторах'
+#                     ),
+#               Morph('эффект', 'эффекта', 'эффекту', 'эффектом', 'эффекте', 'эффекты', 'эффектов', 'эффектам',
+#                     'эффектами', 'эффектах'
+#                     ), Morph('день', 'дня', 'дню', 'днем', 'дне', 'дни', 'дням', 'днями', 'днях'
+#                              )]
+# count = 0
+# for word in text.strip('. ;,').split():
+#     if word.strip('. ;,') in dict_words:
+#         count += 1
+
+# print(count)
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Book:
+#     def __init__(self, title, author, year) -> None:
+#         self.title, self.author, self.year = title, author, year
+
+# class Lib:
+#     def __init__(self) -> None:
+#         self.book_list = []
+
+#     def __len__(self):
+#         return len(self.book_list)
+
+#     def __add__(self, other: Book):
+#         self.book_list.append(other)
+#         return self
+
+#     def __sub__(self, other):
+#         if isinstance(other, Book):
+#             self.book_list.remove(other)
+#         else:
+#             self.book_list.pop(other)
+#         return self
 
 # --------------------------------------------------------------------------------------------------------
 
@@ -63,7 +542,6 @@
 #     @data.setter
 #     def data(self, data):
 #         self.__data = data
-
 
 # class Stack:
 #     def __init__(self) -> None:
@@ -115,7 +593,6 @@
 #             self.push_back(StackObj(obj))
 #         return self
 
-
 # assert hasattr(Stack, 'pop_back'), "класс Stack должен иметь метод pop_back"
 
 # st = Stack()
@@ -153,7 +630,6 @@
 
 # import operator
 # from itertools import accumulate
-
 
 # class ListMath:
 #     def __init__(self, lst_math: list = []) -> None:
@@ -198,7 +674,6 @@
 
 #     def __rtruediv__(self, rhs):
 #         return ListMath([float(rhs)/el for el in self.lst_math])
-
 
 # # При использовании бинарных операторов +, -, *, /
 # # должны формироваться новые объекты класса ListMath с новыми списками, прежние списки не меняются.
@@ -271,7 +746,6 @@
 #     def get_list(self):
 #         return self.lst
 
-
 # lst1 = NewList([1, 2, -4, 6, 10, 11, 15, False, True])
 # lst2 = NewList([0, 1, 2, 3, True])
 # # 1
@@ -291,7 +765,6 @@
 # res_4 = [1, 2, 2, 3] - a  # NewList: [1, 2]
 # print("\t\t#5", res_4.get_list(), sep="\n\n")
 
-
 # --------------------------------------------------------------------------------------------------------
 
 # class PolyLine:
@@ -307,14 +780,12 @@
 #     def get_coords(self):
 #         return self.coords
 
-
 # poly = PolyLine((1, 2), (3, 5), (0, 10), (-1, 8))
 # poly.add_coord(50, 50)
 # poly.remove_coord(2)
 # print(poly.get_coords())
 
 # --------------------------------------------------------------------------------------------------------
-
 
 # class Ingredient:
 #     def __init__(self, name, volume, measure) -> None:
@@ -324,7 +795,6 @@
 
 #     def __str__(self) -> str:
 #         return f"{self.name}: {self.volume}, {self.measure}"
-
 
 # class Recipe:
 #     def __init__(self, *args) -> None:
@@ -342,7 +812,6 @@
 #     def __len__(self):
 #         return len(self.ingredients)
 
-
 # recipe = Recipe()
 # recipe.add_ingredient(Ingredient("Соль", 1, "столовая ложка"))
 # recipe.add_ingredient(Ingredient("Мука", 1, "кг"))
@@ -356,14 +825,12 @@
 
 # from datetime import timedelta
 
-
 # class Clock:
 #     def __init__(self, hours, minutes, seconds) -> None:
 #         self.hours, self.minutes, self.seconds = hours, minutes, seconds
 
 #     def get_time(self):
 #         return self.hours * 3600 + self.minutes * 60 + self.seconds
-
 
 # class DeltaClock:
 #     def __init__(self, clock1: Clock, clock2: Clock) -> None:
@@ -379,14 +846,12 @@
 #     def __len__(self):
 #         return self.seconds_delta
 
-
 # dt = DeltaClock(Clock(2, 45, 0), Clock(1, 15, 0))
 # print(dt)  # 01: 30: 00
 # len_dt = len(dt)  # 5400
 # print(len_dt)
 # --------------------------------------------------------------------------------------------------------
 # from math import sqrt
-
 
 # class RadiusVector:
 #     def __init__(self, *args) -> None:
@@ -412,7 +877,6 @@
 #     def __abs__(self):
 #         return sqrt(sum([coord**2 for coord in self.coords]))
 
-
 # vector3D = RadiusVector(3)
 # vector3D.set_coords(3, -5.6, 8)
 # a, b, c = vector3D.get_coords()
@@ -428,7 +892,6 @@
 # --------------------------------------------------------------------------------------------------------
 
 # from math import sqrt
-
 
 # class Complex:
 #     def __init__(self, real, img) -> None:
@@ -459,7 +922,6 @@
 
 #     def __abs__(self):
 #         return sqrt(self.real**2 + self.img**2)
-
 
 # cmp = Complex(7, 8)
 # cmp.img = 4
@@ -506,7 +968,6 @@
 #     @data.setter
 #     def data(self, data):
 #         self.__data = data
-
 
 # class LinkedList:
 #     def __init__(self) -> None:
@@ -579,7 +1040,6 @@
 #             obj = obj.next
 #         return obj.data
 
-
 # linked_lst = LinkedList()
 # linked_lst.add_obj(ObjList("Sergey"))
 # linked_lst.remove_obj(0)
@@ -609,11 +1069,9 @@
 #     def __call__(self, request, *args, **kwds):
 #         return self.get(self.func, request)
 
-
 # @HandlerGET
 # def contact(request):
 #     return "Сергей Балакирев"
-
 
 # # "GET: Сергей Балакирев"
 # res = contact({"method": "GET", "url": "contact.html"})
@@ -631,7 +1089,6 @@
 #         result = f"<{self.type_list}>\n" + \
 #             '\n'.join(list_items) + f"\n</{self.type_list}>\n"
 #         return result
-
 
 # lst = ["Пункт меню 1", "Пункт меню 2", "Пункт меню 3"]
 # render = RenderList("ul")
@@ -653,14 +1110,12 @@
 # d4 = dg("12fg")  # None (не целое число)
 # d5 = dg("abc")   # None (не целое число)
 
-
 # st = ["123", "abc", "-56.4", "0", "--5", "123-", "-5"]
 # digits = list(map(dg, st))  # [123, None, None, 0, None, None, -5]
 # print(digits)
 # --------------------------------------------------------------------------------------------------------
 
 # from string import ascii_lowercase, digits
-
 
 # class LoginForm:
 #     def __init__(self, name, validators=None):
@@ -683,7 +1138,6 @@
 
 #         return True
 
-
 # # здесь прописывайте классы валидаторов: LengthValidator и CharsValidator
 # class CharsValidator:
 #     def __init__(self, chars) -> None:
@@ -691,7 +1145,6 @@
 
 #     def __call__(self, *args, **kwds):
 #         return all([c in self.chars for c in args[0]])
-
 
 # class LengthValidator:
 #     def __init__(self, min_length, max_length) -> None:
@@ -701,13 +1154,11 @@
 #     def __call__(self, *args, **kwds):
 #         return self.min_length <= len(args[0]) <= self.max_length
 
-
 # lg = LoginForm("Вход на сайт", validators=[LengthValidator(
 #     3, 50), CharsValidator(ascii_lowercase + digits)])
 # lg.post({"login": "root", "password": "panda"})
 # if lg.is_validate():
 #     print("Дальнейшая обработка данных формы")
-
 
 # --------------------------------------------------------------------------------------------------------
 
@@ -735,7 +1186,6 @@
 
 # from random import randint
 
-
 # # class RandomPassword:
 # #     def __init__(self, psw_chars, min_length, max_length) -> None:
 # #         self.psw_chars = psw_chars
@@ -758,7 +1208,6 @@
 #         return psw
 #     return make_password
 
-
 # min_length = 5
 # max_length = 20
 # psw_chars = "qwertyuiopasdfghjklzxcvbnm0123456789!@#$%&*"
@@ -770,7 +1219,6 @@
 
 # import time
 
-
 # class Filter:
 #     def __init__(self, date) -> None:
 #         self.date = date
@@ -779,18 +1227,14 @@
 #         if not hasattr(self, name):
 #             object.__setattr__(self, name, value)
 
-
 # class Mechanical(Filter):
 #     pass
-
 
 # class Aragon(Filter):
 #     pass
 
-
 # class Calcium(Filter):
 #     pass
-
 
 # class GeyserClassic:
 #     MAX_DATE_FILTER = 100
@@ -823,7 +1267,6 @@
 #             if all([(0 <= time.time() - filter.date <= self.MAX_DATE_FILTER) for filter in self.slots.values()]):
 #                 return True
 #         return False
-
 
 # my_water = GeyserClassic()
 # my_water.add_filter(1, Mechanical(time.time()))
@@ -890,7 +1333,6 @@
 #         elif self.MIN_DIMENSION <= value <= self.MAX_DIMENSION:
 #             object.__setattr__(self, key, value)
 
-
 # d = Dimensions(10.5, 20.1, 30)
 # d.a = 8
 # d.b = 15
@@ -941,7 +1383,6 @@
 #     def __getattr__(self, __name: str):
 #         return False
 
-
 # circle = Circle(10.5, 7, 22)
 # # прежнее значение не должно меняться, т.к. отрицательный радиус недопустим
 # circle.radius = -10
@@ -967,18 +1408,15 @@
 #     def validate(self, value) -> bool:
 #         raise NotImplemented
 
-
 # class Number(Value):
 #     def validate(self, value) -> bool:
 #         if not isinstance(value, (int, float)):
 #             raise TypeError("Неверный тип присваиваемых данных.")
 #         return True
 
-
 # class PositiveNumber(Number):
 #     def validate(self, value) -> bool:
 #         return super(PositiveNumber, self).validate(value) and value > 0
-
 
 # class Circle:
 #     x = Number()
@@ -990,7 +1428,6 @@
 
 #     def __getattr__(self, item):
 #         return False
-
 
 # circle = Circle(10.5, 7, 22)
 # # прежнее значение не должно меняться, т.к. отрицательный радиус недопустим
@@ -1008,18 +1445,15 @@
 #     def __init__(self) -> None:
 #         self.name = "ВКонтакте"
 
-
 # class AppYouTube:
 #     def __init__(self, memory_max: int) -> None:
 #         self.name = "YouTube"
 #         self.memory_max = memory_max
 
-
 # class AppPhone:
 #     def __init__(self, phone_list: dict) -> None:
 #         self.name = "Phone"
 #         self.phone_list = phone_list
-
 
 # class SmartPhone:
 #     def __init__(self, model) -> None:
@@ -1038,7 +1472,6 @@
 #         if type(app) in self.objects:
 #             self.apps.remove(app)
 #             del self.objects[type(app)]
-
 
 # sm = SmartPhone("Honor 1.0")
 # sm.add_app(AppVK())
@@ -1079,7 +1512,6 @@
 #     def duration(self, duration):
 #         self.__duration = duration
 
-
 # class TVProgram:
 #     def __init__(self, name) -> None:
 #         self.name = name
@@ -1097,7 +1529,6 @@
 #         if tl:
 #             self.items.remove(tl)
 #             del self.telecast_indexes[indx]
-
 
 # pr = TVProgram("Первый канал")
 # pr.add_telecast(Telecast(1, "Доброе утро", 10000))
@@ -1118,7 +1549,6 @@
 #     def __init__(self, name, weight) -> None:
 #         self.name = name
 #         self.weight = weight
-
 
 # class Bag:
 #     def __init__(self, max_weight) -> None:
@@ -1142,7 +1572,6 @@
 
 #     def get_total_weight(self):
 #         return self.total_weight
-
 
 # bag = Bag(1000)
 # bag.add_thing(Thing("Книга по Python", 100))
@@ -1171,7 +1600,6 @@
 #             if 0 <= value <= self.max_value:
 #                 setattr(instance, self.name, value)
 
-
 # class StringValue:
 #     def __init__(self, min_length, max_length) -> None:
 #         self.min_length = min_length
@@ -1188,7 +1616,6 @@
 #             if self.min_length <= len(value) <= self.max_length:
 #                 setattr(instance, self.name, value)
 
-
 # class Product:
 #     name = StringValue(2, 50)
 #     price = ProductValue(10000)
@@ -1196,7 +1623,6 @@
 #     def __init__(self, name, price) -> None:
 #         self.name = name
 #         self.price = price
-
 
 # class SuperShop:
 #     def __init__(self, name) -> None:
@@ -1208,7 +1634,6 @@
 
 #     def remove_product(self, product: Product):
 #         self.goods.remove(product)
-
 
 # shop = SuperShop("У Балакирева")
 # shop.add_product(Product("Курс по Python", 0))
@@ -1229,7 +1654,6 @@
 #                 return True
 #         return False
 
-
 # class StringValue:
 #     def __init__(self, validator: ValidateString) -> None:
 #         self.validator = validator
@@ -1244,7 +1668,6 @@
 #     def __set__(self, instance, value):
 #         if self.validator.validate(value):
 #             setattr(instance, self.name, value)
-
 
 # class RegisterForm:
 #     login = StringValue(validator=ValidateString(3, 100))
@@ -1262,7 +1685,6 @@
 #     def show(self):
 #         print(
 #             f"<form>\nЛогин: {self.login}\nПароль: {self.password}\nEmail: {self.email}\n</form>")
-
 
 # form = RegisterForm("bog", "qwerty123", "kuku@mail.ru")
 # form.show()
@@ -2303,4 +2725,4 @@
 
 # db = DataBase()
 # db.insert(lst_in)
-# # print(db.select(2, 4))
+# print(db.select(2, 4))
