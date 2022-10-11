@@ -1,3 +1,94 @@
+# class StackObj:
+#     def __init__(self, data) -> None:
+#         self.__next = None
+#         self.__data = data
+
+#     @property
+#     def next(self):
+#         return self.__next
+
+#     @next.setter
+#     def next(self, next):
+#         if type(next) == StackObj or next == None:
+#             self.__next = next
+
+#     @property
+#     def data(self):
+#         return self.__data
+
+#     @data.setter
+#     def data(self, data):
+#         self.__data = data
+
+
+# def error(func):
+#     def wrapper(self, *args, **kwargs):
+#         if isinstance(args[0], int):
+#             if (0 <= args[0] < self.len):
+#                 return func(self, *args)
+#         raise IndexError('неверный индекс')
+#     return wrapper
+
+
+# class Stack:
+#     def __init__(self) -> None:
+#         self.top: StackObj = None
+#         self.len = 0
+
+#     def push(self, obj: StackObj):
+#         self.len += 1
+#         if self.top == None:
+#             self.top = obj
+#             return
+#         last = self.top
+#         while last.next != None:
+#             last = last.next
+#         last.next = obj
+
+#     def pop(self):
+#         if self.top == None:
+#             return
+#         elif self.top.next == None:
+#             copy = self.top
+#             self.top = None
+#             self.len -= 1
+#             return copy
+#         else:
+#             last = self.top
+#             while last.next.next != None:
+#                 last = last.next
+#             copy = last.next
+#             last.next = None
+#             self.len -= 1
+#             return copy
+
+#     @error
+#     def __getitem__(self, item):
+#         i = 0
+#         obj = self.top
+#         while i < item:
+#             obj = obj.next
+#             i += 1
+#         return obj
+
+#     @error
+#     def __setitem__(self, key, value):
+#         i = 0
+#         obj = self.top
+#         while i < key:
+#             obj = obj.next
+#             i += 1
+#         obj.data = value.data
+
+
+# st = Stack()
+# st.push(StackObj("obj1"))
+# st.push(StackObj("obj2"))
+# st.push(StackObj("obj3"))
+# st[1] = StackObj("new obj2")
+# print(st[2].data)  # obj3
+# print(st[1].data)  # new obj2
+# res = st[3]  # исключение IndexError
 
 # # --------------------------------------------------------------------------------------------------------
 
