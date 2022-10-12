@@ -1,4 +1,160 @@
+# import random
+# import numpy as np
 
+
+# class Cell:
+#     def __init__(self, is_mine=False):
+#         self.__is_mine = is_mine
+#         self.__number = None
+#         self.__is_open = False
+
+#     @property
+#     def is_mine(self):
+#         return self.__is_mine
+
+#     @is_mine.setter
+#     def is_mine(self, is_mine):
+#         if type(is_mine) == bool:
+#             self.__is_mine = is_mine
+#             return
+#         raise ValueError("недопустимое значение атрибута")
+
+#     @property
+#     def number(self):
+#         return self.__number
+
+#     @number.setter
+#     def number(self, number):
+#         if isinstance(number, int):
+#             if 0 <= number <= 8:
+#                 self.__number = number
+#                 return
+#         raise ValueError("недопустимое значение атрибута")
+
+#     @property
+#     def is_open(self):
+#         return self.__is_open
+
+#     @is_open.setter
+#     def is_open(self, is_open):
+#         if type(is_open) == bool:
+#             self.__is_open = is_open
+#             return
+#         raise ValueError("недопустимое значение атрибута")
+
+#     def __bool__(self):
+#         return not self.is_open
+
+
+# class GamePole:
+
+#     __instance = None
+
+#     def __new__(cls, *args, **kwargs):
+#         if cls.__instance is None:
+#             cls.__instance = super().__new__(cls)
+#         return cls.__instance
+
+#     def __init__(self, N, M, total_mines):
+#         self.n = N
+#         self.m = M
+#         self.total_mines = total_mines
+#         self.__pole_cells = None
+#         self.init_pole()
+
+#     def init_pole(self):
+#         mines = [Cell(True) for _ in range(self.total_mines)]
+#         not_mines = [Cell() for _ in range(self.n*self.m - self.total_mines)]
+#         self.__pole_cells = mines + not_mines
+#         random.shuffle(self.__pole_cells)
+#         self.count_around_mines()
+#         self.__pole_cells = np.array(
+#             self.__pole_cells).reshape(self.n, self.m).tolist()
+
+#     def open_cell(self, i, j):
+#         if (0 <= i < self.n) and (0 <= j < self.m):
+#             self.__pole_cells[i][j].is_open = True
+#         else:
+#             raise IndexError('некорректные индексы i, j клетки игрового поля')
+
+#     def count_around_mines(self):
+#         for i in range(self.n * self.m):
+#             mines_number = 0
+#             for el in self.get_summarize(i, self.m):
+#                 if 0 <= el + i < len(self.__pole_cells):
+#                     mines_number += self.__pole_cells[i + el].is_mine
+#             self.__pole_cells[i].number = mines_number
+
+#     @staticmethod
+#     def get_summarize(i, m) -> list:
+#         columm_id = i % m
+#         if columm_id == 0:
+#             return [-m, -m+1, 1, m, m+1]
+#         elif columm_id == m-1:
+#             return [-m-1, -m, -1, m-1, m]
+#         return [-m-1, -m, -m+1,  -1, 1, m-1, m, m+1]
+
+#     @property
+#     def pole(self):
+#         return self.__pole_cells
+
+#     def show_pole(self):
+#         for row in self.pole:
+#             print(*[cell.number if not cell.is_mine else '*' for cell in row])
+
+#     def show_open_cells(self):
+#         for row in self.pole:
+#             print(*['#' if not cell.is_open else '-' for cell in row])
+
+
+# # создается поле размерами 10x20 с общим числом мин 10
+# pole = GamePole(10, 20, 10)
+# pole.init_pole()
+# if pole.pole[0][1]:
+#     pole.open_cell(0, 1)
+# if pole.pole[3][5]:
+#     pole.open_cell(3, 5)
+# # pole.open_cell(30, 100)  # генерируется исключение IndexError
+# # pole.show_pole()
+# pole.show_open_cells()
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Ellipse:
+#     def __init__(self, *args) -> None:
+#         self.has_coords = False
+#         if len(args) == 4:
+#             self.x1, self.y1, self.x2, self.y2 = args
+#             self.has_coords = True
+
+#     def __bool__(self):
+#         return self.has_coords
+
+#     def get_coords(self):
+#         if self.has_coords:
+#             return self.x1, self.y1, self.x2, self.y2
+#         raise AttributeError('нет координат для извлечения')
+
+
+# lst_geom = [Ellipse(), Ellipse(), Ellipse(1, 2, 3, 4), Ellipse(5, 6, 7, 8)]
+# for el in lst_geom:
+#     if el:
+#         el.get_coords()
+# --------------------------------------------------------------------------------------------------------
+
+# class Line:
+#     def __init__(self, x1, y1, x2, y2) -> None:
+#         self.x1 = x1
+#         self.x2 = x2
+#         self.y1 = y1
+#         self.y2 = y2
+
+#     def __len__(self):
+#         return ((self.x2 - self.x1)**2 + (self.y2 - self.y1)**2)**(1/2) >= 1
+
+
+# l = Line(0, 0, 0.5, 0.5)
+# print(bool(l))
 # --------------------------------------------------------------------------------------------------------
 
 # import sys
