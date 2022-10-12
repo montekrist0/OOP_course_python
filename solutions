@@ -1,3 +1,103 @@
+
+# --------------------------------------------------------------------------------------------------------
+
+# import sys
+
+
+# class MailItem:
+#     def __init__(self, mail_from, title, content) -> None:
+#         self.mail_from = mail_from
+#         self.title = title
+#         self.content = content
+#         self.is_read = False
+
+#     def __bool__(self):
+#         return self.is_read
+
+#     def set_read(self, fl_read):
+#         self.is_read = fl_read
+
+
+# class MailBox:
+#     def __init__(self) -> None:
+#         self.inbox_list = []
+
+#     def receive(self):
+#         lst_in = list(map(str.strip, sys.stdin.readlines()))
+#         for row in lst_in:
+#             self.inbox_list.append(MailItem(*row.split("; ")))
+
+
+# mail = MailBox()
+# mail.receive()
+
+# mail.inbox_list[0].set_read(True)
+# mail.inbox_list[-1].set_read(True)
+
+# inbox_list_filtered = list(
+#     filter(lambda player: bool(player), mail.inbox_list))
+
+# for m in inbox_list_filtered:
+#     print(m.mail_from)
+
+# --------------------------------------------------------------------------------------------------------
+
+# import sys
+
+
+# class Player:
+#     def __init__(self, name, old, score) -> None:
+#         self.name = name
+#         self.old = old
+#         self.score = score
+
+#     def __bool__(self):
+#         return int(self.score) > 0
+
+
+# players = []
+# lst_in = list(map(str.strip, sys.stdin.readlines()))
+# for row in lst_in:
+#     players.append(Player(*row.split("; ")))
+
+# players_filtered = list(filter(lambda player: bool(player), players))
+# for p in players_filtered:
+#     print(p.name)
+# --------------------------------------------------------------------------------------------------------
+
+# class RadiusVector:
+#     def __init__(self, *args) -> None:
+#         self.coords = list(args)
+
+#     def __getitem__(self, key):
+#         if isinstance(key, int):
+#             return self.coords[key]
+#         return tuple(self.coords[key])
+
+#     def __setitem__(self, key, value):
+#         if isinstance(key, int):
+#             self.coords[key] = value
+#         elif isinstance(key, slice):
+#             j = 0
+#             start = key.start if key.start else 0
+#             stop = key.stop if key.stop else len(self)
+#             step = key.step if key.step else 1
+#             for i in range(start, stop, step):
+#                 self.coords[i] = value[j]
+#                 j += 1
+
+#     def __len__(self):
+#         return len(self.coords)
+
+
+# v = RadiusVector(1, 1, 1, 1)
+# print(v[1])  # 1
+# v[:] = 1, 2, 3, 4
+# print(v[2])  # 3
+# print(v[1:])  # (2, 3, 4)
+# v[0] = 10.5
+# --------------------------------------------------------------------------------------------------------
+
 # class StackObj:
 #     def __init__(self, data) -> None:
 #         self.__next = None
@@ -90,7 +190,7 @@
 # print(st[1].data)  # new obj2
 # res = st[3]  # исключение IndexError
 
-# # --------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------
 
 # class Integer:
 #     def __init__(self, start_value=0) -> None:
