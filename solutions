@@ -1,3 +1,219 @@
+# class Tuple(tuple):
+#     def __init__(self, *args) -> None:
+#         self.t = tuple(*args)
+    
+#     def __add__(self, rhs):
+#         if isinstance(rhs, tuple):
+#             return Tuple(self.t + rhs)
+#         else:
+#             return Tuple([*self] + [el for el in rhs])
+
+
+# t = Tuple([1, 2, 3])
+# t = t + "Python"
+# print(t)   # (1, 2, 3, 'P', 'y', 't', 'h', 'o', 'n')
+# t = (t + "Python") + "ООП"
+
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Protists:
+#     def __init__(self, name, weight, old):
+#         self.name = name
+#         self.weight = weight
+#         self.old = old
+
+# class Plants(Protists):
+#     pass
+
+# class Animals(Protists):
+#     pass
+
+# class Mosses(Plants):
+#     pass
+
+# class Flowering(Plants):
+#     pass
+
+# class Worm(Animals):
+#     pass
+
+# class Mammals(Animals):
+#     pass
+
+# class Human(Mammals):
+#     pass
+
+# class Monkey(Mammals):
+#     pass
+
+# class Monkey(Monkey):
+#     pass
+
+# class Person(Human):
+#     pass
+
+# class Flower(Flowering):
+#     pass
+
+# class Worm(Worm):
+#     pass
+
+# lst = [
+#     'Monkey: "мартышка", 30.4, 7',
+#     'Monkey: "шимпанзе", 24.6, 8',
+#     'Person: "Балакирев", 88, 34',
+#     'Person: "Верховный жрец", 67.5, 45',
+#     'Flower: "Тюльпан", 0.2, 1',
+#     'Flower: "Роза", 0.1, 2',
+#     'Worm: "червь", 0.01, 1',
+#     'Worm: "червь 2", 0.02, 1'
+# ]
+
+# def all_subclasses(cls):
+#     return set(cls.__subclasses__()).union(
+#         [s for c in cls.__subclasses__() for s in all_subclasses(c)])
+
+# d = {
+#     cls.__name__: cls for cls in all_subclasses(Protists)
+# }
+# lst_objs = []
+# for row in lst:
+#     cls_name, params = row.split(':')
+#     if cls_name == 'Flower':
+#         cls_name = 'Flowering'
+#     elif cls_name == 'Person':
+#         cls_name = 'Human'
+#     cls = d[cls_name]
+#     lst_objs.append(cls(*params.split(',')))
+
+# lst_animals = list(filter(lambda x: isinstance(x, Animals), lst_objs))
+# lst_plants = list(filter(lambda x: isinstance(x, Plants), lst_objs))
+# lst_mammals = list(filter(lambda x: isinstance(x, Mammals), lst_objs))
+
+# for s in lst_objs:
+#     print(type(s), s.name)
+# print(Protists.__subclasses__())
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Animal:
+#     def __init__(self, name, kind, old):
+#         self.__name, self.__kind, self.__old = name, kind, old
+
+#     @property
+#     def name(self):
+#         return self.__name
+
+#     @name.setter
+#     def name(self, name):
+#         self.__name = name
+
+#     @property
+#     def kind(self):
+#         return self.__kind
+
+#     @kind.setter
+#     def kind(self, kind):
+#         self.__kind = kind
+
+#     @property
+#     def old(self):
+#         return self.__old
+
+#     @old.setter
+#     def old(self, old):
+#         self.__old = old
+
+# lst = [
+#     "Васька; дворовый кот; 5",
+#     "Рекс; немецкая овчарка; 8",
+#     "Кеша; попугай; 3"
+# ]
+# animals = [Animal(*row.split(';')) for row in lst]
+# --------------------------------------------------------------------------------------------------------
+
+# class Book:
+#     def __init__(self, title, author, pages, year) -> None:
+#         self.title, self.author, self.pages, self.year = title, author, pages, year
+
+# class DigitBook(Book):
+#     def __init__(self, title, author, pages, year, size, frm) -> None:
+#         super().__init__(title, author, pages, year)
+#         self.size, self.frm = size, frm
+# --------------------------------------------------------------------------------------------------------
+
+# class Thing:
+#     def __init__(self, name, price: float, weight: float) -> None:
+#         self.name = name
+#         self.price = price
+#         self.weight = weight
+
+#     def __hash__(self) -> int:
+#         return hash((self.name, self.price, self.weight))
+
+#     def __eq__(self, rhs) -> bool:
+#         return self.name == rhs.name and self.price == rhs.price and self.weight == rhs.weight
+
+# class DictShop(dict):
+#     def __init__(self, *args):
+#         if args:
+#             if not isinstance(args[0], dict):
+#                 raise TypeError('аргумент должен быть словарем')
+#             if all(self.__check_valid(key) for key in args[0]):
+#                 super().__init__(*args)
+#         else:
+#             super().__init__(*args)
+
+#     def __check_valid(self, key):
+#         if isinstance(key, Thing):
+#             return key
+#         else:
+#             raise TypeError('ключами могут быть только объекты класса Thing')
+
+#     def __setitem__(self, key, value):
+#         super().__setitem__(self.__check_valid(key), value)
+
+# th_1 = Thing('Лыжи', 11000, 1978.55)
+# th_2 = Thing('Книга', 1500, 256)
+# dict_things = DictShop()
+# dict_things[th_1] = th_1
+# dict_things[th_2] = th_2
+
+# for x in dict_things:
+#     print(x.name)
+
+# dict_things[1] = th_1  # исключение TypeError
+# --------------------------------------------------------------------------------------------------------
+
+# class ListInteger(list):
+#     def __init__(self, *args) -> None:
+#         if all(isinstance(item, int) for item in args[0]):
+#             super().__init__(*args)
+#         else:
+#             raise TypeError(
+#             'можно передавать только целочисленные значения')
+
+#     def __setitem__(self, key, value):
+#         if isinstance(value, int):
+#             super().__setitem__(key, value)
+#         else:
+#             raise TypeError(
+#                 'можно передавать только целочисленные значения')
+
+#     def append(self, value):
+#         if isinstance(value, int):
+#             super().append(value)
+#         else:
+#             raise TypeError(
+#                 'можно передавать только целочисленные значения')
+
+# s = ListInteger((1, 2, 3))
+# s[1] = 10
+# s.append(11)
+# print(s)
+# s[0] = 10.5 # TypeError
+
 # --------------------------------------------------------------------------------------------------------
 
 # def error(func):
@@ -7,7 +223,6 @@
 #                 raise ArithmeticError('размерности векторов не совпадают')
 #         return func(self, *args)
 #     return wrapper
-
 
 # class Vector:
 #     def __init__(self, *args) -> None:
@@ -55,7 +270,6 @@
 #     def __len__(self):
 #         return len(self.coords)
 
-
 # v1 = Vector(1, 2, 3)
 # v2 = Vector(4, 5, 6)
 # print((v1 + v2).coords)  # [5, 7, 9]
@@ -77,7 +291,6 @@
 
 # import random
 # import numpy as np
-
 
 # class Cell:
 #     def __init__(self, is_mine=False):
@@ -121,7 +334,6 @@
 
 #     def __bool__(self):
 #         return not self.is_open
-
 
 # class GamePole:
 
@@ -183,7 +395,6 @@
 #         for row in self.pole:
 #             print(*['#' if not cell.is_open else '-' for cell in row])
 
-
 # # создается поле размерами 10x20 с общим числом мин 10
 # pole = GamePole(10, 20, 10)
 # pole.init_pole()
@@ -212,7 +423,6 @@
 #             return self.x1, self.y1, self.x2, self.y2
 #         raise AttributeError('нет координат для извлечения')
 
-
 # lst_geom = [Ellipse(), Ellipse(), Ellipse(1, 2, 3, 4), Ellipse(5, 6, 7, 8)]
 # for el in lst_geom:
 #     if el:
@@ -229,13 +439,11 @@
 #     def __len__(self):
 #         return ((self.x2 - self.x1)**2 + (self.y2 - self.y1)**2)**(1/2) >= 1
 
-
 # l = Line(0, 0, 0.5, 0.5)
 # print(bool(l))
 # --------------------------------------------------------------------------------------------------------
 
 # import sys
-
 
 # class MailItem:
 #     def __init__(self, mail_from, title, content) -> None:
@@ -250,7 +458,6 @@
 #     def set_read(self, fl_read):
 #         self.is_read = fl_read
 
-
 # class MailBox:
 #     def __init__(self) -> None:
 #         self.inbox_list = []
@@ -259,7 +466,6 @@
 #         lst_in = list(map(str.strip, sys.stdin.readlines()))
 #         for row in lst_in:
 #             self.inbox_list.append(MailItem(*row.split("; ")))
-
 
 # mail = MailBox()
 # mail.receive()
@@ -277,7 +483,6 @@
 
 # import sys
 
-
 # class Player:
 #     def __init__(self, name, old, score) -> None:
 #         self.name = name
@@ -286,7 +491,6 @@
 
 #     def __bool__(self):
 #         return int(self.score) > 0
-
 
 # players = []
 # lst_in = list(map(str.strip, sys.stdin.readlines()))
@@ -322,7 +526,6 @@
 #     def __len__(self):
 #         return len(self.coords)
 
-
 # v = RadiusVector(1, 1, 1, 1)
 # print(v[1])  # 1
 # v[:] = 1, 2, 3, 4
@@ -353,7 +556,6 @@
 #     def data(self, data):
 #         self.__data = data
 
-
 # def error(func):
 #     def wrapper(self, *args, **kwargs):
 #         if isinstance(args[0], int):
@@ -361,7 +563,6 @@
 #                 return func(self, *args)
 #         raise IndexError('неверный индекс')
 #     return wrapper
-
 
 # class Stack:
 #     def __init__(self) -> None:
@@ -413,7 +614,6 @@
 #             i += 1
 #         obj.data = value.data
 
-
 # st = Stack()
 # st.push(StackObj("obj1"))
 # st.push(StackObj("obj2"))
@@ -437,7 +637,6 @@
 #     def value(self, value):
 #         self.__value = value
 
-
 # def error(func):
 #     def wrapper(self, *args, **kwargs):
 #         if not (0 <= args[0] < self.max_length):
@@ -447,7 +646,6 @@
 #                 raise ValueError('должно быть целое число')
 #         return func(self, *args)
 #     return wrapper
-
 
 # class Array:
 #     def __init__(self, max_length, cell=None) -> None:
@@ -464,7 +662,6 @@
 
 #     def __repr__(self) -> str:
 #         return " ".join(str(cell.value) for cell in self.cells)
-
 
 # ar_int = Array(10, cell=Integer)
 # print(ar_int[3])
@@ -488,13 +685,11 @@
 #         else:
 #             raise ValueError('возможны только целочисленные значения')
 
-
 # class CellInteger:
 #     value = IntegerValue()
 
 #     def __init__(self, value=0) -> None:
 #         self.value = value
-
 
 # def error_index(func):
 #     def wrapper(self, *args, **kwargs):
@@ -502,7 +697,6 @@
 #             raise IndexError('некорректный индекс')
 #         return func(self, *args)
 #     return wrapper
-
 
 # class TableValues:
 #     def __init__(self, rows, cols, *args, **kwargs) -> None:
@@ -524,7 +718,6 @@
 #         row, col = args[0]
 #         value = args[1]
 #         self.cells[row][col].value = value
-
 
 # table = TableValues(2, 3, cell=CellInteger)
 # print(table[0, 1])
@@ -558,7 +751,6 @@
 #             self.way[key][1] = value
 #         else:
 #             raise IndexError('некорректный индекс')
-
 
 # tr = Track(10, -5.4)
 # tr.add_point(20, 0, 100)  # первый линейный сегмент: indx = 0
@@ -595,14 +787,12 @@
 #         else:
 #             raise IndexError('неверный индекс поля')
 
-
 # r = Record(pk=1, title='Python ООП', author='Балакирев')
 # r[0] = 2  # доступ к полю pk
 # r[1] = 'Супер курс по ООП'  # доступ к полю title
 # r[2] = 'Балакирев С.М.'  # доступ к полю author
 # print(r[1])  # Супер курс по ООП
 # r[3]  # генерируется исключение IndexError
-
 
 # --------------------------------------------------------------------------------------------------------
 
@@ -616,7 +806,6 @@
 #         else:
 #             raise ValueError('данные не прошли валидацию')
 
-
 # class IntegerValidator(Validator):
 #     def __init__(self, min_value, max_value) -> None:
 #         self.min_value = min_value
@@ -628,7 +817,6 @@
 #                 return True
 #         return False
 
-
 # class FloatValidator (Validator):
 #     def __init__(self, min_value, max_value) -> None:
 #         self.min_value = min_value
@@ -639,7 +827,6 @@
 #             if self.min_value <= data <= self.max_value:
 #                 return True
 #         return False
-
 
 # integer_validator = IntegerValidator(-10, 10)
 # float_validator = FloatValidator(-1, 1)
