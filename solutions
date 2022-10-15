@@ -1,7 +1,175 @@
+# --------------------------------------------------------------------------------------------------------
+
+# class Digit:
+#     def __init__(self, value):
+#         self.value = self.check_digit(value)
+#
+#     @staticmethod
+#     def check_digit(value):
+#         if isinstance(value, (int, float)):
+#             return value
+#         else:
+#             raise TypeError('значение не соответствует типу объекта')
+#
+#     @staticmethod
+#     def check_type(value_type, value):
+#         if isinstance(value, value_type):
+#             return value
+#         raise TypeError('значение не соответствует типу объекта')
+#
+#     @staticmethod
+#     def check_positive(value, is_positive: bool):
+#         if (not (value < 0 and is_positive)) and (value < 0 or is_positive):
+#             return value
+#         raise TypeError('значение не соответствует типу объекта')
+#
+#     @staticmethod
+#     def check_prime(value):
+#         from math import sqrt
+#         if value > 1:
+#             for i in range(2, int(sqrt(value)) + 1):
+#                 if value % i == 0:
+#                     raise ValueError('значение не простое')
+#             return value
+#         raise ValueError('значение не простое')
+#
+#
+# class Integer(Digit):
+#     def __init__(self, value):
+#         super().__init__(value)
+#         self.value = self.check_type(int, value)
+#
+#
+# class Float(Digit):
+#     def __init__(self, value):
+#         super().__init__(value)
+#         self.value = self.check_type(float, value)
+#
+#
+# class Positive(Digit):
+#     def __init__(self, value):
+#         super().__init__(value)
+#         self.value = self.check_positive(value, True)
+#
+#
+# class Negative(Digit):
+#     def __init__(self, value):
+#         super().__init__(value)
+#         self.value = self.check_positive(value, False)
+#
+#
+# class PrimeNumber(Integer, Positive):
+#     def __init__(self, value):
+#         super().__init__(value)
+#         self.value = self.check_prime(value)
+#
+#
+# class FloatPositive(Float, Positive):
+#     def __init__(self, value):
+#         super().__init__(value)
+#
+#
+# digits = [PrimeNumber(7), PrimeNumber(3), PrimeNumber(5), FloatPositive(1.5), FloatPositive(9.2), FloatPositive(6.5),
+#           FloatPositive(3.5), FloatPositive(8.9)]
+#
+# lst_positive = list(filter(lambda x: isinstance(x, Positive), digits))
+# lst_float = list(filter(lambda x: isinstance(x, Float), digits))
+#
+# # f = FloatPositive('0.2')
+# for l in lst_positive:
+#     print(l.value)
+# print("_______")
+# for l in lst_float:
+#     print(l.value)
+
+# --------------------------------------------------------------------------------------------------------
+
+# class SellItem:
+#     def __init__(self, name, price):
+#         self.name = name
+#         self.price = price
+#
+#
+# class House(SellItem):
+#     def __init__(self, name, price, material, square):
+#         super().__init__(name, price)
+#         self.material = material
+#         self.square = square
+#
+#
+# class Flat(SellItem):
+#     def __init__(self, name, price, size, rooms):
+#         super().__init__(name, price)
+#         self.size = size
+#         self.rooms = rooms
+#
+#
+# class Land(SellItem):
+#     def __init__(self, name, price, square):
+#         super().__init__(name, price)
+#         self.square = square
+#
+#
+# class Agency:
+#     def __init__(self, name):
+#         self.name = name
+#         self.objects = []
+#
+#     def add_object(self, obj):
+#         self.objects.append(obj)
+#
+#     def remove_object(self, obj):
+#         self.objects.remove(obj)
+#
+#     def get_objects(self):
+#         return self.objects
+# --------------------------------------------------------------------------------------------------------
+
+# class Thing:
+#     def __init__(self, name, weight):
+#         self.name, self.weight = name, weight
+#
+#
+# class ArtObject(Thing):
+#     def __init__(self, name, weight, author, date):
+#         super().__init__(name, weight)
+#         self.author = author
+#         self.date = date
+#
+#
+# class Computer(Thing):
+#     def __init__(self, name, weight, memory, cpu):
+#         super().__init__(name, weight)
+#         self.memory = memory
+#         self.cpu = cpu
+#
+#
+# class Auto(Thing):
+#     def __init__(self, name, weight, dims):
+#         super().__init__(name, weight)
+#         self.dims = dims
+#
+#
+# class Mercedes(Auto):
+#     def __init__(self, name, weight, dims, model, old):
+#         super().__init__(name, weight, dims)
+#         self.model = model
+#         self.old = old
+#
+#
+# class Toyota(Auto):
+#     def __init__(self, name, weight, dims, model, wheel):
+#         super().__init__(name, weight, dims)
+#         self.model = model
+#         self.wheel = wheel
+
+
+# --------------------------------------------------------------------------------------------------------
+
 # class Tuple(tuple):
 #     def __init__(self, *args) -> None:
 #         self.t = tuple(*args)
-    
+
 #     def __add__(self, rhs):
 #         if isinstance(rhs, tuple):
 #             return Tuple(self.t + rhs)
