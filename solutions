@@ -1,334 +1,3503 @@
-# --------------------------------------------------------------------------------------------------------
+# def input_int_numbers():
+#     try:
+#         return tuple(map(int, input().split()))
+#     except ValueError:
+#         raise TypeError('все числа должны быть целыми')
+#
+#
+# while True:
+#     try:
+#         print(input_int_numbers())
+#     except TypeError:
+#         continue
+#     else:
+#         break
 
-# class InputDigits:
-#     def __init__(self, func):
-#         self.func = func
-# 
-#     def __call__(self, *args, **kwargs):
-#         return list(map(int, (self.func().split())))
-# 
-# 
-# @InputDigits
-# def input_dg():
-#     return input()
-# 
-# 
-# res = input_dg()
-# print(res)
 
 # --------------------------------------------------------------------------------------------------------
 
-# class Handler:
-#     def __init__(self, methods=('GET',)):
-#         self.methods = methods
-#
-#     def __call__(self, func):
-#         def wrapper(request: dict, *args, **kwargs):
-#             # здесь нужные строчки
-#             method: str = request.get("method", "GET")
-#             if method not in self.methods:
-#                 return None
-#             return f"{method}: {func(request)}"
-#         return wrapper
-#
-#     def get(self, func, request, *args, **kwargs):
-#         return f"{args[0].upper()}: {func(request)}"
-#
-#     def post(self, func, request, *args, **kwargs):
-#         return f"{args[0].upper()}: {func(request)}"
+# class Point:
+#     def __init__(self, x=0, y=0):
+#         self._x = x
+#         self._y = y
 #
 #
-# @Handler(methods=('GET', 'POST'))  # по умолчанию methods = ('GET',)
-# def contact(request):
-#     return "Сергей Балакирев"
-#
-#
-# res = contact({"url": "contact.html"})
-# print(res)
-# res = contact({"method": "DELETE", "url": "contact.html"})
-# print(res)
+# n1, n2 = input().split()
+# try:
+#     try:
+#         pt = Point(int(n1), int(n2))
+#     except ValueError:
+#         pt = Point(float(n1), float(n2))
+# except ValueError:
+#     pt = Point()
+# finally:
+#     print(f"Point: x = {pt._x}, y = {pt._y}")
+# --------------------------------------------------------------------------------------------------------
+
+# n1, n2 = input().split()
+# try:
+#     try:
+#         res = int(n1) + int(n2)
+#     except ValueError:
+#         res = float(n1) + float(n2)
+# except ValueError:
+#     res = n1 + n2
+# finally:
+#     print(res)
+#     print(type(n1))
+# print(type(n2))
 
 # --------------------------------------------------------------------------------------------------------
 
-# class Picture:
-#     def __init__(self, name, author, descr):
-#         self.name = name
-#         self.author = author
-#         self.descr = descr
+# class Star:
+#     __slots__ = ('_name', '_massa', '_temp')
+#
+#     def __init__(self, name, massa, temp):
+#         self._name, self._massa, self._temp = name, massa, temp
 #
 #
-# class Mummies:
-#     def __init__(self, name, location, descr):
-#         self.name = name
-#         self.location = location
-#         self.descr = descr
+# class WhiteDwarf(Star):
+#     __slots__ = ('_type_star', '_radius')
+#
+#     def __init__(self, name, massa, temp, type_star, radius):
+#         super().__init__(name, massa, temp)
+#         self._type_star = type_star
+#         self._radius = radius
 #
 #
-# class Papyri:
-#     def __init__(self, name, date, descr):
-#         self.name = name
-#         self.date = date
-#         self.descr = descr
+# class YellowDwarf(Star):
+#     __slots__ = ('_type_star', '_radius')
+#
+#     def __init__(self, name, massa, temp, type_star, radius):
+#         super().__init__(name, massa, temp)
+#         self._type_star = type_star
+#         self._radius = radius
 #
 #
-# class Museum:
-#     def __init__(self, name):
-#         self.name = name
-#         self.exhibits = []
+# class RedGiant(Star):
+#     __slots__ = ('_type_star', '_radius')
 #
-#     def add_exhibit(self, obj):
-#         self.exhibits.append(obj)
-#
-#     def remove_exhibit(self, obj):
-#         self.exhibits.remove(obj)
-#
-#     def get_info_exhibit(self, indx):
-#         exhibit = self.exhibits[indx]
-#         return f"Описание экспоната {exhibit.name}: {exhibit.descr}"
+#     def __init__(self, name, massa, temp, type_star, radius):
+#         super().__init__(name, massa, temp)
+#         self._type_star = type_star
+#         self._radius = radius
 #
 #
-# mus = Museum("Эрмитаж")
-# mus.add_exhibit(Picture("Балакирев с подписчиками пишет письмо иноземному султану", "Неизвестный автор", "Вдохновляющая, устрашающая, волнующая картина"))
-# mus.add_exhibit(Mummies("Балакирев", "Древняя Россия", "Просветитель XXI века, удостоенный мумификации"))
-# p = Papyri("Ученья для, не злата ради", "Древняя Россия", "Самое древнее найденное рукописное свидетельство о языках программирования")
-# mus.add_exhibit(p)
-# for x in mus.exhibits:
-#     print(x.descr)
+# class Pulsar(Star):
+#     __slots__ = ('_type_star', '_radius')
+#
+#     def __init__(self, name, massa, temp, type_star, radius):
+#         super().__init__(name, massa, temp)
+#         self._type_star = type_star
+#         self._radius = radius
+#
+#
+# stars = [RedGiant('Альдебаран', 5, 3600, 'красный гигант', 45),
+#          WhiteDwarf('Сириус А', 2.1, 9250, 'белый карлик', 2),
+#          WhiteDwarf('Сириус B', 1, 8200, 'белый карлик', 0.01),
+#          YellowDwarf('Солнце', 1, 6000, 'желтый карлик', 1)]
+# white_dwarfs = list(filter(lambda p: isinstance(p, WhiteDwarf), stars))
+
 # --------------------------------------------------------------------------------------------------------
 
-# class LessonItem:
-#     def __init__(self, title, practices, duration):
-#         self.title = title
-#         self.practices = practices
-#         self.duration = duration
+# class Planet:
+#     def __init__(self, name, diametr, period_solar, period):
+#         self._name, self._diametr, self._period_solar, self._period = name, diametr, period_solar, period
+#
+#
+# class SolarSystem:
+#     __slots__ = ("_mercury", "_venus", "_earth", "_mars", "_jupiter", "_saturn", "_uranus", "_neptune")
+#     __instance = None
+#
+#     def __new__(cls, *args, **kwargs):
+#         if cls.__instance is None:
+#             cls.__instance = super().__new__(cls)
+#         return cls.__instance
+#
+#     def __init__(self):
+#         self._mercury = Planet('Меркурий', 4878, 87.97, 1407.5)
+#         self._venus = Planet('Венера', 12104, 224.7, 5832.45)
+#         self._earth = Planet('Земля', 12756, 365.3, 23.93)
+#         self._mars = Planet('Марс', 6794, 687, 24.62)
+#         self._jupiter = Planet('Юпитер', 142800, 4330, 9.9)
+#         self._saturn = Planet('Сатурн', 120660, 10753, 10.63)
+#         self._uranus = Planet('Уран', 51118, 30665, 17.2)
+#         self._neptune = Planet('Нептун', 49528, 60150, 16.1)
+#
+#
+# s_system = SolarSystem()
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Person:
+#     __slots__ = ('_fio', '_job', '_old')
+#
+#     def __init__(self, fio, old, job):
+#         self._fio = fio
+#         self._job = job
+#         self._old = old
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Student:
+#     def __init__(self, fio, group):
+#         self._fio = fio  # ФИО студента (строка)
+#         self._group = group # группа (строка)
+#         self._lect_marks = []  # оценки за лекции
+#         self._house_marks = []  # оценки за домашние задания
+#
+#     def add_lect_marks(self, mark):
+#         self._lect_marks.append(mark)
+#
+#     def add_house_marks(self, mark):
+#         self._house_marks.append(mark)
+#
+#     def __str__(self):
+#         return f"Студент {self._fio}: оценки на лекциях: {str(self._lect_marks)}; оценки за д/з: {str(self._house_marks)}"
+#
+#
+# class Mentor:
+#     def __init__(self, fio, subject):
+#         self._fio = fio
+#         self._subject = subject
+#
+#
+# class Lector(Mentor):
+#     def __init__(self, fio, subject):
+#         super().__init__(fio, subject)
+#
+#     def set_mark(self, student: Student, mark):
+#         student.add_lect_marks(mark)
+#
+#     def __str__(self):
+#         return f"Лектор {self._fio}: предмет {self._subject}"
+#
+#
+# class Reviewer(Mentor):
+#     def __init__(self, fio, subject):
+#         super().__init__(fio, subject)
+#
+#     def set_mark(self, student: Student, mark):
+#         student.add_house_marks(mark)
+#
+#     def __str__(self):
+#         return f"Эксперт {self._fio}: предмет {self._subject}"
+#
+#
+#
+# lector = Lector("Балакирев С.М.", "Информатика")
+# reviewer = Reviewer("Гейтс Б.", "Информатика")
+# students = [Student("Иванов А.Б.", "ЭВМд-11"), Student("Гаврилов С.А.", "ЭВМд-11")]
+# persons = [lector, reviewer]
+# lector.set_mark(students[0], 4)
+# lector.set_mark(students[1], 2)
+# reviewer.set_mark(students[0], 5)
+# reviewer.set_mark(students[1], 3)
+# for p in persons + students:
+#     print(p)
+# в консоли будет отображено:
+# Лектор Балакирев С.М.: предмет Информатика
+# Эксперт Гейтс Б.: предмет Информатика
+# Студент Иванов А.Б.: оценки на лекциях: [4]; оценки за д/з: [5]
+# Студент Гаврилов С.А.: оценки на лекциях: [2]; оценки за д/з: [3]
+# --------------------------------------------------------------------------------------------------------
+
+# class Digit:
+#     def __init__(self, value):
+#         self.value = self.check_digit(value)
 #
 #     @staticmethod
-#     def check_int_positive(value) -> bool:
-#         return isinstance(value, int) and value > 0
-#
-#     def __setattr__(self, key, value):
-#         if key in ('practices', 'duration'):
-#             if not LessonItem.check_int_positive(value):
-#                 raise TypeError("Неверный тип присваиваемых данных.")
-#         elif key == 'title' and not isinstance(value, str):
-#             raise TypeError("Неверный тип присваиваемых данных.")
-#         object.__setattr__(self, key, value)
-#
-#     def __getattr__(self, item):
-#         return False
-#
-#     def __delattr__(self, item):
-#         if item in ('title', 'practices', 'duration'):
-#             raise AttributeError(f"Нельзя удалять атрибут {item}")
+#     def check_digit(value):
+#         if isinstance(value, (int, float)):
+#             return value
 #         else:
-#             object.__delattr__(item)
-#
-#
-# class Module:
-#     def __init__(self, name):
-#         self.name = name
-#         self.lessons = []
-#
-#     def add_lesson(self, lesson: LessonItem):
-#         self.lessons.append(lesson)
-#
-#     def remove_lesson(self, indx):
-#         self.lessons.pop(indx)
-#
-#
-# class Course:
-#     def __init__(self, name):
-#         self.name = name
-#         self.modules = []
-#
-#     def add_module(self, module):
-#         self.modules.append(module)
-#
-#     def remove_module(self, indx):
-#         self.modules.pop(indx)
-#
-#
-# l1 = LessonItem("Вводный урок", 1, 45)
-#
-# course = Course("Python ООП")
-# module_1 = Module("Часть первая")
-# module_1.add_lesson(LessonItem("Урок 1", 12, 2))
-# module_1.add_lesson(LessonItem("Урок 2", 10, 1200))
-# module_1.add_lesson(LessonItem("Урок 3", 5, 800))
-# course.add_module(module_1)
-# module_2 = Module("Часть вторая")
-# module_2.add_lesson(LessonItem("Урок 1", 7, 1000))
-# module_2.add_lesson(LessonItem("Урок 2", 10, 1200))
-# course.add_module(module_2)
-#
-# for module in course.modules:
-#     print(module.name)
-#     for lesson_ in module.lessons:
-#         print(lesson_.title)
-#         print('обращение к несуществующему полю ', lesson_.flag)
-# --------------------------------------------------------------------------------------------------------
-
-# class Product:
-#     __id = 1
+#             raise TypeError('значение не соответствует типу объекта')
 #
 #     @staticmethod
-#     def check_int_float(value):
-#         if type(value) in (float, int):
-#             if value < 0:
-#                 return False
-#         return True
+#     def check_type(value_type, value):
+#         if isinstance(value, value_type):
+#             return value
+#         raise TypeError('значение не соответствует типу объекта')
 #
-#     def __setattr__(self, key, value):
-#         if key in ('weight', 'price'):
-#             if not self.check_int_float(value):
-#                 raise TypeError("Неверный тип присваиваемых данных.")
-#         elif key == 'name' and type(value) != str:
-#             raise TypeError("Неверный тип присваиваемых данных.")
-#         object.__setattr__(self, key, value)
+#     @staticmethod
+#     def check_positive(value, is_positive: bool):
+#         if (not (value < 0 and is_positive)) and (value < 0 or is_positive):
+#             return value
+#         raise TypeError('значение не соответствует типу объекта')
 #
-#     def __delattr__(self, item):
-#         if item == 'id':
-#             raise AttributeError("Атрибут id удалять запрещено.")
-#         else:
-#             object.__delattr__(self, item)
+#     @staticmethod
+#     def check_prime(value):
+#         from math import sqrt
+#         if value > 1:
+#             for i in range(2, int(sqrt(value)) + 1):
+#                 if value % i == 0:
+#                     raise ValueError('значение не простое')
+#             return value
+#         raise ValueError('значение не простое')
 #
-#     def __init__(self, name, weight, price):
-#         self.id = self.get_id()
+#
+# class Integer(Digit):
+#     def __init__(self, value):
+#         super().__init__(value)
+#         self.value = self.check_type(int, value)
+#
+#
+# class Float(Digit):
+#     def __init__(self, value):
+#         super().__init__(value)
+#         self.value = self.check_type(float, value)
+#
+#
+# class Positive(Digit):
+#     def __init__(self, value):
+#         super().__init__(value)
+#         self.value = self.check_positive(value, True)
+#
+#
+# class Negative(Digit):
+#     def __init__(self, value):
+#         super().__init__(value)
+#         self.value = self.check_positive(value, False)
+#
+#
+# class PrimeNumber(Integer, Positive):
+#     def __init__(self, value):
+#         super().__init__(value)
+#         self.value = self.check_prime(value)
+#
+#
+# class FloatPositive(Float, Positive):
+#     def __init__(self, value):
+#         super().__init__(value)
+#
+#
+# digits = [PrimeNumber(7), PrimeNumber(3), PrimeNumber(5), FloatPositive(1.5), FloatPositive(9.2), FloatPositive(6.5),
+#           FloatPositive(3.5), FloatPositive(8.9)]
+#
+# lst_positive = list(filter(lambda x: isinstance(x, Positive), digits))
+# lst_float = list(filter(lambda x: isinstance(x, Float), digits))
+#
+# # f = FloatPositive('0.2')
+# for l in lst_positive:
+#     print(l.value)
+# print("_______")
+# for l in lst_float:
+#     print(l.value)
+
+# --------------------------------------------------------------------------------------------------------
+
+# class SellItem:
+#     def __init__(self, name, price):
 #         self.name = name
-#         self.weight = weight
 #         self.price = price
 #
-#     @classmethod
-#     def get_id(cls):
-#         id = cls.__id
-#         cls.__id += 1
-#         return id
+#
+# class House(SellItem):
+#     def __init__(self, name, price, material, square):
+#         super().__init__(name, price)
+#         self.material = material
+#         self.square = square
 #
 #
-# class Shop:
+# class Flat(SellItem):
+#     def __init__(self, name, price, size, rooms):
+#         super().__init__(name, price)
+#         self.size = size
+#         self.rooms = rooms
 #
+#
+# class Land(SellItem):
+#     def __init__(self, name, price, square):
+#         super().__init__(name, price)
+#         self.square = square
+#
+#
+# class Agency:
 #     def __init__(self, name):
 #         self.name = name
-#         self.goods = []
-#         self.products_id = {}
+#         self.objects = []
 #
-#     def add_product(self, product: Product):
-#         self.goods.append(product)
-#         if product.id in self.products_id:
-#             raise ValueError("В списке продуктов магазина уже присутствует продукт с таким id!\nИзмените id для "
-#                              "добавления товара")
-#         self.products_id[product.id] = product
+#     def add_object(self, obj):
+#         self.objects.append(obj)
 #
-#     def remove_product(self, product: Product):
-#         if product.id in self.products_id:
-#             self.goods.remove(self.products_id[product.id])
-#             del self.products_id[product.id]
+#     def remove_object(self, obj):
+#         self.objects.remove(obj)
+#
+#     def get_objects(self):
+#         return self.objects
+# --------------------------------------------------------------------------------------------------------
+
+# class Thing:
+#     def __init__(self, name, weight):
+#         self.name, self.weight = name, weight
+#
+#
+# class ArtObject(Thing):
+#     def __init__(self, name, weight, author, date):
+#         super().__init__(name, weight)
+#         self.author = author
+#         self.date = date
+#
+#
+# class Computer(Thing):
+#     def __init__(self, name, weight, memory, cpu):
+#         super().__init__(name, weight)
+#         self.memory = memory
+#         self.cpu = cpu
+#
+#
+# class Auto(Thing):
+#     def __init__(self, name, weight, dims):
+#         super().__init__(name, weight)
+#         self.dims = dims
+#
+#
+# class Mercedes(Auto):
+#     def __init__(self, name, weight, dims, model, old):
+#         super().__init__(name, weight, dims)
+#         self.model = model
+#         self.old = old
+#
+#
+# class Toyota(Auto):
+#     def __init__(self, name, weight, dims, model, wheel):
+#         super().__init__(name, weight, dims)
+#         self.model = model
+#         self.wheel = wheel
+
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Tuple(tuple):
+#     def __init__(self, *args) -> None:
+#         self.t = tuple(*args)
+
+#     def __add__(self, rhs):
+#         if isinstance(rhs, tuple):
+#             return Tuple(self.t + rhs)
 #         else:
-#             raise ValueError("Такого продукта нет в списке.")
-#
-#
-# shop = Shop("Балакирев и К")
-# book = Product("Python ООП", 100, 1024)
-# shop.add_product(book)
-# shop.add_product(Product("Python", 150, 512))
-# bicycle = Product('stels', 15000, 24000)
-# shop.add_product(bicycle)
-# for p in shop.goods:
-#     print(f"{p.name}, {p.weight}, {p.price}")
-# print("--------------")
-# shop.remove_product(book)
-# for p in shop.goods:
-#     print(f"{p.name}, {p.weight}, {p.price}")
-# print("--------------")
-# shop.remove_product(bicycle)
-# for p in shop.goods:
-#     print(f"{p.name}, {p.weight}, {p.price}")
+#             return Tuple([*self] + [el for el in rhs])
 
 
-# bicycle = Product('stels', 15000, 24000)
-# bicycle.id = 2
-# shop.add_product(bicycle)
+# t = Tuple([1, 2, 3])
+# t = t + "Python"
+# print(t)   # (1, 2, 3, 'P', 'y', 't', 'h', 'o', 'n')
+# t = (t + "Python") + "ООП"
+
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Protists:
+#     def __init__(self, name, weight, old):
+#         self.name = name
+#         self.weight = weight
+#         self.old = old
+
+# class Plants(Protists):
+#     pass
+
+# class Animals(Protists):
+#     pass
+
+# class Mosses(Plants):
+#     pass
+
+# class Flowering(Plants):
+#     pass
+
+# class Worm(Animals):
+#     pass
+
+# class Mammals(Animals):
+#     pass
+
+# class Human(Mammals):
+#     pass
+
+# class Monkey(Mammals):
+#     pass
+
+# class Monkey(Monkey):
+#     pass
+
+# class Person(Human):
+#     pass
+
+# class Flower(Flowering):
+#     pass
+
+# class Worm(Worm):
+#     pass
+
+# lst = [
+#     'Monkey: "мартышка", 30.4, 7',
+#     'Monkey: "шимпанзе", 24.6, 8',
+#     'Person: "Балакирев", 88, 34',
+#     'Person: "Верховный жрец", 67.5, 45',
+#     'Flower: "Тюльпан", 0.2, 1',
+#     'Flower: "Роза", 0.1, 2',
+#     'Worm: "червь", 0.01, 1',
+#     'Worm: "червь 2", 0.02, 1'
+# ]
+
+# def all_subclasses(cls):
+#     return set(cls.__subclasses__()).union(
+#         [s for c in cls.__subclasses__() for s in all_subclasses(c)])
+
+# d = {
+#     cls.__name__: cls for cls in all_subclasses(Protists)
+# }
+# lst_objs = []
+# for row in lst:
+#     cls_name, params = row.split(':')
+#     if cls_name == 'Flower':
+#         cls_name = 'Flowering'
+#     elif cls_name == 'Person':
+#         cls_name = 'Human'
+#     cls = d[cls_name]
+#     lst_objs.append(cls(*params.split(',')))
+
+# lst_animals = list(filter(lambda x: isinstance(x, Animals), lst_objs))
+# lst_plants = list(filter(lambda x: isinstance(x, Plants), lst_objs))
+# lst_mammals = list(filter(lambda x: isinstance(x, Mammals), lst_objs))
+
+# for s in lst_objs:
+#     print(type(s), s.name)
+# print(Protists.__subclasses__())
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Animal:
+#     def __init__(self, name, kind, old):
+#         self.__name, self.__kind, self.__old = name, kind, old
+
+#     @property
+#     def name(self):
+#         return self.__name
+
+#     @name.setter
+#     def name(self, name):
+#         self.__name = name
+
+#     @property
+#     def kind(self):
+#         return self.__kind
+
+#     @kind.setter
+#     def kind(self, kind):
+#         self.__kind = kind
+
+#     @property
+#     def old(self):
+#         return self.__old
+
+#     @old.setter
+#     def old(self, old):
+#         self.__old = old
+
+# lst = [
+#     "Васька; дворовый кот; 5",
+#     "Рекс; немецкая овчарка; 8",
+#     "Кеша; попугай; 3"
+# ]
+# animals = [Animal(*row.split(';')) for row in lst]
 # --------------------------------------------------------------------------------------------------------
 
 # class Book:
+#     def __init__(self, title, author, pages, year) -> None:
+#         self.title, self.author, self.pages, self.year = title, author, pages, year
+
+# class DigitBook(Book):
+#     def __init__(self, title, author, pages, year, size, frm) -> None:
+#         super().__init__(title, author, pages, year)
+#         self.size, self.frm = size, frm
+# --------------------------------------------------------------------------------------------------------
+
+# class Thing:
+#     def __init__(self, name, price: float, weight: float) -> None:
+#         self.name = name
+#         self.price = price
+#         self.weight = weight
+
+#     def __hash__(self) -> int:
+#         return hash((self.name, self.price, self.weight))
+
+#     def __eq__(self, rhs) -> bool:
+#         return self.name == rhs.name and self.price == rhs.price and self.weight == rhs.weight
+
+# class DictShop(dict):
 #     def __init__(self, *args):
-#         if len(args) == 4:
-#             self.title, self.author, self.pages, self.year = args
+#         if args:
+#             if not isinstance(args[0], dict):
+#                 raise TypeError('аргумент должен быть словарем')
+#             if all(self.__check_valid(key) for key in args[0]):
+#                 super().__init__(*args)
 #         else:
-#             self.title = self.author = self.pages = self.year = None
+#             super().__init__(*args)
+
+#     def __check_valid(self, key):
+#         if isinstance(key, Thing):
+#             return key
+#         else:
+#             raise TypeError('ключами могут быть только объекты класса Thing')
+
+#     def __setitem__(self, key, value):
+#         super().__setitem__(self.__check_valid(key), value)
+
+# th_1 = Thing('Лыжи', 11000, 1978.55)
+# th_2 = Thing('Книга', 1500, 256)
+# dict_things = DictShop()
+# dict_things[th_1] = th_1
+# dict_things[th_2] = th_2
+
+# for x in dict_things:
+#     print(x.name)
+
+# dict_things[1] = th_1  # исключение TypeError
+# --------------------------------------------------------------------------------------------------------
+
+# class ListInteger(list):
+#     def __init__(self, *args) -> None:
+#         if all(isinstance(item, int) for item in args[0]):
+#             super().__init__(*args)
+#         else:
+#             raise TypeError(
+#             'можно передавать только целочисленные значения')
+
+#     def __setitem__(self, key, value):
+#         if isinstance(value, int):
+#             super().__setitem__(key, value)
+#         else:
+#             raise TypeError(
+#                 'можно передавать только целочисленные значения')
+
+#     def append(self, value):
+#         if isinstance(value, int):
+#             super().append(value)
+#         else:
+#             raise TypeError(
+#                 'можно передавать только целочисленные значения')
+
+# s = ListInteger((1, 2, 3))
+# s[1] = 10
+# s.append(11)
+# print(s)
+# s[0] = 10.5 # TypeError
+
+# --------------------------------------------------------------------------------------------------------
+
+# def error(func):
+#     def wrapper(self, *args):
+#         if isinstance(args[0], Vector):
+#             if len(self) != len(args[0]):
+#                 raise ArithmeticError('размерности векторов не совпадают')
+#         return func(self, *args)
+#     return wrapper
+
+# class Vector:
+#     def __init__(self, *args) -> None:
+#         self.coords = [*args]
+
+#     @error
+#     def __add__(self, rhs):
+#         result = tuple([self.coords[i] + rhs.coords[i]
+#                         for i in range(len(self))])
+#         return Vector(*result)
+
+#     def __iadd__(self, rhs):
+#         if isinstance(rhs, Vector):
+#             for i in range(min(len(self), len(rhs))):
+#                 self.coords[i] = self.coords[i] + rhs.coords[i]
+#         else:
+#             for i in range(len(self.coords)):
+#                 self.coords[i] += rhs
+#         return self
+
+#     @error
+#     def __sub__(self, rhs):
+#         result = tuple([self.coords[i] - rhs.coords[i]
+#                         for i in range(len(self))])
+#         return Vector(*result)
+
+#     def __isub__(self, rhs):
+#         if isinstance(rhs, Vector):
+#             for i in range(min(len(self), len(rhs))):
+#                 self.coords[i] = self.coords[i] - rhs.coords[i]
+#         else:
+#             for i in range(len(self.coords)):
+#                 self.coords[i] -= rhs
+#         return self
+
+#     @error
+#     def __mul__(self, rhs):
+#         result = tuple([self.coords[i] * rhs.coords[i]
+#                         for i in range(len(self))])
+#         return Vector(*result)
+
+#     def __eq__(self, rhs) -> bool:
+#         return self.coords == rhs.coords
+
+#     def __len__(self):
+#         return len(self.coords)
+
+# v1 = Vector(1, 2, 3)
+# v2 = Vector(4, 5, 6)
+# print((v1 + v2).coords)  # [5, 7, 9]
+# print((v1 - v2).coords)  # [-3, -3, -3]
+# print((v1 * v2).coords)  # [4, 10, 18]
+
+# v1 += 10
+# print(v1.coords)  # [11, 12, 13]
+# v1 -= 10
+# print(v1.coords)  # [1, 2, 3]
+# v1 += v2
+# print(v1.coords)  # [5, 7, 9]
+# v2 -= v1
+# print(v2.coords)  # [-1, -2, -3]
+
+# print(v1 == v2)  # False
+# print(v1 != v2)  # True
+# # --------------------------------------------------------------------------------------------------------
+
+# import random
+# import numpy as np
+
+# class Cell:
+#     def __init__(self, is_mine=False):
+#         self.__is_mine = is_mine
+#         self.__number = None
+#         self.__is_open = False
+
+#     @property
+#     def is_mine(self):
+#         return self.__is_mine
+
+#     @is_mine.setter
+#     def is_mine(self, is_mine):
+#         if type(is_mine) == bool:
+#             self.__is_mine = is_mine
+#             return
+#         raise ValueError("недопустимое значение атрибута")
+
+#     @property
+#     def number(self):
+#         return self.__number
+
+#     @number.setter
+#     def number(self, number):
+#         if isinstance(number, int):
+#             if 0 <= number <= 8:
+#                 self.__number = number
+#                 return
+#         raise ValueError("недопустимое значение атрибута")
+
+#     @property
+#     def is_open(self):
+#         return self.__is_open
+
+#     @is_open.setter
+#     def is_open(self, is_open):
+#         if type(is_open) == bool:
+#             self.__is_open = is_open
+#             return
+#         raise ValueError("недопустимое значение атрибута")
+
+#     def __bool__(self):
+#         return not self.is_open
+
+# class GamePole:
+
+#     __instance = None
+
+#     def __new__(cls, *args, **kwargs):
+#         if cls.__instance is None:
+#             cls.__instance = super().__new__(cls)
+#         return cls.__instance
+
+#     def __init__(self, N, M, total_mines):
+#         self.n = N
+#         self.m = M
+#         self.total_mines = total_mines
+#         self.__pole_cells = None
+#         self.init_pole()
+
+#     def init_pole(self):
+#         mines = [Cell(True) for _ in range(self.total_mines)]
+#         not_mines = [Cell() for _ in range(self.n*self.m - self.total_mines)]
+#         self.__pole_cells = mines + not_mines
+#         random.shuffle(self.__pole_cells)
+#         self.count_around_mines()
+#         self.__pole_cells = np.array(
+#             self.__pole_cells).reshape(self.n, self.m).tolist()
+
+#     def open_cell(self, i, j):
+#         if (0 <= i < self.n) and (0 <= j < self.m):
+#             self.__pole_cells[i][j].is_open = True
+#         else:
+#             raise IndexError('некорректные индексы i, j клетки игрового поля')
+
+#     def count_around_mines(self):
+#         for i in range(self.n * self.m):
+#             mines_number = 0
+#             for el in self.get_summarize(i, self.m):
+#                 if 0 <= el + i < len(self.__pole_cells):
+#                     mines_number += self.__pole_cells[i + el].is_mine
+#             self.__pole_cells[i].number = mines_number
+
+#     @staticmethod
+#     def get_summarize(i, m) -> list:
+#         columm_id = i % m
+#         if columm_id == 0:
+#             return [-m, -m+1, 1, m, m+1]
+#         elif columm_id == m-1:
+#             return [-m-1, -m, -1, m-1, m]
+#         return [-m-1, -m, -m+1,  -1, 1, m-1, m, m+1]
+
+#     @property
+#     def pole(self):
+#         return self.__pole_cells
+
+#     def show_pole(self):
+#         for row in self.pole:
+#             print(*[cell.number if not cell.is_mine else '*' for cell in row])
+
+#     def show_open_cells(self):
+#         for row in self.pole:
+#             print(*['#' if not cell.is_open else '-' for cell in row])
+
+# # создается поле размерами 10x20 с общим числом мин 10
+# pole = GamePole(10, 20, 10)
+# pole.init_pole()
+# if pole.pole[0][1]:
+#     pole.open_cell(0, 1)
+# if pole.pole[3][5]:
+#     pole.open_cell(3, 5)
+# # pole.open_cell(30, 100)  # генерируется исключение IndexError
+# # pole.show_pole()
+# pole.show_open_cells()
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Ellipse:
+#     def __init__(self, *args) -> None:
+#         self.has_coords = False
+#         if len(args) == 4:
+#             self.x1, self.y1, self.x2, self.y2 = args
+#             self.has_coords = True
+
+#     def __bool__(self):
+#         return self.has_coords
+
+#     def get_coords(self):
+#         if self.has_coords:
+#             return self.x1, self.y1, self.x2, self.y2
+#         raise AttributeError('нет координат для извлечения')
+
+# lst_geom = [Ellipse(), Ellipse(), Ellipse(1, 2, 3, 4), Ellipse(5, 6, 7, 8)]
+# for el in lst_geom:
+#     if el:
+#         el.get_coords()
+# --------------------------------------------------------------------------------------------------------
+
+# class Line:
+#     def __init__(self, x1, y1, x2, y2) -> None:
+#         self.x1 = x1
+#         self.x2 = x2
+#         self.y1 = y1
+#         self.y2 = y2
+
+#     def __len__(self):
+#         return ((self.x2 - self.x1)**2 + (self.y2 - self.y1)**2)**(1/2) >= 1
+
+# l = Line(0, 0, 0.5, 0.5)
+# print(bool(l))
+# --------------------------------------------------------------------------------------------------------
+
+# import sys
+
+# class MailItem:
+#     def __init__(self, mail_from, title, content) -> None:
+#         self.mail_from = mail_from
+#         self.title = title
+#         self.content = content
+#         self.is_read = False
+
+#     def __bool__(self):
+#         return self.is_read
+
+#     def set_read(self, fl_read):
+#         self.is_read = fl_read
+
+# class MailBox:
+#     def __init__(self) -> None:
+#         self.inbox_list = []
+
+#     def receive(self):
+#         lst_in = list(map(str.strip, sys.stdin.readlines()))
+#         for row in lst_in:
+#             self.inbox_list.append(MailItem(*row.split("; ")))
+
+# mail = MailBox()
+# mail.receive()
+
+# mail.inbox_list[0].set_read(True)
+# mail.inbox_list[-1].set_read(True)
+
+# inbox_list_filtered = list(
+#     filter(lambda player: bool(player), mail.inbox_list))
+
+# for m in inbox_list_filtered:
+#     print(m.mail_from)
+
+# --------------------------------------------------------------------------------------------------------
+
+# import sys
+
+# class Player:
+#     def __init__(self, name, old, score) -> None:
+#         self.name = name
+#         self.old = old
+#         self.score = score
+
+#     def __bool__(self):
+#         return int(self.score) > 0
+
+# players = []
+# lst_in = list(map(str.strip, sys.stdin.readlines()))
+# for row in lst_in:
+#     players.append(Player(*row.split("; ")))
+
+# players_filtered = list(filter(lambda player: bool(player), players))
+# for p in players_filtered:
+#     print(p.name)
+# --------------------------------------------------------------------------------------------------------
+
+# class RadiusVector:
+#     def __init__(self, *args) -> None:
+#         self.coords = list(args)
+
+#     def __getitem__(self, key):
+#         if isinstance(key, int):
+#             return self.coords[key]
+#         return tuple(self.coords[key])
+
+#     def __setitem__(self, key, value):
+#         if isinstance(key, int):
+#             self.coords[key] = value
+#         elif isinstance(key, slice):
+#             j = 0
+#             start = key.start if key.start else 0
+#             stop = key.stop if key.stop else len(self)
+#             step = key.step if key.step else 1
+#             for i in range(start, stop, step):
+#                 self.coords[i] = value[j]
+#                 j += 1
+
+#     def __len__(self):
+#         return len(self.coords)
+
+# v = RadiusVector(1, 1, 1, 1)
+# print(v[1])  # 1
+# v[:] = 1, 2, 3, 4
+# print(v[2])  # 3
+# print(v[1:])  # (2, 3, 4)
+# v[0] = 10.5
+# --------------------------------------------------------------------------------------------------------
+
+# class StackObj:
+#     def __init__(self, data) -> None:
+#         self.__next = None
+#         self.__data = data
+
+#     @property
+#     def next(self):
+#         return self.__next
+
+#     @next.setter
+#     def next(self, next):
+#         if type(next) == StackObj or next == None:
+#             self.__next = next
+
+#     @property
+#     def data(self):
+#         return self.__data
+
+#     @data.setter
+#     def data(self, data):
+#         self.__data = data
+
+# def error(func):
+#     def wrapper(self, *args, **kwargs):
+#         if isinstance(args[0], int):
+#             if (0 <= args[0] < self.len):
+#                 return func(self, *args)
+#         raise IndexError('неверный индекс')
+#     return wrapper
+
+# class Stack:
+#     def __init__(self) -> None:
+#         self.top: StackObj = None
+#         self.len = 0
+
+#     def push(self, obj: StackObj):
+#         self.len += 1
+#         if self.top == None:
+#             self.top = obj
+#             return
+#         last = self.top
+#         while last.next != None:
+#             last = last.next
+#         last.next = obj
+
+#     def pop(self):
+#         if self.top == None:
+#             return
+#         elif self.top.next == None:
+#             copy = self.top
+#             self.top = None
+#             self.len -= 1
+#             return copy
+#         else:
+#             last = self.top
+#             while last.next.next != None:
+#                 last = last.next
+#             copy = last.next
+#             last.next = None
+#             self.len -= 1
+#             return copy
+
+#     @error
+#     def __getitem__(self, item):
+#         i = 0
+#         obj = self.top
+#         while i < item:
+#             obj = obj.next
+#             i += 1
+#         return obj
+
+#     @error
+#     def __setitem__(self, key, value):
+#         i = 0
+#         obj = self.top
+#         while i < key:
+#             obj = obj.next
+#             i += 1
+#         obj.data = value.data
+
+# st = Stack()
+# st.push(StackObj("obj1"))
+# st.push(StackObj("obj2"))
+# st.push(StackObj("obj3"))
+# st[1] = StackObj("new obj2")
+# print(st[2].data)  # obj3
+# print(st[1].data)  # new obj2
+# res = st[3]  # исключение IndexError
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Integer:
+#     def __init__(self, start_value=0) -> None:
+#         self.__value = start_value
+
+#     @property
+#     def value(self):
+#         return self.__value
+
+#     @value.setter
+#     def value(self, value):
+#         self.__value = value
+
+# def error(func):
+#     def wrapper(self, *args, **kwargs):
+#         if not (0 <= args[0] < self.max_length):
+#             raise IndexError('некорректный индекс')
+#         if len(args) > 1:
+#             if not isinstance(args[1], int):
+#                 raise ValueError('должно быть целое число')
+#         return func(self, *args)
+#     return wrapper
+
+# class Array:
+#     def __init__(self, max_length, cell=None) -> None:
+#         self.max_length = max_length
+#         self.cells = [cell() for _ in range(max_length)]
+
+#     @error
+#     def __getitem__(self, *args):
+#         return self.cells[args[0]].value
+
+#     @error
+#     def __setitem__(self, *args):
+#         self.cells[args[0]].value = args[1]
+
+#     def __repr__(self) -> str:
+#         return " ".join(str(cell.value) for cell in self.cells)
+
+# ar_int = Array(10, cell=Integer)
+# print(ar_int[3])
+# print(ar_int)  # должны отображаться все значения массива в одну строчку через пробел
+# ar_int[1] = 10
+# # ar_int[1] = 10.5  # должно генерироваться исключение ValueError
+# print(ar_int)  # должны отображаться все значения массива в одну строчку через пробел
+# # ar_int[10] = 1  # должно генерироваться исключение IndexError
+# # --------------------------------------------------------------------------------------------------------
+
+# class IntegerValue:
+#     def __set_name__(self, owner, name):
+#         self.name = '_' + name
+
+#     def __get__(self, instance, owner):
+#         return getattr(instance, self.name)
+
+#     def __set__(self, instance, value):
+#         if isinstance(value, int):
+#             setattr(instance, self.name, value)
+#         else:
+#             raise ValueError('возможны только целочисленные значения')
+
+# class CellInteger:
+#     value = IntegerValue()
+
+#     def __init__(self, value=0) -> None:
+#         self.value = value
+
+# def error_index(func):
+#     def wrapper(self, *args, **kwargs):
+#         if not (0 <= args[0][0] < self.rows and 0 <= args[0][1] < self.cols):
+#             raise IndexError('некорректный индекс')
+#         return func(self, *args)
+#     return wrapper
+
+# class TableValues:
+#     def __init__(self, rows, cols, *args, **kwargs) -> None:
+#         if 'cell' not in kwargs:
+#             raise ValueError('параметр cell не указан')
+#         self.rows = rows
+#         self.cols = cols
+#         self.cell = kwargs['cell']
+#         self.cells = tuple(tuple([CellInteger()
+#                            for col in range(cols)]) for row in range(rows))
+
+#     @error_index
+#     def __getitem__(self, *args):
+#         row, col = args[0]
+#         return self.cells[row][col].value
+
+#     @error_index
+#     def __setitem__(self, *args):
+#         row, col = args[0]
+#         value = args[1]
+#         self.cells[row][col].value = value
+
+# table = TableValues(2, 3, cell=CellInteger)
+# print(table[0, 1])
+# table[1, 1] = 10
+# # table[0, 0] = 1.45  # генерируется исключение ValueError
+
+# # вывод таблицы в консоль
+# for row in table.cells:
+#     for x in row:
+#         print(x.value, end=' ')
+#     print()
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Track:
+#     def __init__(self, start_x, start_y) -> None:
+#         self.start_x = start_x
+#         self.start_y = start_y
+#         self.way = []
+
+#     def add_point(self, x, y, speed):
+#         self.way.append([(x, y), speed])
+
+#     def __getitem__(self, key):
+#         if 0 <= key < len(self.way):
+#             return self.way[key]
+#         raise IndexError('некорректный индекс')
+
+#     def __setitem__(self, key, value):
+#         if 0 <= key < len(self.way):
+#             self.way[key][1] = value
+#         else:
+#             raise IndexError('некорректный индекс')
+
+# tr = Track(10, -5.4)
+# tr.add_point(20, 0, 100)  # первый линейный сегмент: indx = 0
+# tr.add_point(50, -20, 80)  # второй линейный сегмент: indx = 1
+# tr.add_point(63.45, 1.24, 60.34)  # третий линейный сегмент: indx = 2
+
+# tr[2] = 60
+# c, s = tr[2]
+# print(c, s)
+
+# res = tr[3]  # IndexError
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Record:
+#     def __init__(self, **kwargs) -> None:
+#         self.len = len(kwargs)
+#         self.properties = {}
+#         for indx, pair in enumerate(kwargs.items()):
+#             setattr(self, pair[0], pair[1])
+#             self.properties[indx] = {"свойство": pair[0],
+#                                      "значение": pair[1]}
+
+#     def __getitem__(self, key):
+#         if 0 <= key < self.len:
+#             return self.properties[key]["значение"]
+#         else:
+#             raise IndexError('неверный индекс поля')
+
+#     def __setitem__(self, key, value):
+#         if 0 <= key < self.len:
+#             self.properties[key]["значение"] = value
+#             setattr(self, self.properties[key]["свойство"], value)
+#         else:
+#             raise IndexError('неверный индекс поля')
+
+# r = Record(pk=1, title='Python ООП', author='Балакирев')
+# r[0] = 2  # доступ к полю pk
+# r[1] = 'Супер курс по ООП'  # доступ к полю title
+# r[2] = 'Балакирев С.М.'  # доступ к полю author
+# print(r[1])  # Супер курс по ООП
+# r[3]  # генерируется исключение IndexError
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Validator:
+#     def _is_valid(self, data):
+#         return True
+
+#     def __call__(self, *args, **kwds):
+#         if self._is_valid(args[0]):
+#             return True
+#         else:
+#             raise ValueError('данные не прошли валидацию')
+
+# class IntegerValidator(Validator):
+#     def __init__(self, min_value, max_value) -> None:
+#         self.min_value = min_value
+#         self.max_value = max_value
+
+#     def _is_valid(self, data):
+#         if isinstance(data, int):
+#             if self.min_value <= data <= self.max_value:
+#                 return True
+#         return False
+
+# class FloatValidator (Validator):
+#     def __init__(self, min_value, max_value) -> None:
+#         self.min_value = min_value
+#         self.max_value = max_value
+
+#     def _is_valid(self, data):
+#         if isinstance(data, float):
+#             if self.min_value <= data <= self.max_value:
+#                 return True
+#         return False
+
+# integer_validator = IntegerValidator(-10, 10)
+# float_validator = FloatValidator(-1, 1)
+# res1 = integer_validator(10)  # исключение не генерируется (проверка проходит)
+# res2 = float_validator(10)    # исключение ValueError
+# --------------------------------------------------------------------------------------------------------
+
+# class Singleton:
+#     __instance = None
+
+#     def __new__(cls, *args, **kwargs):
+#         if cls.__instance is None:
+#             cls.__instance = super().__new__(cls)
+#         return cls.__instance
+
+# class Game(Singleton):
+#     def __init__(self, name) -> None:
+#         if not hasattr(self, 'name'):
+#             self.name = name
+
+# g1 = Game("game1")
+# g2 = Game("game2")
+# a = 1
+# print(g2.name)
+# --------------------------------------------------------------------------------------------------------
+
+# class GenericView:
+#     def __init__(self, methods=('GET',)):
+#         self.methods = methods
+
+#     def get(self, request):
+#         return ""
+
+#     def post(self, request):
+#         return f"url: {request['url']}"
+
+#     def put(self, request):
+#         return f"url: {request['url']}"
+
+#     def delete(self, request):
+#         return f"url: {request['url']}"
+
+# class DetailView(GenericView):
+#     def __init__(self, methods=('GET', )):
+#         super().__init__(methods)
+
+#     def render_request(self, request, method):
+#         if not method in self.methods:
+#             raise TypeError('данный запрос не может быть выполнен')
+#         return getattr(self, method.lower())(request)
+
+#     def get(self, request):
+#         if not isinstance(request, dict):
+#             raise TypeError('request не является словарем')
+#         if not 'url' in request:
+#             raise TypeError('request не содержит обязательного ключа url')
+#         return f"url: {request['url']}"
+
+# # dv = DetailView()  # по умолчанию methods=('GET',)
+# dv = DetailView(methods=('PUT', 'POST'))
+# html = dv.render_request({'url': 'https://site.ru/home'}, 'POST')
+# print(html)
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Thing:
+#     ID = 1
+
+#     def __init__(self, name, price) -> None:
+#         self.id = getattr(Thing, "ID")
+#         setattr(Thing, "ID", self.id + 1)
+#         self.name = name
+#         self.price = price
+#         self.weight = None
+#         self.dims = None
+#         self.memory = None
+#         self.frm = None
+
+#     def get_data(self):
+#         data = tuple(self.__dict__.values())
+#         return data
+
+# class Table(Thing):
+#     def __init__(self, name, price, weight, dims) -> None:
+#         super().__init__(name, price)
+#         self.weight = weight
+#         self.dims = dims
+
+# class ElBook(Thing):
+#     def __init__(self, name, price, memory, frm) -> None:
+#         super().__init__(name, price)
+#         self.memory = memory
+#         self.frm = frm
+
+# table = Table("Круглый", 1024, 812.55, (700, 750, 700))
+# book = ElBook("Python ООП", 2000, 2048, 'pdf')
+# print(*table.get_data())
+# print(*book.get_data())
 #
+# class StackObj:
+#     def __init__(self, data) -> None:
+#         self.__next = None
+#         self.__data = data
+
+#     @property
+#     def next(self):
+#         return self.__next
+
+#     @next.setter
+#     def next(self, next):
+#         if type(next) == StackObj or next == None:
+#             self.__next = next
+
+#     @property
+#     def data(self):
+#         return self.__data
+
+#     @data.setter
+#     def data(self, data):
+#         self.__data = data
+
+# class Stack:
+#     def __init__(self) -> None:
+#         self.top: StackObj = None
+#         self.len = 0
+
+#     def push_back(self, obj: StackObj):
+#         self.len += 1
+#         if self.top == None:
+#             self.top = obj
+#             return
+#         last = self.top
+#         while last.next != None:
+#             last = last.next
+#         last.next = obj
+
+#     def push_front(self, obj: StackObj):
+#         self.len += 1
+#         if self.top == None:
+#             self.top = obj
+#             return
+#         obj.next = self.top
+#         self.top = obj
+
+#     def pop_back(self):
+#         if self.top == None:
+#             return
+#         elif self.top.next == None:
+#             copy = self.top
+#             self.top = None
+#             self.len -= 1
+#             return copy
+#         else:
+#             last = self.top
+#             while last.next.next != None:
+#                 last = last.next
+#             copy = last.next
+#             last.next = None
+#             self.len -= 1
+#             return copy
+
+#     def __iter__(self):
+#         self.obj = self.top
+#         return self
+
+#     def __next__(self):
+#         old_obj = self.obj
+#         if old_obj:
+#             self.obj = old_obj.next
+#             return old_obj
+#         else:
+#             raise StopIteration
+
+#     def __getitem__(self, item):
+#         if not (0 <= item < self.len):
+#             raise IndexError('неверный индекс')
+#         i = 0
+#         obj = self.top
+#         while i < item:
+#             obj = obj.next
+#             i += 1
+#         return obj.data
+
+#     def __setitem__(self, key, value):
+#         if not (0 <= key < self.len):
+#             raise IndexError('неверный индекс')
+#         i = 0
+#         obj = self.top
+#         while i < key:
+#             obj = obj.next
+#             i += 1
+#         obj.data = value
+
+#     def __len__(self):
+#         return self.len
+
+# stack_ = Stack()
+# for i in range(10):
+#     stack_.push_back(StackObj(f"{i}"))
+
+# for i in stack_:
+#     print(i.data)
+
+# stack_[2] = "100"
+
+# for i in stack_:
+#     print(i.data)
+# --------------------------------------------------------------------------------------------------------
+
+# class IterColumn:
+#     def __init__(self, lst, column) -> None:
+#         self.lst = lst
+#         self.column = column
+
+#     def __iter__(self):
+#         self.i = -1
+#         return self
+
+#     def __next__(self):
+#         self.i += 1
+#         if self.i < len(self.lst):
+#             return self.lst[self.i][self.column]
+#         else:
+#             raise StopIteration
+
+# lst = [[1, 2, 3, 4, 5],
+#        [6, 7, 8, 9, 10],
+#        [11, 12, 13, 14, 15],
+#        [16, 17, 18, 19, 20]
+#        ]
+# for i in IterColumn(lst, 1):
+#     print(i)
+# --------------------------------------------------------------------------------------------------------
+
+# class TriangleListIterator:
+#     def __init__(self, lst) -> None:
+#         self.lst = lst
+
+#     def __iter__(self):
+#         self.i = 0
+#         self.j = -1
+#         return self
+
+#     def __next__(self):
+#         if self.j < self.i:
+#             self.j += 1
+#         else:
+#             self.i += 1
+#             self.j = 0
+#         if self.i < len(self.lst):
+#             return self.lst[self.i][self.j]
+#         else:
+#             raise StopIteration
+
+# lst = [[1],
+#        [2, 3],
+#        [4, 5, 6],
+#        [7, 8, 9, 10]
+#        ]
+# for i in TriangleListIterator(lst):
+#     print(i)
+
+# lst = [1, 2, 3]
+# print(next(iter(lst)))
+
+# def hello_function(func):
+#     def wrapper(name):
+#         print(f"Hello, ")
+#         return func(name)
+#     return wrapper
+
+# @hello_function
+# def print_name(name):
+#     print(name)
+
+# # print_name = hello_function(print_name)("Igor")
+
+# print_name("Igor")
+
+# def error(func):
+#     def wrapper(*args):
+#         try:
+#             assert args[1] in range(0, 5)
+#             return func(*args)
+#         except:
+#             raise IndexError('неверный индекс')
+
+#     return wrapper
+
+# class Person:
+#     def __init__(self, fio, job, old, salary, year_job):
+#         self.fio = fio
+#         self.job = job
+#         self.old = old
+#         self.salary = salary
+#         self.year_job = year_job
+
+#     @error
+#     def __getitem__(self, item):
+#         dic = self.__dict__
+#         keys = list(self.__dict__.keys())
+#         name = keys[item]
+#         result = self.__dict__[list(self.__dict__.keys())[item]]
+#         return result
+
+#     @error
+#     def __setitem__(self, item, value):
+#         self.__dict__[list(self.__dict__.keys())[item]] = value
+
+#     def __iter__(self):
+#         return iter(self.__dict__.values())
+
+# pers = Person('Гейтс Б.', 'бизнесмен', 61, 1000000, 46)
+# pers[0] = 'Балакирев С.М.'
+# print(pers[2])
+# for v in pers:
+#     print(v)
+
+# --------------------------------------------------------------------------------------------------------
+# class Person:
+#     def __init__(self, fio, job, old, salary, year_job) -> None:
+#         self.fio = self.fio2 = [fio]
+#         self.job = self.job2 = [job]
+#         self.old = self.old2 = [old]
+#         self.salary = self.salary2 = [salary]
+#         self.year_job = self.year_job2 = [year_job]
+#         self.data = [self.fio2, self.job2,
+#                      self.old2, self.salary2, self.year_job2]
+
+#     def __getattribute__(self, name: str):
+#         if name in ('fio', 'job', 'old', 'salary', 'year_job'):
+#             return object.__getattribute__(self, name)[0]
+#         else:
+#             return object.__getattribute__(self, name)
+
+#     @classmethod
+#     def check_index(cls, index):
+#         if 0 <= index <= 4:
+#             return True
+#         raise IndexError('неверный индекс')
+
+#     def __getitem__(self, key):
+#         self.check_index(key)
+#         return self.data[key][0]
+
+#     def __setitem__(self, key, value):
+#         self.check_index(key)
+#         self.data[key][0] = value
+
+#     def __iter__(self):
+#         self.i = -1
+#         return self
+
+#     def __next__(self):
+#         if self.i < 4:
+#             self.i += 1
+#             return self.data[self.i][0]
+#         else:
+#             raise StopIteration
+
+# pers[5] = 123  # IndexError
+
+# --------------------------------------------------------------------------------------------------------
+
+# from random import choice
+
+# class Cell:
+#     def __init__(self) -> None:
+#         self.value = 0
+
+#     def __bool__(self):
+#         return self.value == 0
+
+# class TicTacToe:
+#     FREE_CELL = 0      # свободная клетка
+#     HUMAN_X = 1        # крестик (игрок - человек)
+#     COMPUTER_O = 2     # нолик (игрок - компьютер)
+
+#     def __init__(self) -> None:
+#         self.init()
+
+#     def __getitem__(self, key):
+#         i, j = key
+#         self.check_indeces(i, j)
+#         return self.pole[i][j].value
+
+#     def __setitem__(self, key, value):
+#         i, j = key
+#         self.check_indeces(i, j)
+#         if self.pole[i][j]:
+#             self.pole[i][j].value = value
+#             self.empty_cells.remove((i, j))
+#         bool(self)
+
+#     @staticmethod
+#     def check_indeces(i, j):
+#         if isinstance(i, int) and isinstance(j, int):
+#             if 0 <= i <= 2 and 0 <= j <= 2:
+#                 return True
+#         raise IndexError('некорректно указанные индексы')
+
+#     def init(self):
+#         self.human_win = False
+#         self.pc_win = False
+#         self.draw = False
+#         self.end_game = False
+#         self.pole = tuple([[Cell() for _ in range(3)] for _ in range(3)])
+#         self.empty_cells = [(i, j) for i in range(3) for j in range(3)]
+
+#     def show(self):
+#         print("**********************************************")
+#         for row in self.pole:
+#             for cell in row:
+#                 if cell.value == self.FREE_CELL:
+#                     print("-", end=" ")
+#                 elif cell.value == self.COMPUTER_O:
+#                     print("o", end=" ")
+#                 else:
+#                     print("x", end=" ")
+#             print("")
+
+#     def human_go(self):
+#         input_ = input(
+#             "Введите свой ход: i (номер строки) j (номер столбца): ")
+#         try:
+#             coords = tuple(map(int, input_.split()))
+#         except:
+#             raise IndexError('некорректно указанные индексы')
+
+#         self.check_indeces(*coords)
+#         self.__setitem__(coords, self.HUMAN_X)
+
+#     def computer_go(self):
+#         self.__setitem__(choice(self.empty_cells), self.COMPUTER_O)
+
+#     def check_rows(self, WINNER):
+#         for row in self.pole:
+#             if all(map(lambda cell: cell.value == WINNER, row)):
+#                 return True
+#         return False
+
+#     def check_columns(self, WINNER):
+#         columns = [[self.pole[j][i] for j in range(3)] for i in range(3)]
+#         for column in columns:
+#             if all(map(lambda cell: cell.value == WINNER, column)):
+#                 return True
+#         return False
+
+#     def check_diagonals(self, WINNER):
+#         diagonal1 = [self.pole[i][i] for i in range(3)]
+#         diagonal2 = [self.pole[i][-i-1] for i in range(3)]
+#         if all(map(lambda cell: cell.value == WINNER, diagonal1)) or all(map(lambda cell: cell.value == WINNER, diagonal2)):
+#             return True
+#         return False
+
+#     def check_win(self, WINNER):
+#         return self.check_rows(WINNER) or self.check_columns(WINNER) or self.check_diagonals(WINNER)
+
+#     @property
+#     def is_human_win(self):
+#         return self.human_win
+
+#     @property
+#     def is_computer_win(self):
+#         return self.pc_win
+
+#     @property
+#     def is_draw(self):
+#         return self.draw
+
+#     def __bool__(self):  # return True - если игра не окончена. False если окончена
+#         if self.check_win(self.HUMAN_X):
+#             self.human_win = True
+#             self.end_game = True
+#         elif self.check_win(self.COMPUTER_O):
+#             self.pc_win = True
+#             self.end_game = True
+#         elif len(self.empty_cells) == 0:
+#             self.draw = True
+#             self.end_game = True
+#         return not self.end_game
+
+# cell = Cell()
+# assert cell.value == 0, "начальное значение атрибута value объекта класса Cell должно быть равно 0"
+# assert bool(
+#     cell), "функция bool для объекта класса Cell вернула неверное значение"
+# cell.value = 1
+# assert bool(
+#     cell) == False, "функция bool для объекта класса Cell вернула неверное значение"
+
+# assert hasattr(TicTacToe, 'show') and hasattr(TicTacToe, 'human_go') and hasattr(
+#     TicTacToe, 'computer_go'), "класс TicTacToe должен иметь методы show, human_go, computer_go"
+
+# game = TicTacToe()
+# assert bool(
+#     game), "функция bool вернула неверное значения для объекта класса TicTacToe"
+# assert game[0, 0] == 0 and game[2,
+#                                 2] == 0, "неверные значения ячеек, взятые по индексам"
+# game[1, 1] = TicTacToe.HUMAN_X
+# assert game[1, 1] == TicTacToe.HUMAN_X, "неверно работает оператор присваивания нового значения в ячейку игрового поля"
+
+# game[0, 0] = TicTacToe.COMPUTER_O
+# assert game[0, 0] == TicTacToe.COMPUTER_O, "неверно работает оператор присваивания нового значения в ячейку игрового поля"
+
+# game.init()
+# assert game[0, 0] == TicTacToe.FREE_CELL and game[1,
+#                                                   1] == TicTacToe.FREE_CELL, "при инициализации игрового поля все клетки должны принимать значение из атрибута FREE_CELL"
+
+# try:
+#     game[3, 0] = 4
+# except IndexError:
+#     assert True
+# else:
+#     assert False, "не сгенерировалось исключение IndexError"
+
+# game.init()
+# assert game.is_human_win == False and game.is_computer_win == False and game.is_draw == False, "при инициализации игры атрибуты is_human_win, is_computer_win, is_draw должны быть равны False, возможно не пересчитывается статус игры при вызове метода init()"
+
+# game[0, 0] = TicTacToe.HUMAN_X
+# game[1, 1] = TicTacToe.HUMAN_X
+# game[2, 2] = TicTacToe.HUMAN_X
+# assert game.is_human_win and game.is_computer_win == False and game.is_draw == False, "некорректно пересчитываются атрибуты is_human_win, is_computer_win, is_draw. Возможно не пересчитывается статус игры в момент присвоения новых значения по индексам: game[i, j] = value"
+
+# game.init()
+# game[0, 0] = TicTacToe.COMPUTER_O
+# game[1, 0] = TicTacToe.COMPUTER_O
+# game[2, 0] = TicTacToe.COMPUTER_O
+# assert game.is_human_win == False and game.is_computer_win and game.is_draw == False, "некорректно пересчитываются атрибуты is_human_win, is_computer_win, is_draw. Возможно не пересчитывается статус игры в момент присвоения новых значения по индексам: game[i, j] = value"
+
+# --------------------------------------------------------------------------------------------------------
+
+# import sys
+
+# class BookStudy:
+#     def __init__(self, name, author, year) -> None:
+#         self.name = name
+#         self.author = author
+#         self.year = year
+
+#     def __hash__(self) -> int:
+#         return hash((self.name.lower(), self.author.lower()))
+
+#     def __eq__(self, other) -> bool:
+#         return self.name.lower() == other.name.lower() and self.author.lower() == other.author.lower()
+
+# lst_bs = []
+# lst_in = list(map(str.strip, sys.stdin.readlines()))
+# for row in lst_in:
+#     lst_bs.append(BookStudy(*row.split("; ")))
+
+# unique_books = len(set(lst_bs))
+
+# --------------------------------------------------------------------------------------------------------
+
+# import sys
+
+# class Record:
+#     ID = 1
+
+#     def __init__(self, fio, descr, old) -> None:
+#         self.fio: str = fio
+#         self.descr: str = descr
+#         self.old = int(old)
+#         self.pk = getattr(Record, "ID")
+#         setattr(Record, "ID", Record.ID + 1)
+
+#     def __hash__(self) -> int:
+#         return hash((self.fio.lower(), self.old))
+
+#     def __eq__(self, other) -> bool:
+#         return self.fio.lower() == other.fio.lower() and self.old == other.old
+
+# class DataBase:
+#     def __init__(self, path: str) -> None:
+#         self.dict_db = {}
+#         self.keys = {}
+
+#     def write(self, record: Record):
+#         if record in self.dict_db:
+#             self.dict_db[record].append(record)
+#         else:
+#             self.dict_db[record] = [record]
+
+#         self.keys[record.pk] = record
+
+#     def read(self, pk):
+#         if pk in self.keys:
+#             for item in self.dict_db[self.keys[pk]]:
+#                 if item.pk == pk:
+#                     return item
+
+# db = DataBase("path")
+
+# lst_in = list(map(str.strip, sys.stdin.readlines()))
+# for row in lst_in:
+#     db.write(Record(*row.split("; ")))
+# a = 1
+
+# --------------------------------------------------------------------------------------------------------
+
+# import sys
+
+# class ShopItem:
+#     def __init__(self, name, weight, price) -> None:
+#         self.name = name.lower()
+#         self.weight = weight
+#         self.price = price
+
+#     def __eq__(self, other) -> bool:
+#         return hash(self) == hash(other)
+
+#     def __hash__(self) -> int:
+#         return hash((self.name, self.weight, self.price))
+
+#     # def __repr__(self) -> str:
+#     #     return self.name
+
+# lst_in = list(map(str.strip, sys.stdin.readlines()))
+# shop_items = {}
+# for row in lst_in:
+#     params = row.split(':')
+#     item = ShopItem(params[0], *params[1].split())
+#     if item in shop_items:
+#         shop_items[item][1] += 1
+#     else:
+#         shop_items[item] = [item, 1]
+
+# print(shop_items)
+
+# h1 = hash(ShopItem("Монитор Samsung", 2000, 34000))
+# h2 = hash(ShopItem("Монитор Samsung", 2000, 34000))
+# print(h1)
+# print(h2)
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Rect:
+#     def __init__(self, x, y, width, height) -> None:
+#         self.x = x
+#         self.y = y
+#         self.width = width
+#         self.height = height
+
+#     def __eq__(self, other) -> bool:
+#         return self.width == other.width and self.height == other.height
+
+#     def __hash__(self) -> int:
+#         return hash((self.width, self.height))
+
+# r1 = Rect(10, 5, 100, 50)
+# r2 = Rect(-10, 4, 100, 50)
+
+# h1, h2 = hash(r1), hash(r2)   # h1 == h2
+# print(h1, h2)
+
+# --------------------------------------------------------------------------------------------------------
+
+# # здесь объявляйте класс
+# class Morph:
+#     def __init__(self, *args) -> None:
+#         self.words = list(args)
+
+#     def add_word(self, word):
+#         self.words.append(word)
+
+#     def get_words(self):
+#         return tuple(self.words)
+
+#     def __eq__(self, other: str) -> bool:
+#         return other.lower() in self.words
+
+# text = input()   # эту строчку не менять
+
+# # здесь создавайте объекты класса и обрабатывайте строку text
+# dict_words = [Morph('связь', 'связи', 'связью', 'связи', 'связей', 'связям', 'связями', 'связях'),
+#               Morph('формула', 'формулы', 'формуле', 'формулу', 'формулой', 'формул', 'формулам', 'формулами',
+#                     'формулах'),
+#               Morph('вектор', 'вектора', 'вектору', 'вектором', 'векторе', 'векторы', 'векторов', 'векторам',
+#                     'векторами', 'векторах'
+#                     ),
+#               Morph('эффект', 'эффекта', 'эффекту', 'эффектом', 'эффекте', 'эффекты', 'эффектов', 'эффектам',
+#                     'эффектами', 'эффектах'
+#                     ), Morph('день', 'дня', 'дню', 'днем', 'дне', 'дни', 'дням', 'днями', 'днях'
+#                              )]
+# count = 0
+# for word in text.strip('. ;,').split():
+#     if word.strip('. ;,') in dict_words:
+#         count += 1
+
+# print(count)
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Book:
+#     def __init__(self, title, author, year) -> None:
+#         self.title, self.author, self.year = title, author, year
+
+# class Lib:
+#     def __init__(self) -> None:
+#         self.book_list = []
+
+#     def __len__(self):
+#         return len(self.book_list)
+
+#     def __add__(self, other: Book):
+#         self.book_list.append(other)
+#         return self
+
+#     def __sub__(self, other):
+#         if isinstance(other, Book):
+#             self.book_list.remove(other)
+#         else:
+#             self.book_list.pop(other)
+#         return self
+
+# --------------------------------------------------------------------------------------------------------
+
+# class StackObj:
+#     def __init__(self, data) -> None:
+#         self.__next = None
+#         self.__data = data
+
+#     @property
+#     def next(self):
+#         return self.__next
+
+#     @next.setter
+#     def next(self, next):
+#         if type(next) == StackObj or next == None:
+#             self.__next = next
+
+#     @property
+#     def data(self):
+#         return self.__data
+
+#     @data.setter
+#     def data(self, data):
+#         self.__data = data
+
+# class Stack:
+#     def __init__(self) -> None:
+#         self.top: StackObj = None
+
+#     def push_back(self, obj: StackObj):
+#         if self.top == None:
+#             self.top = obj
+#             return
+#         last = self.top
+#         while last.next != None:
+#             last = last.next
+#         last.next = obj
+
+#     def pop_back(self):
+#         if self.top == None:
+#             return
+#         elif self.top.next == None:
+#             copy = self.top
+#             self.top = None
+#             return copy
+#         else:
+#             last = self.top
+#             while last.next.next != None:
+#                 last = last.next
+#             copy = last.next
+#             last.next = None
+#             return copy
+
+#     def get_data(self):
+#         result = []
+#         last = self.top
+#         while last:
+#             result.append(last.data)
+#             last = last.next
+#         return result
+
+#     def __add__(self, other: StackObj):
+#         self.push_back(other)
+#         return self
+
+#     def __mul__(self, other: list):
+#         for obj in other:
+#             self.push_back(StackObj(obj))
+#         return self
+
+#     def __imul__(self, other: list):
+#         for obj in other:
+#             self.push_back(StackObj(obj))
+#         return self
+
+# assert hasattr(Stack, 'pop_back'), "класс Stack должен иметь метод pop_back"
+
+# st = Stack()
+# top = StackObj("1")
+# st.push_back(top)
+# assert st.top == top, "неверное значение атрибута top"
+
+# st = st + StackObj("2")
+# st = st + StackObj("3")
+# obj = StackObj("4")
+# st += obj
+
+# st = st * ['data_1', 'data_2']
+# st *= ['data_3', 'data_4']
+
+# d = ["1", "2", "3", "4", 'data_1', 'data_2', 'data_3', 'data_4']
+# h = top
+# i = 0
+# while h:
+#     assert h._StackObj__data == d[i], "неверное значение атрибута __data, возможно, некорректно работают операторы + и *"
+#     h = h._StackObj__next
+#     i += 1
+
+# assert i == len(d), "неверное число объектов в стеке"
+
+# s1 = StackObj("1")
+# s2 = StackObj("2")
+# s3 = StackObj("3")
+# stack_ = Stack()
+# stack_ = stack_ * [s1, s2, s3]
+# print(stack_.get_data())
+# stack_ += StackObj("4")
+# print(stack_.get_data())
+# --------------------------------------------------------------------------------------------------------
+
+# import operator
+# from itertools import accumulate
+
+# class ListMath:
+#     def __init__(self, lst_math: list = []) -> None:
+#         self.lst_math = [el for el in lst_math if type(el) in (int, float)]
+
+#     def __add__(self, rhs):
+#         return ListMath([el+rhs for el in self.lst_math])
+
+#     def __iadd__(self, rhs):
+#         self.lst_math = [el+rhs for el in self.lst_math]
+#         return self
+
+#     def __radd__(self, lhs):
+#         return self + lhs
+
+#     def __sub__(self, rhs):
+#         return ListMath([el-rhs for el in self.lst_math])
+
+#     def __isub__(self, rhs):
+#         self.lst_math = [el-rhs for el in self.lst_math]
+#         return self
+
+#     def __rsub__(self, lhs):
+#         return ListMath([lhs - el for el in self.lst_math])
+
+#     def __mul__(self, rhs):
+#         return ListMath([el*rhs for el in self.lst_math])
+
+#     def __imul__(self, rhs):
+#         self.lst_math = [el*rhs for el in self.lst_math]
+#         return self
+
+#     def __rmul__(self, lhs):
+#         return self * lhs
+
+#     def __truediv__(self, rhs):
+#         return ListMath([float(el)/rhs for el in self.lst_math])
+
+#     def __itruediv__(self, rhs):
+#         self.lst_math = [float(el)/rhs for el in self.lst_math]
+#         return self
+
+#     def __rtruediv__(self, rhs):
+#         return ListMath([float(rhs)/el for el in self.lst_math])
+
+# # При использовании бинарных операторов +, -, *, /
+# # должны формироваться новые объекты класса ListMath с новыми списками, прежние списки не меняются.
+# # При использовании операторов +=, -=, *=, /= значения должны меняться внутри списка текущего объекта
+# #  (новый объект не создается).
+# lst1 = ListMath()
+# lp = [1, False, 2, -5, "abc", 7]
+# lst2 = ListMath(lp)
+# lst3 = ListMath(lp)
+
+# assert id(lst2.lst_math) != id(
+#     lst3.lst_math), "внутри объектов класса ListMath должна создаваться копия списка"
+
+# assert lst1.lst_math == [] and lst2.lst_math == [
+#     1, 2, -5, 7], "неверные значения в списке объекта класса ListMath"
+
+# res1 = lst2 + 76
+# lst = ListMath([1, 2, 3])
+# lst += 5
+# assert lst.lst_math == [6, 7, 8] and res1.lst_math == [
+#     77, 78, 71, 83], "неверные значения, полученные при операциях сложения"
+
+# lst = ListMath([0, 1, 2])
+# res3 = lst - 76
+# res4 = 7 - lst
+# assert res3.lst_math == [-76, -75, -74] and res4.lst_math == [7,
+#                                                               6, 5], "неверные значения, полученные при операциях вычитания"
+
+# lst -= 3
+# assert lst.lst_math == [-3, -2, -
+#                         1], "неверные значения, полученные при операции вычитания -="
+
+# lst = ListMath([1, 2, 3])
+# res5 = lst * 5
+# res6 = 3 * lst
+# lst *= 4
+# assert res5.lst_math == [5, 10, 15] and res6.lst_math == [
+#     3, 6, 9], "неверные значения, полученные при операциях умножения"
+# assert lst.lst_math == [
+#     4, 8, 12], "неверные значения, полученные при операциях умножения"
+
+# lst = lst / 2
+# lst /= 13.0
+# --------------------------------------------------------------------------------------------------------
+
+# class NewList:
+#     def __init__(self, lst: list = []) -> None:
+#         self.lst = lst
+
+#     def __sub__(self, rhs):
+#         if not isinstance(rhs, list):
+#             rhs = rhs.get_list()
+#         remove_indices = []
+#         for el in rhs:
+#             for indx, self_el in enumerate(self.lst):
+#                 if el == self_el and type(el) == type(self_el):
+#                     if indx not in remove_indices:
+#                         remove_indices.append(indx)
+#                         break
+
+#         result_list = [el for indx, el in enumerate(
+#             self.lst) if indx not in remove_indices]
+#         return NewList(result_list)
+
+#     def __rsub__(self, lhs):
+#         if isinstance(lhs, list):
+#             lhs = NewList(lhs)
+#         return lhs - self
+
+#     def get_list(self):
+#         return self.lst
+
+# lst1 = NewList([1, 2, -4, 6, 10, 11, 15, False, True])
+# lst2 = NewList([0, 1, 2, 3, True])
+# # 1
+# res_1 = lst1 - lst2  # NewList: [-4, 6, 10, 11, 15, False]
+# print("\t\t#1", res_1.get_list(), sep="\n\n")
+# # 2
+# lst1 -= lst2  # NewList: [-4, 6, 10, 11, 15, False]
+# print("\t\t#2", lst1.get_list(), sep="\n\n")
+# # 3
+# res_2 = lst2 - [0, True]  # NewList: [1, 2, 3]
+# print("\t\t#3", res_2.get_list(), sep="\n\n")
+# # 4
+# res_3 = [1, 2, 3, 4.5] - res_2  # NewList: [4.5]
+# print("\t\t#4", res_3.get_list(), sep="\n\n")
+# # 5
+# a = NewList([2, 2, 3])
+# res_4 = [1, 2, 2, 3] - a  # NewList: [1, 2]
+# print("\t\t#5", res_4.get_list(), sep="\n\n")
+
+# --------------------------------------------------------------------------------------------------------
+
+# class PolyLine:
+#     def __init__(self, *args) -> None:
+#         self.coords = list(args)
+
+#     def add_coord(self, x, y):
+#         self.coords.append((x, y))
+
+#     def remove_coord(self, indx):
+#         self.coords.pop(indx)
+
+#     def get_coords(self):
+#         return self.coords
+
+# poly = PolyLine((1, 2), (3, 5), (0, 10), (-1, 8))
+# poly.add_coord(50, 50)
+# poly.remove_coord(2)
+# print(poly.get_coords())
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Ingredient:
+#     def __init__(self, name, volume, measure) -> None:
+#         self.name = name
+#         self.volume = volume
+#         self.measure = measure
+
+#     def __str__(self) -> str:
+#         return f"{self.name}: {self.volume}, {self.measure}"
+
+# class Recipe:
+#     def __init__(self, *args) -> None:
+#         self.ingredients = list(args)
+
+#     def add_ingredient(self, ing: Ingredient):
+#         self.ingredients.append(ing)
+
+#     def remove_ingredient(self, ing: Ingredient):
+#         self.ingredients.remove(ing)
+
+#     def get_ingredients(self):
+#         return tuple(self.ingredients)
+
+#     def __len__(self):
+#         return len(self.ingredients)
+
+# recipe = Recipe()
+# recipe.add_ingredient(Ingredient("Соль", 1, "столовая ложка"))
+# recipe.add_ingredient(Ingredient("Мука", 1, "кг"))
+# recipe.add_ingredient(Ingredient("Мясо баранины", 10, "кг"))
+# ings = recipe.get_ingredients()
+# print(ings)
+# n = len(recipe)  # n = 3
+# print(n)
+
+# --------------------------------------------------------------------------------------------------------
+
+# from datetime import timedelta
+
+# class Clock:
+#     def __init__(self, hours, minutes, seconds) -> None:
+#         self.hours, self.minutes, self.seconds = hours, minutes, seconds
+
+#     def get_time(self):
+#         return self.hours * 3600 + self.minutes * 60 + self.seconds
+
+# class DeltaClock:
+#     def __init__(self, clock1: Clock, clock2: Clock) -> None:
+#         self.clock1 = clock1
+#         self.clock2 = clock2
+#         delta = clock1.get_time() - clock2.get_time()
+#         self.seconds_delta = delta if delta > 0 else 0
+
+#     def __str__(self) -> str:
+#         a = "{:0>8}".format(str(timedelta(seconds=self.seconds_delta)))
+#         return a[:3] + ' ' + a[3:6] + ' ' + a[6:]
+
+#     def __len__(self):
+#         return self.seconds_delta
+
+# dt = DeltaClock(Clock(2, 45, 0), Clock(1, 15, 0))
+# print(dt)  # 01: 30: 00
+# len_dt = len(dt)  # 5400
+# print(len_dt)
+# --------------------------------------------------------------------------------------------------------
+# from math import sqrt
+
+# class RadiusVector:
+#     def __init__(self, *args) -> None:
+#         len_ = len(args)
+#         self.size = args[0] if len_ == 1 else len_
+#         self.coords = list(args) if len_ > 1 else [0]*args[0]
+
+#     def set_coords(self, *args):
+#         len_ = len(args)
+#         if not all([isinstance(obj, (int, float)) for obj in args]):
+#             raise AttributeError(
+#                 "В качестве координат были переданы не вещественные числа")
+
+#         for i in range(min(len_, self.size)):
+#             self.coords[i] = args[i]
+
+#     def get_coords(self):
+#         return tuple(self.coords)
+
+#     def __len__(self):
+#         return self.size
+
+#     def __abs__(self):
+#         return sqrt(sum([coord**2 for coord in self.coords]))
+
+# vector3D = RadiusVector(3)
+# vector3D.set_coords(3, -5.6, 8)
+# a, b, c = vector3D.get_coords()
+# # ошибки быть не должно, последние две координаты игнорируются
+# vector3D.set_coords(3, -5.6, 8, 10, 11)
+# # ошибки быть не должно, меняются только первые две координаты
+# vector3D.set_coords(1, 2)
+# res_len = len(vector3D)  # res_len = 3
+# res_abs = abs(vector3D)
+# print(a, b, c, sep=' *** ')
+# print(res_len)
+# print(res_abs)
+# --------------------------------------------------------------------------------------------------------
+
+# from math import sqrt
+
+# class Complex:
+#     def __init__(self, real, img) -> None:
+#         self.real = real
+#         self.img = img
+
+#     @property
+#     def real(self):
+#         return self.__real
+
+#     @real.setter
+#     def real(self, real):
+#         if isinstance(real, (int, float)):
+#             self.__real = real
+#         else:
+#             raise ValueError("Неверный тип данных.")
+
+#     @property
+#     def img(self):
+#         return self.__img
+
+#     @img.setter
+#     def img(self, img):
+#         if isinstance(img, (int, float)):
+#             self.__img = img
+#         else:
+#             raise ValueError("Неверный тип данных.")
+
+#     def __abs__(self):
+#         return sqrt(self.real**2 + self.img**2)
+
+# cmp = Complex(7, 8)
+# cmp.img = 4
+# cmp.real = 3
+# c_abs = abs(cmp)
+# print(c_abs)
+
+# Error:
+# Traceback (most recent call last):
+#   File "jailed_code", line 40, in <module>
+#     assert type(Complex.real) == property and type(Complex.img) == property, "в классе Complex должны быть объявлены объекты-свойства real и img"
+#   File "jailed_code", line 9, in __get__
+#     return getattr(instance, self.name)
+# AttributeError: 'NoneType' object has no attribute '_real'
+
+# --------------------------------------------------------------------------------------------------------
+
+# class ObjList:
+#     def __init__(self, data) -> None:
+#         self.__next = None
+#         self.__prev = None
+#         self.__data = data
+
+#     @property
+#     def next(self):
+#         return self.__next
+
+#     @next.setter
+#     def next(self, obj):
+#         self.__next = obj
+
+#     @property
+#     def prev(self):
+#         return self.__prev
+
+#     @prev.setter
+#     def prev(self, obj):
+#         self.__prev = obj
+
+#     @property
+#     def data(self):
+#         return self.__data
+
+#     @data.setter
+#     def data(self, data):
+#         self.__data = data
+
+# class LinkedList:
+#     def __init__(self) -> None:
+#         self.head: ObjList = None
+#         self.tail: ObjList = None
+#         self.len = 0
+
+#     def add_obj(self, obj: ObjList):
+#         if self.head is None:
+#             self.tail = self.head = obj
+#         else:
+#             self.tail.next = obj
+#             obj.prev = self.tail
+#             self.tail = obj
+#         self.len += 1
+
+#     def remove_obj(self):
+#         if self.tail is None:
+#             return
+#         if self.tail.prev is None:
+#             self.tail = self.head = None
+#             self.len -= 1
+#             return
+#         self.len -= 1
+#         self.tail = self.tail.prev
+#         self.tail.next = None
+
+#     def remove_obj(self, indx):
+#         if indx < 0 or indx >= self.len or self.len == 0:
+#             raise IndexError(
+#                 f"Невозможно удалить объект по заданному индексу: {indx}")
+
+#         i = 0
+#         removed_obj: ObjList = self.head
+#         while i < indx:
+#             i += 1
+#             removed_obj = removed_obj.next
+
+#         prev_obj = removed_obj.prev
+#         next_obj = removed_obj.next
+#         if prev_obj and next_obj:
+#             prev_obj.next = next_obj
+#         elif prev_obj:  # нет следующего, т.е. удаляем последний
+#             self.tail = prev_obj
+#             self.tail.next = None
+#         elif next_obj:  # нет предыдущего, т.е. удаляем первый
+#             self.head = next_obj
+#             self.head.prev = None
+#         else: # единственный элемент
+#             self.tail = self.head = None
+
+#         self.len -= 1
+
+#     def get_data(self):
+#         result = []
+#         obj = self.head
+#         while obj:
+#             result.append(obj.data)
+#             obj = obj.next
+#         return result
+
+#     def __len__(self):
+#         return self.len
+
+#     def __call__(self, *args, **kwds):
+#         i = 0
+#         obj: ObjList = self.head
+#         while i < args[0]:
+#             i += 1
+#             obj = obj.next
+#         return obj.data
+
+# linked_lst = LinkedList()
+# linked_lst.add_obj(ObjList("Sergey"))
+# linked_lst.remove_obj(0)
+# linked_lst.add_obj(ObjList("Balakirev"))
+# linked_lst.add_obj(ObjList("Python"))
+# linked_lst.remove_obj(2)
+# s = linked_lst(1)  # s = Balakirev
+# print(s)
+# linked_lst.add_obj(ObjList("Python ООП"))
+# linked_lst.remove_obj(0)
+# linked_lst.add_obj(ObjList("Last element"))
+# n = len(linked_lst)  # n = 3
+# print(n)
+# s = linked_lst(0)  # s = Balakirev
+# print(s)
+# --------------------------------------------------------------------------------------------------------
+
+# class HandlerGET:
+#     def __init__(self, func) -> None:
+#         self.func = func
+
+#     def get(self, func, request: dict, *args, **kwargs):
+#         if request.get("method", None) in (None, "GET"):
+#             return f"GET: {func(request)}"
+#         return None
+
+#     def __call__(self, request, *args, **kwds):
+#         return self.get(self.func, request)
+
+# @HandlerGET
+# def contact(request):
+#     return "Сергей Балакирев"
+
+# # "GET: Сергей Балакирев"
+# res = contact({"method": "GET", "url": "contact.html"})
+# print(res)
+# --------------------------------------------------------------------------------------------------------
+
+# class RenderList:
+#     def __init__(self, type_list="ol") -> None:
+#         if type_list not in ("ol", "ul"):
+#             type_list = "ul"
+#         self.type_list = type_list
+
+#     def __call__(self, *args, **kwds):
+#         list_items = [f"<li>{arg}</li>" for arg in args[0]]
+#         result = f"<{self.type_list}>\n" + \
+#             '\n'.join(list_items) + f"\n</{self.type_list}>\n"
+#         return result
+
+# lst = ["Пункт меню 1", "Пункт меню 2", "Пункт меню 3"]
+# render = RenderList("ul")
+# html = render(lst)
+# print(html)
+
+# --------------------------------------------------------------------------------------------------------
+
+# import re
+
+# class DigitRetrieve:
+#     def __call__(self, *args, **kwds):
+#         return int(args[0]) if re.fullmatch(r"-{,1}\d+", args[0]) else None
+
+# dg = DigitRetrieve()
+# d1 = dg("123")   # 123 (целое число)
+# d2 = dg("45.54")   # None (не целое число)
+# d3 = dg("-56")   # -56 (целое число)
+# d4 = dg("12fg")  # None (не целое число)
+# d5 = dg("abc")   # None (не целое число)
+
+# st = ["123", "abc", "-56.4", "0", "--5", "123-", "-5"]
+# digits = list(map(dg, st))  # [123, None, None, 0, None, None, -5]
+# print(digits)
+# --------------------------------------------------------------------------------------------------------
+
+# from string import ascii_lowercase, digits
+
+# class LoginForm:
+#     def __init__(self, name, validators=None):
+#         self.name = name
+#         self.validators = validators
+#         self.login = ""
+#         self.password = ""
+
+#     def post(self, request: dict):
+#         self.login = request.get('login', "")
+#         self.password = request.get('password', "")
+
+#     def is_validate(self):
+#         if not self.validators:
+#             return True
+
+#         for v in self.validators:
+#             if not v(self.login) or not v(self.password):
+#                 return False
+
+#         return True
+
+# # здесь прописывайте классы валидаторов: LengthValidator и CharsValidator
+# class CharsValidator:
+#     def __init__(self, chars) -> None:
+#         self.chars = chars
+
+#     def __call__(self, *args, **kwds):
+#         return all([c in self.chars for c in args[0]])
+
+# class LengthValidator:
+#     def __init__(self, min_length, max_length) -> None:
+#         self.min_length = min_length
+#         self.max_length = max_length
+
+#     def __call__(self, *args, **kwds):
+#         return self.min_length <= len(args[0]) <= self.max_length
+
+# lg = LoginForm("Вход на сайт", validators=[LengthValidator(
+#     3, 50), CharsValidator(ascii_lowercase + digits)])
+# lg.post({"login": "root", "password": "panda"})
+# if lg.is_validate():
+#     print("Дальнейшая обработка данных формы")
+
+# --------------------------------------------------------------------------------------------------------
+
+# import os
+
+# class ImageFileAcceptor:
+#     def __init__(self, extensions) -> None:
+#         self.extensions = extensions
+
+#     def __call__(self, *args, **kwds):
+#         return self.get_extension(args[0]) in self.extensions
+
+#     @staticmethod
+#     def get_extension(file: str):
+#         _, extension = os.path.splitext(file)
+#         return extension.strip('.')
+
+# filenames = ["boat.jpg", "web.png", "text.txt", "python.doc",
+#              "ava.jpg", "forest.jpeg", "eq_1.png", "eq_2.png"]
+# acceptor = ImageFileAcceptor(('jpg', 'bmp', 'jpeg'))
+# image_filenames = filter(acceptor, filenames)
+# print(list(image_filenames))  # ["boat.jpg", "ava.jpg", "forest.jpeg"]
+
+# --------------------------------------------------------------------------------------------------------
+
+# from random import randint
+
+# # class RandomPassword:
+# #     def __init__(self, psw_chars, min_length, max_length) -> None:
+# #         self.psw_chars = psw_chars
+# #         self.min_length = min_length
+# #         self.max_length = max_length
+
+# #     def __call__(self, *args, **kwargs):
+# #         psw_length = randint(self.min_length, self.max_length)
+# #         psw = ''
+# #         for _ in range(psw_length):
+# #             psw += self.psw_chars[randint(0, len(self.psw_chars) - 1)]
+# #         return psw
+
+# def RandomPassword(psw_chars, min_length, max_length):
+#     def make_password():
+#         psw_length = randint(min_length, max_length)
+#         psw = ''
+#         for _ in range(psw_length):
+#             psw += psw_chars[randint(0, len(psw_chars) - 1)]
+#         return psw
+#     return make_password
+
+# min_length = 5
+# max_length = 20
+# psw_chars = "qwertyuiopasdfghjklzxcvbnm0123456789!@#$%&*"
+# rnd = RandomPassword(psw_chars, min_length, max_length)
+
+# lst_pass = [rnd() for _ in range(3)]
+# print(lst_pass)
+# --------------------------------------------------------------------------------------------------------
+
+# import time
+
+# class Filter:
+#     def __init__(self, date) -> None:
+#         self.date = date
+
+#     def __setattr__(self, name, value) -> None:
+#         if not hasattr(self, name):
+#             object.__setattr__(self, name, value)
+
+# class Mechanical(Filter):
+#     pass
+
+# class Aragon(Filter):
+#     pass
+
+# class Calcium(Filter):
+#     pass
+
+# class GeyserClassic:
+#     MAX_DATE_FILTER = 100
+
+#     def __init__(self) -> None:
+#         self.slots = {
+#             1: None,
+#             2: None,
+#             3: None
+#         }
+#         self.slots_type = {
+#             1: Mechanical,
+#             2: Aragon,
+#             3: Calcium
+#         }
+
+#     def add_filter(self, slot_num, filter):
+#         if slot_num in self.slots and self.slots[slot_num] is None and self.slots_type[slot_num] == type(filter):
+#             self.slots[slot_num] = filter
+
+#     def remove_filter(self, slot_num):
+#         if slot_num in self.slots:
+#             self.slots[slot_num] = None
+
+#     def get_filters(self):
+#         return (filter for filter in self.slots.values())
+
+#     def water_on(self):
+#         if all(list(self.slots.values())):
+#             if all([(0 <= time.time() - filter.date <= self.MAX_DATE_FILTER) for filter in self.slots.values()]):
+#                 return True
+#         return False
+
+# my_water = GeyserClassic()
+# my_water.add_filter(1, Mechanical(time.time()))
+# my_water.add_filter(2, Aragon(time.time()))
+# w = my_water.water_on()  # False
+# print(w)
+# my_water.add_filter(3, Calcium(time.time()))
+# w = my_water.water_on()  # True
+# print(w)
+# # f1, f2, f3 - ссылки на соответствующие объекты классов фильтров
+# f1, f2, f3 = my_water.get_filters()
+# print(f1, f2, f3, sep='\t')
+# # повторное добавление в занятый слот невозможно
+# my_water.add_filter(3, Calcium(time.time()))
+# # добавление в "чужой" слот также невозможно
+# my_water.add_filter(2, Calcium(time.time()))
+
+# my_filter = Mechanical(time.time())
+# print(my_filter.date)
+# my_filter.date = time.time()
+# time.sleep(5)
+# print(time.time())
+# print(my_filter.date)
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Dimensions:
+#     MIN_DIMENSION = 10
+#     MAX_DIMENSION = 1000
+
+#     def __init__(self, a, b, c) -> None:
+#         self.__a = a
+#         self.__b = b
+#         self.__c = c
+
+#     @property
+#     def a(self):
+#         return self.__a
+
+#     @a.setter
+#     def a(self, a):
+#         self.__a = a
+
+#     @property
+#     def b(self):
+#         return self.__b
+
+#     @b.setter
+#     def b(self, b):
+#         self.__b = b
+
+#     @property
+#     def c(self):
+#         return self.__c
+
+#     @c.setter
+#     def c(self, c):
+#         self.__c = c
+
 #     def __setattr__(self, key, value):
-#         if key in ('title', 'author'):
-#             if type(value) == str or value is None:
-#                 object.__setattr__(self, key, value)
-#             else:
+#         if key in ('MIN_DIMENSION', 'MAX_DIMENSION'):
+#             raise AttributeError(
+#                 "Менять атрибуты MIN_DIMENSION и MAX_DIMENSION запрещено.")
+#         elif self.MIN_DIMENSION <= value <= self.MAX_DIMENSION:
+#             object.__setattr__(self, key, value)
+
+# d = Dimensions(10.5, 20.1, 30)
+# d.a = 8
+# d.b = 15
+# a, b, c = d.a, d.b, d.c  # a=10.5, b=15, c=30
+# print(a, b, c)
+# d.MAX_DIMENSION = 10  # исключение AttributeError
+# --------------------------------------------------------------------------------------------------------
+# ----------Вариант мой
+# class Circle:
+#     def __init__(self, x, y, radius) -> None:
+#         self.__x = x
+#         self.__y = y
+#         self.__radius = radius
+
+#     @property
+#     def x(self):
+#         return self.__x
+
+#     @x.setter
+#     def x(self, x):
+#         self.__x = x
+
+#     @property
+#     def y(self):
+#         return self.__y
+
+#     @y.setter
+#     def y(self, y):
+#         self.__y = y
+
+#     @property
+#     def radius(self):
+#         return self.__radius
+
+#     @radius.setter
+#     def radius(self, radius):
+#         self.__radius = radius
+
+#     def __setattr__(self, key, value):
+#         if key in ('_Circle__x', '_Circle__y', '_Circle__radius'):
+#             if not isinstance(value, (int, float)):
 #                 raise TypeError("Неверный тип присваиваемых данных.")
-#         elif key in ('pages', 'year'):
-#             if type(value) == int or value is None:
-#                 object.__setattr__(self, key, value)
 #             else:
-#                 raise TypeError("Неверный тип присваиваемых данных.")
-#
-#
-# book = Book('Python ООП', 'Сергей Балакирев', 123, 2022)
-# book2 = Book()
-# book2.pages = 500
-# print(book2.__dict__)
+#                 if key == '_Circle__radius' and value < 0:
+#                     return
+#         object.__setattr__(self, key, value)
+
+#     def __getattr__(self, __name: str):
+#         return False
+
+# circle = Circle(10.5, 7, 22)
+# # прежнее значение не должно меняться, т.к. отрицательный радиус недопустим
+# circle.radius = -10
+# # circle.x = "wfwr"
+# # circle.x = "wrf
+# print(circle.__dict__)
+# x, y, radius = circle.x, circle.y, circle.radius
+# print(f"x = {x}, y = {y}, radius = {radius}")
+# # res = circle.name # False, т.к. атрибут name не существует
+# print(circle.name)
+# -----------------Вариант сына маминой подруги
+# class Value:
+#     def __set_name__(self, owner, name):
+#         self.name = f'__{name}'
+
+#     def __get__(self, instance, owner):
+#         return property() if instance is None else getattr(instance, self.name)
+
+#     def __set__(self, instance, value):
+#         if self.validate(value):
+#             setattr(instance, self.name, value)
+
+#     def validate(self, value) -> bool:
+#         raise NotImplemented
+
+# class Number(Value):
+#     def validate(self, value) -> bool:
+#         if not isinstance(value, (int, float)):
+#             raise TypeError("Неверный тип присваиваемых данных.")
+#         return True
+
+# class PositiveNumber(Number):
+#     def validate(self, value) -> bool:
+#         return super(PositiveNumber, self).validate(value) and value > 0
+
+# class Circle:
+#     x = Number()
+#     y = Number()
+#     radius = PositiveNumber()
+
+#     def __init__(self, x, y, radius):
+#         self.x, self.y, self.radius = x, y, radius
+
+#     def __getattr__(self, item):
+#         return False
+
+# circle = Circle(10.5, 7, 22)
+# # прежнее значение не должно меняться, т.к. отрицательный радиус недопустим
+# circle.radius = -10
+# # circle.x = "wfwr"
+# # circle.x = "wrf
+# print(circle.__dict__)
+# x, y, radius = circle.x, circle.y, circle.radius
+# print(f"x = {x}, y = {y}, radius = {radius}")
+# # res = circle.name # False, т.к. атрибут name не существует
+# print(circle.name)
+# --------------------------------------------------------------------------------------------------------
+
+# class AppVK:
+#     def __init__(self) -> None:
+#         self.name = "ВКонтакте"
+
+# class AppYouTube:
+#     def __init__(self, memory_max: int) -> None:
+#         self.name = "YouTube"
+#         self.memory_max = memory_max
+
+# class AppPhone:
+#     def __init__(self, phone_list: dict) -> None:
+#         self.name = "Phone"
+#         self.phone_list = phone_list
+
+# class SmartPhone:
+#     def __init__(self, model) -> None:
+#         self.model = model
+#         self.apps = []
+#         self.objects = {}
+
+#     def add_app(self, app):
+#         t = type(app)
+#         if type(app) in self.objects:
+#             return
+#         self.apps.append(app)
+#         self.objects.setdefault(type(app))
+
+#     def remove_app(self, app):
+#         if type(app) in self.objects:
+#             self.apps.remove(app)
+#             del self.objects[type(app)]
+
+# sm = SmartPhone("Honor 1.0")
+# sm.add_app(AppVK())
+# sm.add_app(AppVK())  # второй раз добавляться не должно
+# sm.add_app(AppYouTube(2048))
+# for a in sm.apps:
+#     print(a.name)
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Telecast:
+#     def __init__(self, id, name, duration) -> None:
+#         self.__id = id
+#         self.__name = name
+#         self.__duration = duration
+
+#     @property
+#     def uid(self):
+#         return self.__id
+
+#     @uid.setter
+#     def uid(self, id):
+#         self.__id = id
+
+#     @property
+#     def name(self):
+#         return self.__name
+
+#     @name.setter
+#     def name(self, name):
+#         self.__name = name
+
+#     @property
+#     def duration(self):
+#         return self.__duration
+
+#     @duration.setter
+#     def duration(self, duration):
+#         self.__duration = duration
+
+# class TVProgram:
+#     def __init__(self, name) -> None:
+#         self.name = name
+#         self.items = []
+#         self.telecast_indexes = {}
+
+#     def add_telecast(self, tl: Telecast):
+#         if self.telecast_indexes.get(tl.uid):
+#             return
+#         self.items.append(tl)
+#         self.telecast_indexes.setdefault(tl.uid, self.items[-1])
+
+#     def remove_telecast(self, indx: int):
+#         tl = self.telecast_indexes.get(indx)
+#         if tl:
+#             self.items.remove(tl)
+#             del self.telecast_indexes[indx]
+
+# pr = TVProgram("Первый канал")
+# pr.add_telecast(Telecast(1, "Доброе утро", 10000))
+# pr.add_telecast(Telecast(2, "Новости", 2000))
+# pr.add_telecast(Telecast(3, "Интервью с Балакиревым", 20))
+# for t in pr.items:
+#     print(f"{t.name}: {t.duration}")
+# print('------------------------------------')
+# pr.remove_telecast(2)
+# pr.remove_telecast(2)
+# pr.add_telecast(Telecast(4, "4 телеканал", 2000))
+# pr.add_telecast(Telecast(5, "5 телеканал", 20))
+# for t in pr.items:
+#     print(f"{t.name}: {t.duration}")
+# --------------------------------------------------------------------------------------------------------
+
+# class Thing:
+#     def __init__(self, name, weight) -> None:
+#         self.name = name
+#         self.weight = weight
+
+# class Bag:
+#     def __init__(self, max_weight) -> None:
+#         self.max_weight = max_weight
+#         self.__things = []
+#         self.total_weight = 0
+
+#     @property
+#     def things(self):
+#         return self.__things
+
+#     def add_thing(self, thing: Thing):
+#         if self.total_weight + thing.weight <= 1000:
+#             self.things.append(thing)
+#             self.total_weight += thing.weight
+
+#     def remove_thing(self, indx):
+#         thing = self.things.pop(indx)
+#         if thing:
+#             self.total_weight -= thing.weight
+
+#     def get_total_weight(self):
+#         return self.total_weight
+
+# bag = Bag(1000)
+# bag.add_thing(Thing("Книга по Python", 100))
+# bag.add_thing(Thing("Котелок", 500))
+# bag.add_thing(Thing("Спички", 20))
+# bag.add_thing(Thing("Бумага", 100))
+# w = bag.get_total_weight()
+# print(w)
+# for t in bag.things:
+#     print(f"{t.name}: {t.weight}")
+
+# --------------------------------------------------------------------------------------------------------
+
+# class ProductValue:
+#     def __init__(self, max_value) -> None:
+#         self.max_value = max_value
+
+#     def __set_name__(self, owner, name):
+#         self.name = '_' + name
+
+#     def __get__(self, instance, owner):
+#         return getattr(instance, self.name)
+
+#     def __set__(self, instance, value):
+#         if type(value) == int:
+#             if 0 <= value <= self.max_value:
+#                 setattr(instance, self.name, value)
+
+# class StringValue:
+#     def __init__(self, min_length, max_length) -> None:
+#         self.min_length = min_length
+#         self.max_length = max_length
+
+#     def __set_name__(self, owner, name):
+#         self.name = '_' + name
+
+#     def __get__(self, instance, owner):
+#         return getattr(instance, self.name)
+
+#     def __set__(self, instance, value):
+#         if type(value) == str:
+#             if self.min_length <= len(value) <= self.max_length:
+#                 setattr(instance, self.name, value)
+
+# class Product:
+#     name = StringValue(2, 50)
+#     price = ProductValue(10000)
+
+#     def __init__(self, name, price) -> None:
+#         self.name = name
+#         self.price = price
+
+# class SuperShop:
+#     def __init__(self, name) -> None:
+#         self.name = name
+#         self.goods = []
+
+#     def add_product(self, product: Product):
+#         self.goods.append(product)
+
+#     def remove_product(self, product: Product):
+#         self.goods.remove(product)
+
+# shop = SuperShop("У Балакирева")
+# shop.add_product(Product("Курс по Python", 0))
+# shop.add_product(Product("Курс по Python ООП", 2000))
+# for p in shop.goods:
+#     print(f"{p.name}: {p.price}")
+
+# --------------------------------------------------------------------------------------------------------
+
+# class ValidateString:
+#     def __init__(self, min_length, max_length) -> None:
+#         self.min_length = min_length
+#         self.max_length = max_length
+
+#     def validate(self, string):
+#         if type(string) == str:
+#             if self.min_length <= len(string) <= self.max_length:
+#                 return True
+#         return False
+
+# class StringValue:
+#     def __init__(self, validator: ValidateString) -> None:
+#         self.validator = validator
+
+#     def __set_name__(self, owner, name):
+#         self.name = '_' + name
+
+#     def __get__(self, instance, owner):
+#         res = getattr(instance, self.name)
+#         return getattr(instance, self.name)
+
+#     def __set__(self, instance, value):
+#         if self.validator.validate(value):
+#             setattr(instance, self.name, value)
+
+# class RegisterForm:
+#     login = StringValue(validator=ValidateString(3, 100))
+#     password = StringValue(validator=ValidateString(3, 100))
+#     email = StringValue(validator=ValidateString(3, 100))
+
+#     def __init__(self, login, password, email) -> None:
+#         self.login = login
+#         self.password = password
+#         self.email = email
+
+#     def get_fields(self):
+#         return [self.login, self.password, self.email]
+
+#     def show(self):
+#         print(
+#             f"<form>\nЛогин: {self.login}\nПароль: {self.password}\nEmail: {self.email}\n</form>")
+
+# form = RegisterForm("bog", "qwerty123", "kuku@mail.ru")
+# form.show()
+# form.pr()
+# --------------------------------------------------------------------------------------------------------
+
+# class FloatValue:
+#     def __set_name__(self, owner, name):
+#         self.name = "_" + name
+
+#     def __get__(self, instance, owner):
+#         return getattr(instance, self.name)
+
+#     def __set__(self, instance, value):
+#         self.check_float(value)
+#         setattr(instance, self.name, value)
+#         instance.__dict__[self.name] = value
+
+#     @staticmethod
+#     def check_float(value):
+#         if type(value) != float:
+#             raise TypeError(
+#                 "Присваивать можно только вещественный тип данных.")
+
+# class Cell:
+#     value = FloatValue()
+
+#     def __init__(self, value=0.0) -> None:
+#         self.value = value
+
+# class TableSheet:
+#     def __init__(self, N, M) -> None:
+#         self.cells = [[Cell() for _ in range(M)] for _ in range(N)]
+
+# table = TableSheet(5, 3)
+# init_value = 1.0
+# for row in table.cells:
+#     for cell in row:
+#         cell.value = init_value
+#         init_value += 1
+
+# result = [[cell.value for cell in row] for row in table.cells]
+# print(*result, sep='\n')
+
+# --------------------------------------------------------------------------------------------------------
+
+# from re import match
+
+# class PhoneNumber:
+#     def __init__(self, number, fio) -> None:
+#         if self.check_number(number) and isinstance(fio, str):
+#             self.number = number
+#             self.fio = fio
+#         else:
+#             raise Exception(
+#                 f"некорректные входные данные для создания объекта: {number}\t, {fio}")
+
+#     @staticmethod
+#     def check_number(number):
+#         return match(r"^\d{11}$", str(number))
+
+# class PhoneBook:
+#     def __init__(self) -> None:
+#         self.__phones = []
+
+#     @property
+#     def phones(self):
+#         return self.__phones
+
+#     def add_phone(self, phone):
+#         self.phones.append(phone)
+
+#     def remove_phone(self, indx):
+#         phones_number = len(self.phones)
+#         if -phones_number <= indx <= phones_number-1:
+#             self.phones.pop(indx)
+#         else:
+#             raise Exception(f"You can't get phone number by index={indx}")
+
+#     def get_phone_list(self):
+#         return self.phones
+
+# p = PhoneBook()
+# p.add_phone(PhoneNumber(12345678901, "Сергей Балакирев"))
+# p.add_phone(PhoneNumber(21345678901, "Панда"))
+# phones = p.get_phone_list()
+# p.remove_phone(0)
+# print(phones)
+# --------------------------------------------------------------------------------------------------------
+
+# from math import sqrt
+
+# class LineTo:
+#     def __init__(self, x=0, y=0) -> None:
+#         self.x = x
+#         self.y = y
+
+# class PathLines:
+#     def __init__(self, *args: LineTo) -> None:
+#         self.start_point = LineTo()
+#         self.last_point = self.start_point
+#         self.lines = []
+#         self.length = 0
+#         for point in args:
+#             self.length += self.calc_length(self.last_point, point)
+#             self.last_point = point
+#             self.lines.append(point)
+
+#     def get_path(self) -> list:
+#         return self.lines
+
+#     def get_length(self) -> int:
+#         return self.length
+
+#     def add_line(self, line: LineTo) -> None:
+#         self.length += self.calc_length(self.last_point, line)
+#         self.last_point = line
+#         self.lines.append(line)
+
+#     @staticmethod
+#     def calc_length(p0: LineTo, p1: LineTo) -> int:
+#         return sqrt((p1.x-p0.x)**2 + (p1.y-p0.y)**2)
+
+# p = PathLines(LineTo(1, 2))
+# print(p.get_length())  # 2.23606797749979
+# p.add_line(LineTo(10, 20))
+# p.add_line(LineTo(5, 17))
+# print(p.get_length())  # 28.191631669843197
+# m = p.get_path()
+# print(all(isinstance(i, LineTo) for i in m) and len(m) == 3)  # True
+
+# h = PathLines(LineTo(4, 8), LineTo(-10, 30), LineTo(14, 2))
+# print(h.get_length())  # 71.8992593599813
+
+# k = PathLines()
+# print(k.get_length())  # 0
+# print(k.get_path())  # []
+# p = PathLines(LineTo(10, 20), LineTo(10, 30))
+# p.add_line(LineTo(20, -10))
+# dist = p.get_length()
+# print(dist)
+
+# --------------------------------------------------------------------------------------------------------
+
+# class TreeObj:
+#     def __init__(self, indx, value=None) -> None:
+#         self.indx = indx
+#         self.value = value
+#         self.__left = None
+#         self.__right = None
+
+#     @property
+#     def left(self):
+#         return self.__left
+
+#     @left.setter
+#     def left(self, left):
+#         self.__left = left
+
+#     @property
+#     def right(self):
+#         return self.__right
+
+#     @right.setter
+#     def right(self, right):
+#         self.__right = right
+
+# class DecisionTree:
+#     __root = None
+
+#     @classmethod
+#     def predict(cls, root: TreeObj, x: list):
+#         next_node = root
+#         while next_node.left or next_node.right:
+#             if x[next_node.indx]:
+#                 next_node = next_node.left
+#             else:
+#                 next_node = next_node.right
+#         return next_node.value
+
+#     @classmethod
+#     def add_obj(cls, obj: TreeObj, node: TreeObj = None, left=True):
+#         if cls.__root == None and node == None and isinstance(obj, TreeObj):
+#             cls.__root = obj
+#             return obj
+#         elif node != None:
+#             if left:
+#                 node.left = obj
+#             else:
+#                 node.right = obj
+#             return obj
+
+# root = DecisionTree.add_obj(TreeObj(0))
+# v_11 = DecisionTree.add_obj(TreeObj(1), root)
+# v_12 = DecisionTree.add_obj(TreeObj(2), root, False)
+# DecisionTree.add_obj(TreeObj(-1, "будет программистом"), v_11)
+# DecisionTree.add_obj(TreeObj(-1, "будет кодером"), v_11, False)
+# DecisionTree.add_obj(TreeObj(-1, "не все потеряно"), v_12)
+# DecisionTree.add_obj(TreeObj(-1, "безнадежен"), v_12, False)
+
+# x = [1, 1, 0]
+# res = DecisionTree.predict(root, x)  # будет программистом
+# --------------------------------------------------------------------------------------------------------
+
+# class RadiusVector2D:
+#     MIN_COORD = -100
+#     MAX_COORD = 1024
+
+#     def __init__(self, x=0, y=0) -> None:
+#         if self.check_coord(x) and self.check_coord(y):
+#             self.__x = x
+#             self.__y = y
+#         else:
+#             self.__x = 0
+#             self.__y = 0
+
+#     @classmethod
+#     def check_coord(cls, c):
+#         if type(c) in (int, float):
+#             if cls.MIN_COORD <= c <= cls.MAX_COORD:
+#                 return True
+#         return False
+
+#     @property
+#     def x(self):
+#         return self.__x
+
+#     @x.setter
+#     def x(self, x):
+#         if self.check_coord(x):
+#             self.__x = x
+
+#     @property
+#     def y(self):
+#         return self.__y
+
+#     @y.setter
+#     def y(self, y):
+#         if self.check_coord(y):
+#             self.__y = y
+
+#     @staticmethod
+#     def norm2(vector):
+#         return vector.x**2 + vector.y**2
+
+# --------------------------------------------------------------------------------------------------------
+
+# def isPalindrome(x):
+#     """
+#     :type x: int
+#     :rtype: bool
+#     """
+#     if x < 0:
+#         return False
+#     elif 0 <= x <= 9:
+#         return True
+#     else:
+#         s = str(x)
+#         mid = int(len(s)/2)
+#         return s[:mid] == s[-1:-mid-1:-1]
+
+# print(isPalindrome(121))  # true
+# print(isPalindrome(1221))  # true
+# print(isPalindrome(12321))  # true
+# print(isPalindrome(2121))  # false
+# print(isPalindrome(1))  # true
+# print(isPalindrome(-2))  # false
+
+# --------------------------------------------------------------------------------------------------------
+
+# class StackObj:
+#     def __init__(self, data) -> None:
+#         self.__next = None
+#         self.__data = data
+
+#     @property
+#     def next(self):
+#         return self.__next
+
+#     @next.setter
+#     def next(self, next):
+#         if type(next) == StackObj or next == None:
+#             self.__next = next
+
+#     @property
+#     def data(self):
+#         return self.__data
+
+#     @data.setter
+#     def data(self, data):
+#         self.__data = data
+
+# class Stack:
+#     def __init__(self) -> None:
+#         self.top: StackObj = None
+
+#     def push(self, obj: StackObj):
+#         if self.top == None:
+#             self.top = obj
+#             return
+#         last = self.top
+#         while last.next != None:
+#             last = last.next
+#         last.next = obj
+
+#     def pop(self):
+#         if self.top == None:
+#             return
+#         elif self.top.next == None:
+#             copy = self.top
+#             self.top = None
+#             return copy
+#         else:
+#             last = self.top
+#             while last.next.next != None:
+#                 last = last.next
+#             copy = last.next
+#             last.next = None
+#             return copy
+
+#     def get_data(self):
+#         result = []
+#         last = self.top
+#         while last:
+#             result.append(last.data)
+#             last = last.next
+#         return result
+
+# st = Stack()
+# st.push(StackObj("obj1"))
+# st.push(StackObj("obj2"))
+# st.push(StackObj("obj3"))
+# removed_obj = st.pop()
+# removed_obj = st.pop()
+# removed_obj = st.pop()
+# removed_obj = st.pop()
+# res = st.get_data()    # ['obj1', 'obj2']
+# print(res)
+# --------------------------------------------------------------------------------------------------------
+
+# class WindowDlg:
+#     def __init__(self, title, width, height) -> None:
+#         self.__title = title
+#         self.__width = width
+#         self.__height = height
+
+#     def show(self):
+#         print(f"{self.__title}: {self.__width}, {self.__height}")
+
+#     @property
+#     def width(self):
+#         return self.__width
+
+#     @width.setter
+#     def width(self, width):
+#         if type(width) == int and 0 <= width <= 10000:
+#             self.__width = width
+#             self.show()
+
+#     @property
+#     def height(self):
+#         return self.__height
+
+#     @height.setter
+#     def height(self, height):
+#         if type(height) == int and 0 <= height <= 10000:
+#             self.__height = height
+#             self.show()
+
+# w = WindowDlg("Окно", 100, 50)
+# w.height = 200
+# w.width = 300
+# console.log('');
+
 # --------------------------------------------------------------------------------------------------------
 
 # from random import randint, choice, choices
 # from string import ascii_letters, digits
 # from itertools import groupby
-# import re
-#
-#
+
 # class EmailValidator:
 #     __symbols = ascii_letters + digits + '.' + '_'
 #     __min_email_name_len = 1
 #     __max_email_name_len = 100
 #     __max_domain_name_len = 50
-#
+
 #     def __new__(cls, *args, **kwargs):
 #         return None
-#
+
 #     @classmethod
 #     def get_random_email(cls):
 #         domain_name = "@gmail.com"
-#         raw_list = choices(cls.__symbols, k=randint(cls.__min_email_name_len, cls.__max_email_name_len))
-#         email_name = ''.join(raw_list)
-#         return re.sub(r"\.{2,}", ".", email_name) + domain_name
-#
+#         raw_list = choices(cls.__symbols, k=randint(
+#             cls.__min_email_name_len, cls.__max_email_name_len))
+#         email_name = ''.join(el for el, group in groupby(
+#             raw_list) if len(tuple(group)) != 2 and el != '.')
+#         return email_name + domain_name
+
 #     @classmethod
 #     def check_email(cls, email):
 #         if cls.__is_email_str(email):
-#             pattern = r"^[\w.]{1,100}@\w[\w.]+\.[\w.]*[\w]+"
-#             if re.search(pattern, email):
-#                 for el, group in groupby(email):
-#                     if el == '.' and len(tuple(group)) > 1:
-#                         return False
-#                 return True
+#             pass
 #         return False
-#
+
 #     @staticmethod
 #     def __is_email_str(email):
 #         return isinstance(email, str)
-#
-#
-# res = EmailValidator.check_email("sc_lib@list.ru") # True
-# print(res)
-# res = EmailValidator.check_email("sc_lib@list_ru") # False
-# print(res)
-# res = EmailValidator.get_random_email()
-# print(res)
-# print(len(res))
+
+# # print(ascii_letters, digits)
+# # res = EmailValidator.get_random_email()
+# # print(type(res))
+# # print(res)
+# # print(len(res))
 
 # word = "helllll.l..o"
 # res = ''.join(letter for letter, group in groupby(
 #     word) if len(tuple(group)) != 2)
 # for letter, group in groupby(word):
-#     print(str(group))
-#     print(letter)
-# print(res)
+#     print(tuple(group))
+# # print(res)
 # --------------------------------------------------------------------------------------------------------
 
 # class ObjList:
@@ -354,7 +3523,6 @@
 
 #     def get_data(self):
 #         return self.__data
-
 
 # class LinkedList:
 #     def __init__(self) -> None:
@@ -385,7 +3553,6 @@
 #             result.append(obj.get_data())
 #             obj = obj.get_next()
 #         return result
-
 
 # lst = LinkedList()
 # lst.add_obj(ObjList("данные 1"))
@@ -951,303 +4118,4 @@
 
 # db = DataBase()
 # db.insert(lst_in)
-# # print(db.select(2, 4))
-
-# -----------------------------------------------------------------------------------
-
-# class Factory:
-#     @staticmethod
-#     def build_sequence():
-#         return []
-#
-#     @staticmethod
-#     def build_number(string):
-#         return int(float(string))
-#
-#
-# class Loader:
-#     def parse_format(self, string, factory):
-#         seq = factory.build_sequence()
-#         for sub in string.split(","):
-#             item = factory.build_number(sub)
-#             seq.append(item)
-#
-#         return seq
-#
-#
-# ld = Loader()
-# res = ld.parse_format("4, 5, -6.5", Factory())
-# print(res)  # [4, 5, -6]
-
-# -----------------------------------------------------------------------------------
-
-# class Factory:
-#     def build_sequence(self):
-#         return []
-#
-#     def build_number(self, string):
-#         return float(string)
-#
-#
-# class Loader:
-#     def parse_format(self, string, factory):
-#         seq = factory.build_sequence()
-#         for sub in string.split(","):
-#             item = factory.build_number(sub)
-#             seq.append(item)
-#
-#         return seq
-#
-#
-# ld = Loader()
-# res = ld.parse_format("4, 5, -6.5", Factory())
-# print(res)  # [4.0, 5.0, -6.5]
-# -----------------------------------------------------------------------------------
-
-# class Point:
-#     def __init__(self, x, y):
-#         self.x = x
-#         self.y = y
-#
-#     def clone(self):
-#         return Point(self.x, self.y)
-#
-# pt = Point(1,2)
-# pt2 = pt.clone()
-#
-# print(id(pt))
-# print(id(pt2))
-#
-#
-# print(pt.__dict__)
-# print(pt2.__dict__)
-
-# -----------------------------------------------------------------------------------
-
-
-# TYPE_OS = 1 # 1 - Windows; 2 - Linux
-#
-# class DialogWindows:
-#     name_class = "DialogWindows"
-#
-#
-# class DialogLinux:
-#     name_class = "DialogLinux"
-#
-#
-# class Dialog:
-#     def __new__(cls, *args, **kwargs):
-#         if TYPE_OS == 1:
-#             obj = DialogWindows()
-#         else:
-#             obj = DialogLinux()
-#         obj.name = args[0]
-#         return obj
-#
-#
-# os1 = Dialog("windows")
-#
-# print(os1)
-# print(os1.name)
-
-# -----------------------------------------------------------------------------------
-
-# class SingletonFive:
-#     __objects = []
-#
-#     def __init__(self, name):
-#         self.name = name
-#
-#     def __new__(cls, *args, **kwargs):
-#         if len(SingletonFive.__objects) < 5:
-#             adr = super().__new__(cls)
-#             SingletonFive.__objects.append(adr)
-#             return adr
-#         else:
-#             return SingletonFive.__objects[4]
-#
-#
-# objs = [SingletonFive(str(n)) for n in range(10)]
-#
-# for obj in objs:
-#     print(id(obj))
-# -----------------------------------------------------------------------------------
-
-
-# class AbstractClass:
-#     def __new__(cls, *args, **kwargs):
-#         s = "Ошибка: нельзя создавать объекты абстрактного класса"
-#         return s
-
-
-# -----------------------------------------------------------------------------------
-
-# import random
-# import numpy as np
-#
-#
-# class Cell:
-#     def __init__(self, around_mines, mine: False):
-#         self.around_mines = around_mines
-#         self.mine = mine
-#         self.fl_open = False
-#
-#
-# class GamePole:
-#     def __init__(self, field_size, mines_number):
-#         self.n = field_size
-#         self.m = mines_number
-#         self.pole = None
-#         self.init()
-#
-#     def init(self):
-#         mines = [Cell(0, True) for _ in range(self.m)]
-#         not_mines = [Cell(0, False) for _ in range(self.n**2 - self.m)]
-#         self.pole = mines + not_mines
-#         random.shuffle(self.pole)
-#         self.count_around_mines()
-#         self.pole = np.array(self.pole).reshape(self.n, self.n).tolist()
-#
-#     def count_around_mines(self):
-#         for i in range(N**2):
-#             mines_number = 0
-#             for el in self.get_summarize(i, self.n):
-#                 if 0 <= el + i < len(self.pole):
-#                     mines_number += self.pole[i + el].mine
-#             self.pole[i].around_mines = mines_number
-#
-#     @staticmethod
-#     def get_summarize(i, n) -> list:
-#         column_id = i % n
-#         if column_id == 0:
-#             return [-n, -n+1, 1, n, n+1]
-#         elif column_id == n-1:
-#             return [-n-1, -n, -1, n-1, n]
-#         return [-n-1, -n, -n+1,  -1, 1, n-1, n, n+1]
-#
-#     def show(self):
-#         return [
-#             [
-#                 cell.around_mines if not cell.mine else '#' for cell in row
-#             ]
-#             for row in self.pole
-#         ]
-#
-#
-# N = 10
-# M = 12
-# pole_game = GamePole(N, M)
-# for row in pole_game.show():
-#     print(*row)
-
-# -----------------------------------------------------------------------------------
-
-# class TriangleChecker:
-#     def __init__(self, a, b, c):
-#         lst = [a, b, c]
-#         test_lst = [((isinstance(el, int) or isinstance(el, float)) and not isinstance(el, bool)) for el in lst]
-#         if all(test_lst):
-#             lst.sort()
-#             if any(el <= 0 for el in lst):
-#                 self.code = 1
-#             elif lst[0] + lst[1] <= lst[2]:
-#                 self.code = 2
-#             else:
-#                 self.code = 3
-#         else:
-#             self.code = 1
-#
-#     def is_triangle(self):
-#         return self.code
-#
-#
-# a, b, c = map(bool, input().split())
-# lst = [a, b, c]
-# print(type(a))
-# print(isinstance(a, bool))
-# print(isinstance(a, int))
-# print(isinstance(a, float))
-#
-# print(lst)
-# test_lst = [(isinstance(el, int) or isinstance(el, float)) for el in lst]
-# print(all(test_lst))
-# -----------------------------------------------------------------------------------
-# tr = TriangleChecker(a, b, c)
-# print(tr.is_triangle())
-# lst = [(isinstance(el, int) or (el, float)) for el in [a,b,c]]
-# print(lst)
-# print(all((isinstance(el, int) or (el, float)) for el in [a,b,c]))
-
-# class Point:
-#     def __init__(self, x, y, color='black'):
-#         self.x = x
-#         self.y = y
-#         self.color = color
-#
-#
-# points = [Point(i, i, color='yellow') if i == 3 else Point(i, i) for i in range(1, 2000, 2)]
-#
-# # x = -1
-# # y = -1
-# # points = [Point(x := x + 2, y := y + 2, color='yellow') if i == 1 else Point(x := x + 2, y := y + 2) for i in
-# #           range(1000)]
-#
-# print(*[el.__dict__ for el in points], sep='\n')
-#
-#
-# # здесь объявляется класс StreamData
-# class StreamData:
-#     def create(self, fields, lst_values):
-#         if len(fields) != len(lst_values):
-#             return False
-#         for i in range(len(fields)):
-#             setattr(self, fields[i], lst_values[i])
-#         return True
-#
-#
-# class StreamReader:
-#     FIELDS = ('id', 'title', 'pages')
-#
-#     def readlines(self):
-#         lst_in = list(map(str.strip, sys.stdin.readlines()))  # считывание списка строк из входного потока
-#         sd = StreamData()
-#         res = sd.create(self.FIELDS, lst_in)
-#         return sd, res
-#
-#
-# sr = StreamReader()
-# data, result = sr.readlines()
-
-# class Graph:
-#
-#     def __init__(self):
-#         self.LIMIT_Y = [0, 10]
-#         self.data = None
-#
-#     def set_data(self, data):
-#         self.data = data
-#
-#     def draw(self):
-#         for el in self.data:
-#             if self.LIMIT_Y[0] <= el <= self.LIMIT_Y[1]:
-#                 print(el, end=' ')
-#
-# graph_1 = Graph()
-# graph_1.set_data([10, -5, 100, 20, 0, 80, 45, 2, 5, 7])
-# graph_1.draw()
-
-# class MediaPlayer:
-#
-#     def open(self, file):
-#         self.file = file
-#
-#     def play(self):
-#         print(f"Воспроизведение {self.file}")
-#
-#
-# media1 = MediaPlayer()
-# media2 = MediaPlayer()
-# media1.open("filemedia1")
-# media2.open("filemedia2")
-# media1.play()
-# media2.play()
+# print(db.select(2, 4))
