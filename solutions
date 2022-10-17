@@ -1,3 +1,83 @@
+# from abc import ABC, abstractmethod
+# 
+# class Model(ABC):
+#     def __init__(self):
+#         pass
+# 
+#     @abstractmethod
+#     def get_pk(self):
+#         pass
+# 
+#     def get_info(self):
+#         return "Базовый класс Model"
+# 
+# 
+# class ModelForm(Model):
+#     ID = 1
+# 
+#     def __init__(self, login, password):
+#         self._login = login
+#         self._password = password
+#         self._id = ModelForm.ID
+#         ModelForm.ID += 1
+# 
+#     def get_pk(self):
+#         return self._id
+
+
+# form = ModelForm("Логин", "Пароль")
+# print(form.get_pk())
+# # m = ModelForm(1,2)
+# --------------------------------------------------------------------------------------------------------
+
+# class Validator:
+#     def _is_valid(self, data):
+#         raise NotImplementedError('в классе не переопределен метод _is_valid')
+#
+#     def __call__(self, *args, **kwds):
+#         return self._is_valid(args[0])
+#
+#
+# class FloatValidator (Validator):
+#     def __init__(self, min_value, max_value) -> None:
+#         self.min_value = min_value
+#         self.max_value = max_value
+#
+#     def _is_valid(self, data):
+#         if isinstance(data, float):
+#             if self.min_value <= data <= self.max_value:
+#                 return True
+#         return False
+
+# float_validator = FloatValidator(0, 10.5)
+# res_1 = float_validator(1)  # False (целое число, а не вещественное)
+# res_2 = float_validator(1.0)  # True
+# res_3 = float_validator(-1.0)  # False (выход за диапазон [0; 10.5])
+# print(res_1)
+# print(res_2)
+# print(res_3)
+# --------------------------------------------------------------------------------------------------------
+
+# class ShopInterface:
+#     def get_id(self):
+#         raise NotImplementedError('в классе не переопределен метод get_id')
+#
+#
+# class ShopItem(ShopInterface):
+#     id = 1
+#
+#     def __init__(self, name='a', weight=2, price=3):
+#         self._name = name
+#         self._weight = weight
+#         self._price = price
+#         self.__id = ShopItem.id
+#         ShopItem.id += 1
+#
+#     def get_id(self):
+#         return self.__id
+
+# --------------------------------------------------------------------------------------------------------
+
 # def input_int_numbers():
 #     try:
 #         return tuple(map(int, input().split()))
