@@ -1,7 +1,64 @@
+class Rect:
+    def __init__(self, x, y, width, height) -> None:
+        if all(map(lambda x: isinstance(x, (int, float)), [x, y, width, height])):
+            if all(map(lambda x: x > 0, [width, height])):
+                self._x = x
+                self._y = y
+                self._width = width
+                self._height = height
+                self.params = x, y, width, height
+        else:
+            raise ValueError(
+                'некорректные координаты и параметры прямоугольника')
 
-#Вариант №1
+    def is_collision(self, rect):
+        x, y, width, height = rect.params
+        dx = abs(self._x + self._width/2 - x - width/2)
+        dy = abs(self._y + self._height/2 - y - height/2)
+        xx = self._width/2 + width/2
+        yy = self._height/2 + height/2
+        if dx >= xx or dy >= yy:
+            return False
+        else:
+            raise TypeError('прямоугольники пересекаются')
+
+
+lst_rect = [Rect(0, 0, 5, 3), Rect(6, 0, 3, 5),
+            Rect(3, 2, 4, 4), Rect(0, 8, 8, 1)]
+lst_not_collision = []
+i = 0
+for i in range(len(lst_rect)):
+    collision = False
+    for j in range(len(lst_rect)):
+        try:
+            if not i == j and lst_rect[i].is_collision(lst_rect[j]):
+                collision = True
+                break
+        except:
+            break
+    if not collision:
+        lst_not_collision.append(lst_rect[i])
+
+
+print(*[rect.params for rect in lst_not_collision], sep='\n')
+# --------------------------------------------------------------------------------------------------------
+
+# def get_loss(w1, w2, w3, w4):
+#     try:
+#         res = 10 * w1 // w2
+#     except:
+#         return "деление на ноль"
+#     else:
+#         res += - 5 * w2 * w3 + w4
+#         return res
+
+# print(get_loss(2, 2, 2, 3))
+
+# --------------------------------------------------------------------------------------------------------
+
+# Вариант №1
 # class Validator:
-    
+
 #     def _is_valid(self, data):
 #         return True
 
@@ -10,7 +67,6 @@
 #             return True
 #         else:
 #             raise ValueError('данные не прошли валидацию')
-
 
 # class IntegerValidator(Validator):
 #     def __init__(self, min_value, max_value) -> None:
@@ -23,7 +79,6 @@
 #                 return True
 #         return False
 
-
 # class FloatValidator (Validator):
 #     def __init__(self, min_value, max_value) -> None:
 #         self.min_value = min_value
@@ -35,7 +90,7 @@
 #                 return True
 #         return False
 
-#Вариант №2
+# Вариант №2
 # class Validator:
 #     def __init__(self, min_value, max_value) -> None:
 #         self.min_value = min_value
@@ -54,18 +109,15 @@
 #         else:
 #             raise ValueError('данные не прошли валидацию')
 
-
 # class IntegerValidator(Validator):
 #     def __init__(self, min_value, max_value) -> None:
 #         super().__init__(min_value, max_value)
 #         self.validation_type = int
 
-
 # class FloatValidator (Validator):
 #     def __init__(self, min_value, max_value) -> None:
 #         super().__init__(min_value, max_value)
 #         self.validation_type = float
-
 
 # def is_valid(lst, validators):
 #     result = []
@@ -80,13 +132,11 @@
 #     return result
 #     # return list(filter(lambda x: type(x) in (int, float) and any([validator(x) for validator in validators]), lst))
 
-
 # fv = FloatValidator(0, 10.5)
 # iv = IntegerValidator(-10, 20)
 # lst_out = is_valid([1, 4.5, -10.5, 100, True, 'abc', (1, 2)],
 #                    validators=[fv, iv])   # [1, 4.5]
 # print(lst_out)
-
 
 # --------------------------------------------------------------------------------------------------------
 
@@ -104,7 +154,6 @@
 #             raise TypeError(
 #                 'стороны треугольника должны быть положительными числами')
 
-
 # input_data = [(1.0, 4.54, 3), ('abc', 1, 2, 3), (-3, 3, 5.2),
 #               (4.2, 5.7, 8.7), (True, 3, 5), (7, 4, 6)]
 # lst_tr = []
@@ -118,7 +167,6 @@
 
 # lst_in = input().split()
 
-
 # def get_num(x):
 #     try:
 #         return int(x)
@@ -127,7 +175,6 @@
 #             return float(x)
 #         except:
 #             return x
-
 
 # lst_out = list(map(get_num, lst_in))
 # --------------------------------------------------------------------------------------------------------
@@ -144,7 +191,6 @@
 
 # from copy import deepcopy, copy
 
-
 # реализация №1
 # class Box:
 #     def __init__(self, name, max_weight):
@@ -159,7 +205,6 @@
 #         if self._cur_weight > self._max_weight:
 #             raise ValueError('превышен суммарный вес вещей')
 
-
 # class BoxDefender:
 #     def __init__(self, box):
 #         self._box = box
@@ -172,7 +217,6 @@
 #         if exc_type is None:
 #             self._box._things[:] = self._box_copy._things[:]
 #             self._box._cur_weight = self._box_copy._cur_weight
-
 
 # реализация №2
 # class Box:
@@ -188,7 +232,6 @@
 #         if self._cur_weight > self._max_weight:
 #             raise ValueError('превышен суммарный вес вещей')
 
-
 # class BoxDefender:
 #     def __init__(self, box):
 #         self._box = box
@@ -202,7 +245,6 @@
 #         if exc_type:
 #             self._box._things = self._old_things
 #             self._box._cur_weight = self._old_weight
-
 
 # box = Box("сундук", 1000)
 # box.add_thing(("спички", 46.6))
@@ -235,7 +277,6 @@
 # else:
 #     assert False, "не сгенерировалось исключение ValueError"
 
-
 # try:
 #     with BoxDefender(b) as bb:
 #         bb.add_thing(("3", 100))
@@ -247,7 +288,6 @@
 
 # class ConnectionError(Exception):
 #     pass
-
 
 # class DatabaseConnection:
 #     def __init__(self) -> None:
@@ -266,7 +306,6 @@
 #     def __exit__(self, exc_type, exc_val, exc_tb):
 #         self.close()
 
-
 # a = DatabaseConnection()
 # with a as conn:
 #     print(a._fl_connection_open)
@@ -283,7 +322,6 @@
 #         print(exc_type)
 #         return True
 
-
 # with PrimaryKey() as pk:
 #     raise ValueError
 
@@ -293,14 +331,11 @@
 # class StringException(Exception):
 #     pass
 
-
 # class NegativeLengthString(StringException):
 #     pass
 
-
 # class ExceedLengthString(StringException):
 #     pass
-
 
 # try:
 #     # здесь команда для генерации исключения
@@ -311,7 +346,6 @@
 #     print("ExceedLengthString")
 # except StringException:
 #     print("StringException")
-
 
 # --------------------------------------------------------------------------------------------------------
 
@@ -325,12 +359,10 @@
 #         else:
 #             return Tuple([*self] + [el for el in rhs])
 
-
 # t = Tuple([1, 2, 3])
 # t = t + "Python"
 # print(t)   # (1, 2, 3, 'P', 'y', 't', 'h', 'o', 'n')
 # t = (t + "Python") + "ООП"
-
 
 # --------------------------------------------------------------------------------------------------------
 
