@@ -1,3 +1,947 @@
+
+#Вариант №1
+# class Validator:
+    
+#     def _is_valid(self, data):
+#         return True
+
+#     def __call__(self, *args, **kwds):
+#         if self._is_valid(args[0]):
+#             return True
+#         else:
+#             raise ValueError('данные не прошли валидацию')
+
+
+# class IntegerValidator(Validator):
+#     def __init__(self, min_value, max_value) -> None:
+#         self.min_value = min_value
+#         self.max_value = max_value
+
+#     def _is_valid(self, data):
+#         if type(data) == int:
+#             if self.min_value <= data <= self.max_value:
+#                 return True
+#         return False
+
+
+# class FloatValidator (Validator):
+#     def __init__(self, min_value, max_value) -> None:
+#         self.min_value = min_value
+#         self.max_value = max_value
+
+#     def _is_valid(self, data):
+#         if type(data) == float:
+#             if self.min_value <= data <= self.max_value:
+#                 return True
+#         return False
+
+#Вариант №2
+# class Validator:
+#     def __init__(self, min_value, max_value) -> None:
+#         self.min_value = min_value
+#         self.max_value = max_value
+#         self.validation_type = int
+
+#     def _is_valid(self, data):
+#         if type(data) == self.validation_type:
+#             if self.min_value <= data <= self.max_value:
+#                 return True
+#         return False
+
+#     def __call__(self, *args, **kwds):
+#         if self._is_valid(args[0]):
+#             return True
+#         else:
+#             raise ValueError('данные не прошли валидацию')
+
+
+# class IntegerValidator(Validator):
+#     def __init__(self, min_value, max_value) -> None:
+#         super().__init__(min_value, max_value)
+#         self.validation_type = int
+
+
+# class FloatValidator (Validator):
+#     def __init__(self, min_value, max_value) -> None:
+#         super().__init__(min_value, max_value)
+#         self.validation_type = float
+
+
+# def is_valid(lst, validators):
+#     result = []
+#     for num in lst:
+#         for val in validators:
+#             try:
+#                 if val(num):
+#                     result.append(num)
+#                     break
+#             except:
+#                 continue
+#     return result
+#     # return list(filter(lambda x: type(x) in (int, float) and any([validator(x) for validator in validators]), lst))
+
+
+# fv = FloatValidator(0, 10.5)
+# iv = IntegerValidator(-10, 20)
+# lst_out = is_valid([1, 4.5, -10.5, 100, True, 'abc', (1, 2)],
+#                    validators=[fv, iv])   # [1, 4.5]
+# print(lst_out)
+
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Triangle:
+#     def __init__(self, a, b, c) -> None:
+#         if all(map(lambda x: isinstance(x, (int, float)) and x > 0, [a, b, c])):
+#             if (abs(a-c) < b < a + c):
+#                 self._a = a
+#                 self._b = b
+#                 self._c = c
+#             else:
+#                 raise ValueError(
+#                     'из указанных длин сторон нельзя составить треугольник')
+#         else:
+#             raise TypeError(
+#                 'стороны треугольника должны быть положительными числами')
+
+
+# input_data = [(1.0, 4.54, 3), ('abc', 1, 2, 3), (-3, 3, 5.2),
+#               (4.2, 5.7, 8.7), (True, 3, 5), (7, 4, 6)]
+# lst_tr = []
+# for data in input_data:
+#     try:
+#         lst_tr.append(Triangle(*data))
+#     except:
+#         continue
+
+# --------------------------------------------------------------------------------------------------------
+
+# lst_in = input().split()
+
+
+# def get_num(x):
+#     try:
+#         return int(x)
+#     except:
+#         try:
+#             return float(x)
+#         except:
+#             return x
+
+
+# lst_out = list(map(get_num, lst_in))
+# --------------------------------------------------------------------------------------------------------
+
+# def is_int(x):
+#     try:
+#         return int(x)
+#     except:
+#         return False
+
+# print(sum(map(int, filter(is_int, input().split()))))
+
+# --------------------------------------------------------------------------------------------------------
+
+# from copy import deepcopy, copy
+
+
+# реализация №1
+# class Box:
+#     def __init__(self, name, max_weight):
+#         self._name = name
+#         self._max_weight = max_weight
+#         self._cur_weight = 0
+#         self._things = []
+
+#     def add_thing(self, obj):
+#         self._cur_weight += obj[1]
+#         self._things.append(obj)
+#         if self._cur_weight > self._max_weight:
+#             raise ValueError('превышен суммарный вес вещей')
+
+
+# class BoxDefender:
+#     def __init__(self, box):
+#         self._box = box
+
+#     def __enter__(self):
+#         self._box_copy = deepcopy(self._box)
+#         return self._box_copy
+
+#     def __exit__(self, exc_type, exc_val, exc_tb):
+#         if exc_type is None:
+#             self._box._things[:] = self._box_copy._things[:]
+#             self._box._cur_weight = self._box_copy._cur_weight
+
+
+# реализация №2
+# class Box:
+#     def __init__(self, name, max_weight):
+#         self._name = name
+#         self._max_weight = max_weight
+#         self._cur_weight = 0
+#         self._things = []
+
+#     def add_thing(self, obj):
+#         self._cur_weight += obj[1]
+#         self._things.append(obj)
+#         if self._cur_weight > self._max_weight:
+#             raise ValueError('превышен суммарный вес вещей')
+
+
+# class BoxDefender:
+#     def __init__(self, box):
+#         self._box = box
+
+#     def __enter__(self):
+#         self._old_things = self._box._things[:]
+#         self._old_weight = self._box._cur_weight
+#         return self._box
+
+#     def __exit__(self, exc_type, exc_val, exc_tb):
+#         if exc_type:
+#             self._box._things = self._old_things
+#             self._box._cur_weight = self._old_weight
+
+
+# box = Box("сундук", 1000)
+# box.add_thing(("спички", 46.6))
+# box.add_thing(("рубашка", 134))
+
+# try:
+#     with BoxDefender(box) as b:
+#         b.add_thing(("зонт", 346.6))
+#         b.add_thing(("шина", 400))
+# except:
+#     print("исключениe!!!")
+#     print(box._things)
+# else:
+#     print("исключений не было")
+#     print(box._things)
+
+# b = Box('name', 2000)
+# assert b._name == 'name' and b._max_weight == 2000, "неверные значения атрибутов объекта класса Box"
+
+# b.add_thing(("1", 100))
+# b.add_thing(("2", 200))
+
+# try:
+#     with BoxDefender(b) as bb:
+#         bb.add_thing(("3", 1000))
+#         bb.add_thing(("4", 1900))
+# except ValueError:
+#     assert len(b._things) == 2
+
+# else:
+#     assert False, "не сгенерировалось исключение ValueError"
+
+
+# try:
+#     with BoxDefender(b) as bb:
+#         bb.add_thing(("3", 100))
+# except ValueError:
+#     assert False, "возникло исключение ValueError, хотя, его не должно было быть"
+# else:
+#     assert len(b._things) == 3, "неверное число элементов в списке _things"
+# --------------------------------------------------------------------------------------------------------
+
+# class ConnectionError(Exception):
+#     pass
+
+
+# class DatabaseConnection:
+#     def __init__(self) -> None:
+#         self._fl_connection_open = False
+
+#     def connect(self, login, password):
+#         self._fl_connection_open = True
+#         raise ConnectionError
+
+#     def close(self):
+#         self._fl_connection_open = False
+
+#     def __enter__(self):
+#         return self
+
+#     def __exit__(self, exc_type, exc_val, exc_tb):
+#         self.close()
+
+
+# a = DatabaseConnection()
+# with a as conn:
+#     print(a._fl_connection_open)
+
+# print(a._fl_connection_open)
+
+# --------------------------------------------------------------------------------------------------------
+
+# class PrimaryKey:
+#     def __enter__(self):
+#         print("вход")
+
+#     def __exit__(self, exc_type, exc_val, exc_tb):
+#         print(exc_type)
+#         return True
+
+
+# with PrimaryKey() as pk:
+#     raise ValueError
+
+# --------------------------------------------------------------------------------------------------------
+
+# # здесь объявляйте классы
+# class StringException(Exception):
+#     pass
+
+
+# class NegativeLengthString(StringException):
+#     pass
+
+
+# class ExceedLengthString(StringException):
+#     pass
+
+
+# try:
+#     # здесь команда для генерации исключения
+#     raise ExceedLengthString
+# except NegativeLengthString:
+#     print("NegativeLengthString")
+# except ExceedLengthString:
+#     print("ExceedLengthString")
+# except StringException:
+#     print("StringException")
+
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Tuple(tuple):
+#     def __init__(self, *args) -> None:
+#         self.t = tuple(*args)
+
+#     def __add__(self, rhs):
+#         if isinstance(rhs, tuple):
+#             return Tuple(self.t + rhs)
+#         else:
+#             return Tuple([*self] + [el for el in rhs])
+
+
+# t = Tuple([1, 2, 3])
+# t = t + "Python"
+# print(t)   # (1, 2, 3, 'P', 'y', 't', 'h', 'o', 'n')
+# t = (t + "Python") + "ООП"
+
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Protists:
+#     def __init__(self, name, weight, old):
+#         self.name = name
+#         self.weight = weight
+#         self.old = old
+
+# class Plants(Protists):
+#     pass
+
+# class Animals(Protists):
+#     pass
+
+# class Mosses(Plants):
+#     pass
+
+# class Flowering(Plants):
+#     pass
+
+# class Worm(Animals):
+#     pass
+
+# class Mammals(Animals):
+#     pass
+
+# class Human(Mammals):
+#     pass
+
+# class Monkey(Mammals):
+#     pass
+
+# class Monkey(Monkey):
+#     pass
+
+# class Person(Human):
+#     pass
+
+# class Flower(Flowering):
+#     pass
+
+# class Worm(Worm):
+#     pass
+
+# lst = [
+#     'Monkey: "мартышка", 30.4, 7',
+#     'Monkey: "шимпанзе", 24.6, 8',
+#     'Person: "Балакирев", 88, 34',
+#     'Person: "Верховный жрец", 67.5, 45',
+#     'Flower: "Тюльпан", 0.2, 1',
+#     'Flower: "Роза", 0.1, 2',
+#     'Worm: "червь", 0.01, 1',
+#     'Worm: "червь 2", 0.02, 1'
+# ]
+
+# def all_subclasses(cls):
+#     return set(cls.__subclasses__()).union(
+#         [s for c in cls.__subclasses__() for s in all_subclasses(c)])
+
+# d = {
+#     cls.__name__: cls for cls in all_subclasses(Protists)
+# }
+# lst_objs = []
+# for row in lst:
+#     cls_name, params = row.split(':')
+#     if cls_name == 'Flower':
+#         cls_name = 'Flowering'
+#     elif cls_name == 'Person':
+#         cls_name = 'Human'
+#     cls = d[cls_name]
+#     lst_objs.append(cls(*params.split(',')))
+
+# lst_animals = list(filter(lambda x: isinstance(x, Animals), lst_objs))
+# lst_plants = list(filter(lambda x: isinstance(x, Plants), lst_objs))
+# lst_mammals = list(filter(lambda x: isinstance(x, Mammals), lst_objs))
+
+# for s in lst_objs:
+#     print(type(s), s.name)
+# print(Protists.__subclasses__())
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Animal:
+#     def __init__(self, name, kind, old):
+#         self.__name, self.__kind, self.__old = name, kind, old
+
+#     @property
+#     def name(self):
+#         return self.__name
+
+#     @name.setter
+#     def name(self, name):
+#         self.__name = name
+
+#     @property
+#     def kind(self):
+#         return self.__kind
+
+#     @kind.setter
+#     def kind(self, kind):
+#         self.__kind = kind
+
+#     @property
+#     def old(self):
+#         return self.__old
+
+#     @old.setter
+#     def old(self, old):
+#         self.__old = old
+
+# lst = [
+#     "Васька; дворовый кот; 5",
+#     "Рекс; немецкая овчарка; 8",
+#     "Кеша; попугай; 3"
+# ]
+# animals = [Animal(*row.split(';')) for row in lst]
+# --------------------------------------------------------------------------------------------------------
+
+# class Book:
+#     def __init__(self, title, author, pages, year) -> None:
+#         self.title, self.author, self.pages, self.year = title, author, pages, year
+
+# class DigitBook(Book):
+#     def __init__(self, title, author, pages, year, size, frm) -> None:
+#         super().__init__(title, author, pages, year)
+#         self.size, self.frm = size, frm
+# --------------------------------------------------------------------------------------------------------
+
+# class Thing:
+#     def __init__(self, name, price: float, weight: float) -> None:
+#         self.name = name
+#         self.price = price
+#         self.weight = weight
+
+#     def __hash__(self) -> int:
+#         return hash((self.name, self.price, self.weight))
+
+#     def __eq__(self, rhs) -> bool:
+#         return self.name == rhs.name and self.price == rhs.price and self.weight == rhs.weight
+
+# class DictShop(dict):
+#     def __init__(self, *args):
+#         if args:
+#             if not isinstance(args[0], dict):
+#                 raise TypeError('аргумент должен быть словарем')
+#             if all(self.__check_valid(key) for key in args[0]):
+#                 super().__init__(*args)
+#         else:
+#             super().__init__(*args)
+
+#     def __check_valid(self, key):
+#         if isinstance(key, Thing):
+#             return key
+#         else:
+#             raise TypeError('ключами могут быть только объекты класса Thing')
+
+#     def __setitem__(self, key, value):
+#         super().__setitem__(self.__check_valid(key), value)
+
+# th_1 = Thing('Лыжи', 11000, 1978.55)
+# th_2 = Thing('Книга', 1500, 256)
+# dict_things = DictShop()
+# dict_things[th_1] = th_1
+# dict_things[th_2] = th_2
+
+# for x in dict_things:
+#     print(x.name)
+
+# dict_things[1] = th_1  # исключение TypeError
+# --------------------------------------------------------------------------------------------------------
+
+# class ListInteger(list):
+#     def __init__(self, *args) -> None:
+#         if all(isinstance(item, int) for item in args[0]):
+#             super().__init__(*args)
+#         else:
+#             raise TypeError(
+#             'можно передавать только целочисленные значения')
+
+#     def __setitem__(self, key, value):
+#         if isinstance(value, int):
+#             super().__setitem__(key, value)
+#         else:
+#             raise TypeError(
+#                 'можно передавать только целочисленные значения')
+
+#     def append(self, value):
+#         if isinstance(value, int):
+#             super().append(value)
+#         else:
+#             raise TypeError(
+#                 'можно передавать только целочисленные значения')
+
+# s = ListInteger((1, 2, 3))
+# s[1] = 10
+# s.append(11)
+# print(s)
+# s[0] = 10.5 # TypeError
+
+# --------------------------------------------------------------------------------------------------------
+
+# def error(func):
+#     def wrapper(self, *args):
+#         if isinstance(args[0], Vector):
+#             if len(self) != len(args[0]):
+#                 raise ArithmeticError('размерности векторов не совпадают')
+#         return func(self, *args)
+#     return wrapper
+
+# class Vector:
+#     def __init__(self, *args) -> None:
+#         self.coords = [*args]
+
+#     @error
+#     def __add__(self, rhs):
+#         result = tuple([self.coords[i] + rhs.coords[i]
+#                         for i in range(len(self))])
+#         return Vector(*result)
+
+#     def __iadd__(self, rhs):
+#         if isinstance(rhs, Vector):
+#             for i in range(min(len(self), len(rhs))):
+#                 self.coords[i] = self.coords[i] + rhs.coords[i]
+#         else:
+#             for i in range(len(self.coords)):
+#                 self.coords[i] += rhs
+#         return self
+
+#     @error
+#     def __sub__(self, rhs):
+#         result = tuple([self.coords[i] - rhs.coords[i]
+#                         for i in range(len(self))])
+#         return Vector(*result)
+
+#     def __isub__(self, rhs):
+#         if isinstance(rhs, Vector):
+#             for i in range(min(len(self), len(rhs))):
+#                 self.coords[i] = self.coords[i] - rhs.coords[i]
+#         else:
+#             for i in range(len(self.coords)):
+#                 self.coords[i] -= rhs
+#         return self
+
+#     @error
+#     def __mul__(self, rhs):
+#         result = tuple([self.coords[i] * rhs.coords[i]
+#                         for i in range(len(self))])
+#         return Vector(*result)
+
+#     def __eq__(self, rhs) -> bool:
+#         return self.coords == rhs.coords
+
+#     def __len__(self):
+#         return len(self.coords)
+
+# v1 = Vector(1, 2, 3)
+# v2 = Vector(4, 5, 6)
+# print((v1 + v2).coords)  # [5, 7, 9]
+# print((v1 - v2).coords)  # [-3, -3, -3]
+# print((v1 * v2).coords)  # [4, 10, 18]
+
+# v1 += 10
+# print(v1.coords)  # [11, 12, 13]
+# v1 -= 10
+# print(v1.coords)  # [1, 2, 3]
+# v1 += v2
+# print(v1.coords)  # [5, 7, 9]
+# v2 -= v1
+# print(v2.coords)  # [-1, -2, -3]
+
+# print(v1 == v2)  # False
+# print(v1 != v2)  # True
+# # --------------------------------------------------------------------------------------------------------
+
+# import random
+# import numpy as np
+
+# class Cell:
+#     def __init__(self, is_mine=False):
+#         self.__is_mine = is_mine
+#         self.__number = None
+#         self.__is_open = False
+
+#     @property
+#     def is_mine(self):
+#         return self.__is_mine
+
+#     @is_mine.setter
+#     def is_mine(self, is_mine):
+#         if type(is_mine) == bool:
+#             self.__is_mine = is_mine
+#             return
+#         raise ValueError("недопустимое значение атрибута")
+
+#     @property
+#     def number(self):
+#         return self.__number
+
+#     @number.setter
+#     def number(self, number):
+#         if isinstance(number, int):
+#             if 0 <= number <= 8:
+#                 self.__number = number
+#                 return
+#         raise ValueError("недопустимое значение атрибута")
+
+#     @property
+#     def is_open(self):
+#         return self.__is_open
+
+#     @is_open.setter
+#     def is_open(self, is_open):
+#         if type(is_open) == bool:
+#             self.__is_open = is_open
+#             return
+#         raise ValueError("недопустимое значение атрибута")
+
+#     def __bool__(self):
+#         return not self.is_open
+
+# class GamePole:
+
+#     __instance = None
+
+#     def __new__(cls, *args, **kwargs):
+#         if cls.__instance is None:
+#             cls.__instance = super().__new__(cls)
+#         return cls.__instance
+
+#     def __init__(self, N, M, total_mines):
+#         self.n = N
+#         self.m = M
+#         self.total_mines = total_mines
+#         self.__pole_cells = None
+#         self.init_pole()
+
+#     def init_pole(self):
+#         mines = [Cell(True) for _ in range(self.total_mines)]
+#         not_mines = [Cell() for _ in range(self.n*self.m - self.total_mines)]
+#         self.__pole_cells = mines + not_mines
+#         random.shuffle(self.__pole_cells)
+#         self.count_around_mines()
+#         self.__pole_cells = np.array(
+#             self.__pole_cells).reshape(self.n, self.m).tolist()
+
+#     def open_cell(self, i, j):
+#         if (0 <= i < self.n) and (0 <= j < self.m):
+#             self.__pole_cells[i][j].is_open = True
+#         else:
+#             raise IndexError('некорректные индексы i, j клетки игрового поля')
+
+#     def count_around_mines(self):
+#         for i in range(self.n * self.m):
+#             mines_number = 0
+#             for el in self.get_summarize(i, self.m):
+#                 if 0 <= el + i < len(self.__pole_cells):
+#                     mines_number += self.__pole_cells[i + el].is_mine
+#             self.__pole_cells[i].number = mines_number
+
+#     @staticmethod
+#     def get_summarize(i, m) -> list:
+#         columm_id = i % m
+#         if columm_id == 0:
+#             return [-m, -m+1, 1, m, m+1]
+#         elif columm_id == m-1:
+#             return [-m-1, -m, -1, m-1, m]
+#         return [-m-1, -m, -m+1,  -1, 1, m-1, m, m+1]
+
+#     @property
+#     def pole(self):
+#         return self.__pole_cells
+
+#     def show_pole(self):
+#         for row in self.pole:
+#             print(*[cell.number if not cell.is_mine else '*' for cell in row])
+
+#     def show_open_cells(self):
+#         for row in self.pole:
+#             print(*['#' if not cell.is_open else '-' for cell in row])
+
+# # создается поле размерами 10x20 с общим числом мин 10
+# pole = GamePole(10, 20, 10)
+# pole.init_pole()
+# if pole.pole[0][1]:
+#     pole.open_cell(0, 1)
+# if pole.pole[3][5]:
+#     pole.open_cell(3, 5)
+# # pole.open_cell(30, 100)  # генерируется исключение IndexError
+# # pole.show_pole()
+# pole.show_open_cells()
+
+# --------------------------------------------------------------------------------------------------------
+
+# class Ellipse:
+#     def __init__(self, *args) -> None:
+#         self.has_coords = False
+#         if len(args) == 4:
+#             self.x1, self.y1, self.x2, self.y2 = args
+#             self.has_coords = True
+
+#     def __bool__(self):
+#         return self.has_coords
+
+#     def get_coords(self):
+#         if self.has_coords:
+#             return self.x1, self.y1, self.x2, self.y2
+#         raise AttributeError('нет координат для извлечения')
+
+# lst_geom = [Ellipse(), Ellipse(), Ellipse(1, 2, 3, 4), Ellipse(5, 6, 7, 8)]
+# for el in lst_geom:
+#     if el:
+#         el.get_coords()
+# --------------------------------------------------------------------------------------------------------
+
+# class Line:
+#     def __init__(self, x1, y1, x2, y2) -> None:
+#         self.x1 = x1
+#         self.x2 = x2
+#         self.y1 = y1
+#         self.y2 = y2
+
+#     def __len__(self):
+#         return ((self.x2 - self.x1)**2 + (self.y2 - self.y1)**2)**(1/2) >= 1
+
+# l = Line(0, 0, 0.5, 0.5)
+# print(bool(l))
+# --------------------------------------------------------------------------------------------------------
+
+# import sys
+
+# class MailItem:
+#     def __init__(self, mail_from, title, content) -> None:
+#         self.mail_from = mail_from
+#         self.title = title
+#         self.content = content
+#         self.is_read = False
+
+#     def __bool__(self):
+#         return self.is_read
+
+#     def set_read(self, fl_read):
+#         self.is_read = fl_read
+
+# class MailBox:
+#     def __init__(self) -> None:
+#         self.inbox_list = []
+
+#     def receive(self):
+#         lst_in = list(map(str.strip, sys.stdin.readlines()))
+#         for row in lst_in:
+#             self.inbox_list.append(MailItem(*row.split("; ")))
+
+# mail = MailBox()
+# mail.receive()
+
+# mail.inbox_list[0].set_read(True)
+# mail.inbox_list[-1].set_read(True)
+
+# inbox_list_filtered = list(
+#     filter(lambda player: bool(player), mail.inbox_list))
+
+# for m in inbox_list_filtered:
+#     print(m.mail_from)
+
+# --------------------------------------------------------------------------------------------------------
+
+# import sys
+
+# class Player:
+#     def __init__(self, name, old, score) -> None:
+#         self.name = name
+#         self.old = old
+#         self.score = score
+
+#     def __bool__(self):
+#         return int(self.score) > 0
+
+# players = []
+# lst_in = list(map(str.strip, sys.stdin.readlines()))
+# for row in lst_in:
+#     players.append(Player(*row.split("; ")))
+
+# players_filtered = list(filter(lambda player: bool(player), players))
+# for p in players_filtered:
+#     print(p.name)
+# --------------------------------------------------------------------------------------------------------
+
+# class RadiusVector:
+#     def __init__(self, *args) -> None:
+#         self.coords = list(args)
+
+#     def __getitem__(self, key):
+#         if isinstance(key, int):
+#             return self.coords[key]
+#         return tuple(self.coords[key])
+
+#     def __setitem__(self, key, value):
+#         if isinstance(key, int):
+#             self.coords[key] = value
+#         elif isinstance(key, slice):
+#             j = 0
+#             start = key.start if key.start else 0
+#             stop = key.stop if key.stop else len(self)
+#             step = key.step if key.step else 1
+#             for i in range(start, stop, step):
+#                 self.coords[i] = value[j]
+#                 j += 1
+
+#     def __len__(self):
+#         return len(self.coords)
+
+# v = RadiusVector(1, 1, 1, 1)
+# print(v[1])  # 1
+# v[:] = 1, 2, 3, 4
+# print(v[2])  # 3
+# print(v[1:])  # (2, 3, 4)
+# v[0] = 10.5
+# --------------------------------------------------------------------------------------------------------
+
+# class StackObj:
+#     def __init__(self, data) -> None:
+#         self.__next = None
+#         self.__data = data
+
+#     @property
+#     def next(self):
+#         return self.__next
+
+#     @next.setter
+#     def next(self, next):
+#         if type(next) == StackObj or next == None:
+#             self.__next = next
+
+#     @property
+#     def data(self):
+#         return self.__data
+
+#     @data.setter
+#     def data(self, data):
+#         self.__data = data
+
+# def error(func):
+#     def wrapper(self, *args, **kwargs):
+#         if isinstance(args[0], int):
+#             if (0 <= args[0] < self.len):
+#                 return func(self, *args)
+#         raise IndexError('неверный индекс')
+#     return wrapper
+
+# class Stack:
+#     def __init__(self) -> None:
+#         self.top: StackObj = None
+#         self.len = 0
+
+#     def push(self, obj: StackObj):
+#         self.len += 1
+#         if self.top == None:
+#             self.top = obj
+#             return
+#         last = self.top
+#         while last.next != None:
+#             last = last.next
+#         last.next = obj
+
+#     def pop(self):
+#         if self.top == None:
+#             return
+#         elif self.top.next == None:
+#             copy = self.top
+#             self.top = None
+#             self.len -= 1
+#             return copy
+#         else:
+#             last = self.top
+#             while last.next.next != None:
+#                 last = last.next
+#             copy = last.next
+#             last.next = None
+#             self.len -= 1
+#             return copy
+
+#     @error
+#     def __getitem__(self, item):
+#         i = 0
+#         obj = self.top
+#         while i < item:
+#             obj = obj.next
+#             i += 1
+#         return obj
+
+#     @error
+#     def __setitem__(self, key, value):
+#         i = 0
+#         obj = self.top
+#         while i < key:
+#             obj = obj.next
+#             i += 1
+#         obj.data = value.data
+
+# st = Stack()
+# st.push(StackObj("obj1"))
+# st.push(StackObj("obj2"))
+# st.push(StackObj("obj3"))
+# st[1] = StackObj("new obj2")
+# print(st[2].data)  # obj3
+# print(st[1].data)  # new obj2
+# res = st[3]  # исключение IndexError
+
+# --------------------------------------------------------------------------------------------------------
+
 # class Integer:
 #     def __init__(self, start_value=0) -> None:
 #         self.__value = start_value
@@ -10,7 +954,6 @@
 #     def value(self, value):
 #         self.__value = value
 
-
 # def error(func):
 #     def wrapper(self, *args, **kwargs):
 #         if not (0 <= args[0] < self.max_length):
@@ -20,7 +963,6 @@
 #                 raise ValueError('должно быть целое число')
 #         return func(self, *args)
 #     return wrapper
-
 
 # class Array:
 #     def __init__(self, max_length, cell=None) -> None:
@@ -37,7 +979,6 @@
 
 #     def __repr__(self) -> str:
 #         return " ".join(str(cell.value) for cell in self.cells)
-
 
 # ar_int = Array(10, cell=Integer)
 # print(ar_int[3])
@@ -61,13 +1002,11 @@
 #         else:
 #             raise ValueError('возможны только целочисленные значения')
 
-
 # class CellInteger:
 #     value = IntegerValue()
 
 #     def __init__(self, value=0) -> None:
 #         self.value = value
-
 
 # def error_index(func):
 #     def wrapper(self, *args, **kwargs):
@@ -75,7 +1014,6 @@
 #             raise IndexError('некорректный индекс')
 #         return func(self, *args)
 #     return wrapper
-
 
 # class TableValues:
 #     def __init__(self, rows, cols, *args, **kwargs) -> None:
@@ -97,7 +1035,6 @@
 #         row, col = args[0]
 #         value = args[1]
 #         self.cells[row][col].value = value
-
 
 # table = TableValues(2, 3, cell=CellInteger)
 # print(table[0, 1])
@@ -131,7 +1068,6 @@
 #             self.way[key][1] = value
 #         else:
 #             raise IndexError('некорректный индекс')
-
 
 # tr = Track(10, -5.4)
 # tr.add_point(20, 0, 100)  # первый линейный сегмент: indx = 0
@@ -168,14 +1104,12 @@
 #         else:
 #             raise IndexError('неверный индекс поля')
 
-
 # r = Record(pk=1, title='Python ООП', author='Балакирев')
 # r[0] = 2  # доступ к полю pk
 # r[1] = 'Супер курс по ООП'  # доступ к полю title
 # r[2] = 'Балакирев С.М.'  # доступ к полю author
 # print(r[1])  # Супер курс по ООП
 # r[3]  # генерируется исключение IndexError
-
 
 # --------------------------------------------------------------------------------------------------------
 
@@ -189,7 +1123,6 @@
 #         else:
 #             raise ValueError('данные не прошли валидацию')
 
-
 # class IntegerValidator(Validator):
 #     def __init__(self, min_value, max_value) -> None:
 #         self.min_value = min_value
@@ -201,7 +1134,6 @@
 #                 return True
 #         return False
 
-
 # class FloatValidator (Validator):
 #     def __init__(self, min_value, max_value) -> None:
 #         self.min_value = min_value
@@ -212,7 +1144,6 @@
 #             if self.min_value <= data <= self.max_value:
 #                 return True
 #         return False
-
 
 # integer_validator = IntegerValidator(-10, 10)
 # float_validator = FloatValidator(-1, 1)
