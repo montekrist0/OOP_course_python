@@ -1,3 +1,104 @@
+class TupleLimit(tuple):
+    def __new__(cls, *args, **kwargs):
+        if len(args[0]) <= args[1]:
+            return tuple.__new__(cls, args[0])
+        raise ValueError('число элементов коллекции превышает заданный предел')
+
+    def __str__(self):
+        return " ".join(map(str, self))
+
+    def __repr__(self):
+        return " ".join(map(str, self))
+
+
+
+digits = list(map(float, input().split()))
+try:
+    tl = TupleLimit(digits, 5)
+except Exception as exc:
+    print(exc)
+else:
+    print(tl)
+# --------------------------------------------------------------------------------------------------------
+
+# class Test:
+#     def __init__(self, descr) -> None:
+#         if not (isinstance(descr, str) and 10 <= len(descr) <= 10000):
+#             raise ValueError(
+#                 'формулировка теста должна быть от 10 до 10 000 символов')
+#         self.descr = descr
+
+#     def run(self):
+#         raise NotImplementedError
+
+
+# class TestAnsDigit(Test):
+#     def __init__(self, descr, ans_digit, max_error_digit=0.01) -> None:
+#         super().__init__(descr)
+#         if isinstance(ans_digit, (int, float)) and isinstance(max_error_digit, (int, float)) and max_error_digit >=0:
+#             self.ans_digit = ans_digit
+#             self.max_error_digit = max_error_digit
+#         else:
+#             raise ValueError('недопустимые значения аргументов теста')
+
+#     def run(self):
+#         ans = float(input())
+#         return self.ans_digit-self.max_error_digit <= ans <= self.ans_digit+self.max_error_digit
+
+
+# descr, ans = map(str.strip, input().split('|'))
+# ans = float(ans)
+# try:
+#     t = TestAnsDigit(descr, ans)
+#     print(t.run())
+# except Exception as e:
+#     print(e)
+
+# --------------------------------------------------------------------------------------------------------
+
+# class ValidatorString:
+#     def __init__(self, min_length, max_length, chars="") -> None:
+#         self.min_length = min_length
+#         self.max_length = max_length
+#         self.chars = set(chars)
+
+#     def is_valid(self, string):
+#         a = not isinstance(string, str)
+#         b = not self.chars.intersection(set(string))
+#         c = not self.min_length <= len(string) <= self.max_length
+#         if self.chars and (a or b or c):
+#             raise ValueError('недопустимая строка')
+#         return True
+
+#     def __call__(self, *args, **kwds):
+#         return self.is_valid(args[0])
+
+
+# class LoginForm:
+#     def __init__(self, login_validator: ValidatorString, password_validator: ValidatorString) -> None:
+#         self.login_validator = login_validator
+#         self.password_validator = password_validator
+
+#     def form(self, request: dict):
+#         if "login" in request and "password" in request:
+#             if self.login_validator(request["login"]) and self.password_validator(request["password"]):
+#                 self._login = request["login"]
+#                 self._password = request["password"]
+#         else:
+#             raise TypeError('в запросе отсутствует логин или пароль')
+
+
+# login_v = ValidatorString(4, 50, "")
+# password_v = ValidatorString(10, 50, "!$#@%&?")
+# lg = LoginForm(login_v, password_v)
+# login, password = input().split()
+# try:
+#     lg.form({'login': login, 'password': password})
+# except (TypeError, ValueError) as e:
+#     print(e)
+# else:
+#     print(lg._login)
+
 class Rect:
     def __init__(self, x, y, width, height) -> None:
         if all(map(lambda x: isinstance(x, (int, float)), [x, y, width, height])):
