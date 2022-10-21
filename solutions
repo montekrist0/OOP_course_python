@@ -1,24 +1,178 @@
-class TupleLimit(tuple):
-    def __new__(cls, *args, **kwargs):
-        if len(args[0]) <= args[1]:
-            return tuple.__new__(cls, args[0])
-        raise ValueError('число элементов коллекции превышает заданный предел')
+# --------------------------------------------------------------------------------------------------------
 
-    def __str__(self):
-        return " ".join(map(str, self))
+# class Layer:
+#     def __init__(self) -> None:
+#         self.next_layer = None
+#         self.name = type(self).__name__
 
-    def __repr__(self):
-        return " ".join(map(str, self))
+#     def __call__(self, *args, **kwds):
+#         if args and isinstance(args[0], Layer):
+#             self.next_layer = args[0]
+#             return args[0]
 
 
+# class Input(Layer):
+#     def __init__(self, inputs) -> None:
+#         super().__init__()
+#         self.inputs = inputs
 
-digits = list(map(float, input().split()))
-try:
-    tl = TupleLimit(digits, 5)
-except Exception as exc:
-    print(exc)
-else:
-    print(tl)
+
+# class Dense(Layer):
+#     def __init__(self, inputs, outputs, activation) -> None:
+#         super().__init__()
+#         self.inputs = inputs
+#         self.outputs = outputs
+#         self.activation = activation
+
+
+# class NetworkIterator:
+#     def __init__(self, layer: Layer) -> None:
+#         self.layer = layer
+
+#     def __iter__(self):
+#         self.cur_layer = self.layer
+#         return self
+
+#     def __next__(self):
+#         self.old_layer = self.cur_layer
+#         if self.old_layer:
+#             self.cur_layer = self.cur_layer.next_layer
+#             return self.old_layer
+#         else:
+#             raise StopIteration
+
+
+# network = Input(128)
+# layer = network(Dense(network.inputs, 1024, 'linear'))
+# layer = layer(Dense(layer.inputs, 10, 'softmax'))
+
+# for x in NetworkIterator(network):
+#     print(x.name)
+# --------------------------------------------------------------------------------------------------------
+
+# class CellException(Exception):
+#     pass
+
+
+# class CellIntegerException(CellException):
+#     pass
+
+
+# class CellFloatException(CellException):
+#     pass
+
+
+# class CellStringException(CellException):
+#     pass
+
+
+# class Digit:
+#     def __init__(self, min_value, max_value) -> None:
+#         self.__value = None
+#         self._min_value = min_value
+#         self._max_value = max_value
+
+#     @property
+#     def value(self):
+#         return self.__value
+
+#     @value.setter
+#     def value(self, value):
+#         a = isinstance(value, self._type)
+#         b = self._min_value <= value <= self._max_value
+#         if a and b:
+#             self.__value = value
+#         else:
+#             raise self._exc
+
+
+# class CellInteger(Digit):
+#     _type = int
+#     _exc = CellIntegerException('значение выходит за допустимый диапазон')
+
+
+# class CellFloat(Digit):
+#     _type = float
+#     _exc = CellFloatException('значение выходит за допустимый диапазон')
+
+
+# class CellString:
+#     def __init__(self, min_length, max_length) -> None:
+#         self.__value = None
+#         self._min_length = min_length
+#         self._max_length = max_length
+
+#     @property
+#     def value(self):
+#         return self.__value
+
+#     @value.setter
+#     def value(self, value):
+#         if isinstance(value, str) and self._min_length <= len(value) <= self._max_length:
+#             self.__value = value
+#         else:
+#             raise CellStringException(
+#                 'длина строки выходит за допустимый диапазон')
+
+
+# class TupleData(tuple):
+#     def __new__(cls, *args, **kwargs):
+#         return tuple.__new__(cls, args)
+
+#     def __getitem__(self, key):
+#         return tuple.__getitem__(self, key).value
+
+#     def __setitem__(self, key, value):
+#         tuple.__getitem__(self, key).value = value
+
+#     def __iter__(self):
+#         for cell in tuple.__iter__(self):
+#             yield cell.value
+
+
+# ld = TupleData(CellInteger(0, 10), CellInteger(11, 20),
+#                CellFloat(-10, 10), CellString(1, 100))
+# print(len(ld))
+# try:
+#     ld[0] = 1
+#     ld[1] = 20
+#     ld[2] = -5.6
+#     ld[3] = "Python ООП"
+# except CellIntegerException as e:
+#     print(e)
+# except CellFloatException as e:
+#     print(e)
+# except CellStringException as e:
+#     print(e)
+# except CellException:
+#     print("Ошибка при обращении к ячейке")
+# except Exception:
+#     print("Общая ошибка при работе с объектом TupleData")
+
+# for d in ld:
+#     print(d)
+# --------------------------------------------------------------------------------------------------------
+
+# class TupleLimit(tuple):
+#     def __new__(cls, *args, **kwargs):
+#         if len(args[0]) <= args[1]:
+#             return tuple.__new__(cls, args[0])
+#         raise ValueError('число элементов коллекции превышает заданный предел')
+
+#     def __str__(self):
+#         return " ".join(map(str, self))
+
+#     def __repr__(self):
+#         return " ".join(map(str, self))
+
+
+# digits = list(map(float, input().split()))
+# try:
+#     tl = TupleLimit(digits, 5)
+# except Exception as exc:
+#     print(exc)
+# else:
+#     print(tl)
 # --------------------------------------------------------------------------------------------------------
 
 # class Test:
